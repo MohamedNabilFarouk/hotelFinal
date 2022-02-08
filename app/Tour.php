@@ -77,9 +77,9 @@ class Tour extends Model
 
     }
 
-    public function getImageAttribute($value)
+    public function getImageAttribute()
     {
-        return asset('images/tours/' . $value);
+        return $this->gallery[0] ? $this->gallery[0]->image : "";
     } // end of get image attribute
 
     public function vendor(){

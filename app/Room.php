@@ -78,11 +78,15 @@ class Room extends Model
 
     }
 
-
-
     public function hotel(){
         return $this->belongsTo(Hotel::class,'hotel_id','id');
     }
+
+    public function getImageAttribute()
+    {
+        return $this->gallery[0] ? $this->gallery[0]->image : "";
+    } // end of get image attribute
+
     public function gallery(){
         return $this->hasMany(RoomGallery::class,'room_id','id');
     }

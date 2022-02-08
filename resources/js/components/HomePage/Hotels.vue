@@ -25,7 +25,7 @@
                                             <div class="product-item-container ">
                                                 <div class="item-block so-quickview">
                                                     <div class="image">
-                                                        <img src="https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg"
+                                                        <img :src="hotel.image"
                                                              :alt="hotel.title_api"
                                                              class="img-responsive">
                                                     </div>
