@@ -26,18 +26,16 @@
                                                 <div class="product-item-container ">
                                                     <div class="item-block so-quickview">
                                                         <div class="image">
-                                                            <a href="tour-detail.html" target="_self">
-                                                                <img src="https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg" alt="Bougainvilleas on Lombard Street,  San Francisco, Tokyo" class="img-responsive">
-                                                            </a>
-                                                            <span class="label-hot"><i class="fa fa-fire" aria-hidden="true"></i>Hot tour</span>
+                                                            <img :src="tour.image" :alt="tour.title_api" class="img-responsive">
                                                         </div>
                                                         <div class="item-content clearfix">
-                                                            <h3><a href="tour-detail.html">2 Day 1 Night Trip to Santorini, Greece</a></h3>
+                                                            <h3>{{tour.title_api}}</h3>
                                                             <div class="reviews-content">
-                                                                <div class="star">
-                                                                    <span style="width: 60px"></span>
-                                                                </div>
-                                                                <a href="#" class="review-link" rel="nofollow">(20 reviews)</a>
+                                                                <starRating
+                                                                    :star-size="15"
+                                                                    :rating="tour.star_rate ? parseInt(tour.star_rate) : 0"
+                                                                    :show-rating="false"
+                                                                    :read-only="true"></starRating>
                                                             </div>
                                                             <ul>
                                                                 <li><i class="fa fa-map-marker" aria-hidden="true"></i> New Zealand</li>

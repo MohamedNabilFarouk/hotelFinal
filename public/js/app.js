@@ -1963,6 +1963,129 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2611,8 +2734,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_slick_carousel__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_slick_carousel__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-star-rating */ "./node_modules/vue-star-rating/dist/VueStarRating.common.js");
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_star_rating__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
 //
 //
 //
@@ -23906,7 +24027,7 @@ var render = function () {
                                                     staticClass:
                                                       "img-responsive",
                                                     attrs: {
-                                                      src: "https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg",
+                                                      src: hotel.image,
                                                       alt: hotel.title_api,
                                                     },
                                                   }),
@@ -24233,10 +24354,7 @@ var render = function () {
                     return _c("div", [
                       _c("div", { staticClass: "slide-img" }, [
                         _c("img", {
-                          attrs: {
-                            src: "https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg",
-                            alt: tour.title_api,
-                          },
+                          attrs: { src: tour.image, alt: tour.title_api },
                         }),
                       ]),
                       _vm._v(" "),
@@ -24305,10 +24423,7 @@ var render = function () {
                     return _c("div", [
                       _c("div", { staticClass: "slide-img" }, [
                         _c("img", {
-                          attrs: {
-                            src: "https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg",
-                            alt: hotel.title_api,
-                          },
+                          attrs: { src: hotel.image, alt: hotel.title_api },
                         }),
                       ]),
                       _vm._v(" "),
@@ -24433,10 +24548,7 @@ var render = function () {
                       return _c("div", [
                         _c("div", { staticClass: "slide-img" }, [
                           _c("img", {
-                            attrs: {
-                              src: "https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg",
-                              alt: city.name,
-                            },
+                            attrs: { src: city.image, alt: city.name },
                           }),
                         ]),
                         _vm._v(" "),
@@ -24559,7 +24671,7 @@ var render = function () {
                                                     staticClass:
                                                       "img-responsive",
                                                     attrs: {
-                                                      src: "https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg",
+                                                      src: space.image,
                                                       alt: space.title_api,
                                                     },
                                                   }),
@@ -24802,44 +24914,14 @@ var render = function () {
                                                   "div",
                                                   { staticClass: "image" },
                                                   [
-                                                    _c(
-                                                      "a",
-                                                      {
-                                                        attrs: {
-                                                          href: "tour-detail.html",
-                                                          target: "_self",
-                                                        },
+                                                    _c("img", {
+                                                      staticClass:
+                                                        "img-responsive",
+                                                      attrs: {
+                                                        src: tour.image,
+                                                        alt: tour.title_api,
                                                       },
-                                                      [
-                                                        _c("img", {
-                                                          staticClass:
-                                                            "img-responsive",
-                                                          attrs: {
-                                                            src: "https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg",
-                                                            alt: "Bougainvilleas on Lombard Street,  San Francisco, Tokyo",
-                                                          },
-                                                        }),
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "label-hot",
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-fire",
-                                                          attrs: {
-                                                            "aria-hidden":
-                                                              "true",
-                                                          },
-                                                        }),
-                                                        _vm._v("Hot tour"),
-                                                      ]
-                                                    ),
+                                                    }),
                                                   ]
                                                 ),
                                                 _vm._v(" "),
@@ -24851,18 +24933,8 @@ var render = function () {
                                                   },
                                                   [
                                                     _c("h3", [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          attrs: {
-                                                            href: "tour-detail.html",
-                                                          },
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "2 Day 1 Night Trip to Santorini, Greece"
-                                                          ),
-                                                        ]
+                                                      _vm._v(
+                                                        _vm._s(tour.title_api)
                                                       ),
                                                     ]),
                                                     _vm._v(" "),
@@ -24873,37 +24945,21 @@ var render = function () {
                                                           "reviews-content",
                                                       },
                                                       [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass: "star",
+                                                        _c("starRating", {
+                                                          attrs: {
+                                                            "star-size": 15,
+                                                            rating:
+                                                              tour.star_rate
+                                                                ? parseInt(
+                                                                    tour.star_rate
+                                                                  )
+                                                                : 0,
+                                                            "show-rating": false,
+                                                            "read-only": true,
                                                           },
-                                                          [
-                                                            _c("span", {
-                                                              staticStyle: {
-                                                                width: "60px",
-                                                              },
-                                                            }),
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "a",
-                                                          {
-                                                            staticClass:
-                                                              "review-link",
-                                                            attrs: {
-                                                              href: "#",
-                                                              rel: "nofollow",
-                                                            },
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "(20 reviews)"
-                                                            ),
-                                                          ]
-                                                        ),
-                                                      ]
+                                                        }),
+                                                      ],
+                                                      1
                                                     ),
                                                     _vm._v(" "),
                                                     _c("ul", [
@@ -56283,8 +56339,8 @@ var getters = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\soliman-newhotels-3-2-2022\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\soliman-newhotels-3-2-2022\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\hotelFinal\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\hotelFinal\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

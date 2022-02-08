@@ -19,7 +19,7 @@
                         <!--  item  -->
                         <div v-for="tour in tours">
                             <div class="slide-img">
-                                <img src="https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg"  :alt="tour.title_api"/>
+                                <img :src="tour.image"  :alt="tour.title_api"/>
                             </div>
                             <div class=slider-content>
                                 <h4 class="title">{{tour.title_api}}</h4>
@@ -58,7 +58,7 @@
                         <!--  item  -->
                         <div v-for="hotel in hotels">
                             <div class="slide-img">
-                                <img src="https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg"  :alt="hotel.title_api"/>
+                                <img :src="hotel.image"  :alt="hotel.title_api"/>
                             </div>
                             <div class=slider-content>
                                 <h4 class="title">{{hotel.title_api}}</h4>
@@ -122,7 +122,7 @@
                         <!--  item  -->
                         <div v-for="city in cities.slice(5, 10)">
                             <div class="slide-img">
-                                <img src="https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg"  :alt="city.name"/>
+                                <img :src="city.image"  :alt="city.name"/>
                             </div>
                             <div class=slider-content>
                                 <h4 class="title">{{city.name}}</h4>
