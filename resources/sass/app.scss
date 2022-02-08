@@ -1,0 +1,292 @@
+// Fonts
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+//@import 'variables';
+
+// Bootstrap
+//@import '~bootstrap/scss/bootstrap';
+@import '~vue-slick-carousel/dist/vue-slick-carousel.css';
+@import '~vue-slick-carousel/dist/vue-slick-carousel-theme.css';
+.typeheader-1 .header-bonus {
+    background: #ffffff;
+    border-bottom: 1px solid #dfdfdf;
+}
+.typeheader-1 .header-bonus .bonus-phone li a,
+.typeheader-1 .header-bonus .bonus-phone li,
+.typeheader-1 .header-bonus .bonus-login a,
+.typeheader-1 .header-bonus .bonus-language .btn-group .btn-link,
+.typeheader-1 .header-bonus .bonus-social li a{
+    color: #191919;
+}
+.typeheader-1 .header-bonus .bonus-social{
+    position: relative;
+    margin-left: 10px;
+}
+.typeheader-1 .header-bonus .bonus-social:before{
+    content: "";
+    width: 1px;
+    height: 14px;
+    background: #dfdfdf;
+    position: absolute;
+    left: -2px;
+    top: 6px;
+}
+.typeheader-1 .header-bonus .bonus-login::before {
+    background: #dfdfdf;
+}
+.typeheader-1 .header-bonus .bonus-login{
+    padding-right: 15px;
+}
+.typeheader-1 .header-bonus .bonus-login:before{
+    right: 8px;
+}
+.responsive ul.megamenu > li.click::before, .responsive ul.megamenu > li.hover::before {
+    content: none;
+}
+.typeheader-1 .megamenu-style-dev .horizontal ul.megamenu > li > a{
+    padding: 25px 10px;
+}
+.typeheader-1 .megamenu-style-dev .horizontal ul.megamenu > li> a.active::before,
+.typeheader-1 .megamenu-style-dev .horizontal ul.megamenu > li.menu-home > a::before,
+.typeheader-1 .megamenu-style-dev .horizontal ul.megamenu > li:hover > a::before,
+.typeheader-1 .megamenu-style-dev .horizontal ul.megamenu > li.active > a::before,
+.typeheader-1 .megamenu-style-dev .horizontal ul.megamenu > li.menu-home > a::before, .typeheader-1 .megamenu-style-dev .horizontal ul.megamenu > li:hover > a::before{
+    content: "";
+    width: 10px;
+    height: 2px;
+    background: #2db2ff;
+    position: absolute;
+    top: auto;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -5px;
+}
+header.typeheader-1 .header-top{
+    background: #ffffff;
+    border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 10px;
+}
+.typeheader-1.sticky .header-top{
+    border: none;
+}
+.tours-slider .slick-slide {
+    width: 100%;
+    height: 276px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    cursor: pointer
+}
+.tours-slider .slide-img img{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+.tours-slider .slider-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    bottom: 10px;
+    top:70%;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.hotels-slider .slick-slide {
+    width: 100%;
+    height: 276px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    cursor: pointer
+}
+.hotels-slider .slide-img img{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+.hotels-slider .slider-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    bottom: 10px;
+    top:70%;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.cities-slider .slick-slide {
+    width: 100%;
+    height: 130px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    cursor: pointer
+}
+.cities-slider .slide-img img{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+.cities-slider .slider-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    bottom: 10px;
+    top:70%;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.popular-hotels-slider{
+    position: relative;
+    padding-bottom: 64px;
+}
+.popular-hotels-slider .slick-slide{
+    height: 380px !important;
+    cursor: pointer;
+    padding: 0 5px;
+}
+.popular-hotels-slider img.img-responsive{
+    height: 380px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.popular-tours-slider img.img-responsive{
+    height: 247px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-prev {
+    display: block !important;
+    top: auto;
+    right: auto;
+    left: 0;
+    position: absolute;
+    bottom: 0;
+    color: #2db2ff;
+    border-radius: 50%;
+    background: transparent; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-prev:after {
+    content: "Prev";
+    font-family: "Poppins", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 10px; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-prev i.fa {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 22px; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-prev:hover {
+    color: #009ef9; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-next {
+    display: block !important;
+    left: 90px;
+    position: absolute;
+    bottom: 0;
+    top: auto;
+    color: #2db2ff;
+    border-radius: 50%;
+    background: transparent; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-next:before {
+    content: "Next";
+    font-family: "Poppins", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 10px; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-next:after {
+    content: "";
+    width: 1px;
+    height: 20px;
+    background: #ddd;
+    position: absolute;
+    left: -12px;
+    bottom: 4px; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-next i.fa {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 22px; }
+.popular-hotels-slider .owl2-controls .owl2-nav .owl2-next:hover {
+    color: #009ef9; }
+.section-style2 .owl2-controls .owl2-nav .owl2-next,
+.section-style2 .owl2-controls .owl2-nav .owl2-prev{
+    font-size: 0;
+    cursor: pointer;
+}
+.travel-search-content .travl-search-advanced{
+    margin: 0;
+}
+.travel-search-content .travl-search-advanced::before{
+    content: none;
+}
+.travel-search-content .travl-search-advanced {
+    background: #fff;
+    margin: 0;
+    z-index: 2;
+    position: relative;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: 0px 0px 5px 1px #eee;
+    border-radius: 10px;
+}
+.section-style2 .item .item-block .item-content{
+    bottom: -40px
+}
+.section-style2 .item .item-block .item-content h3 {
+    color: #fff;
+}
+
+.slick-next {
+    right: -35px;
+}
+.slick-prev {
+    left: -35px;
+}
+.slick-prev::before, .slick-next::before{
+    font: normal normal normal 35px/1 FontAwesome;
+    color: #2db2ff;
+}
+.slick-next::before {
+    content: '\f105';
+}
+.slick-prev::before{
+    content: '\f104';
+}
+footer.typefooter-1 .footer--link h3.title-footer::after,
+footer.typefooter-1 .footer--link ul.links li a::before {
+    background: #2db2ff;
+}
+footer.typefooter-1 .footer--link ul.about-list li i{
+    color: #2db2ff;
+}
