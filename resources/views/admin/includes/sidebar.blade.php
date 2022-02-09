@@ -7,7 +7,7 @@
      <div class="aside-logo flex-column-auto" id="kt_aside_logo" style="height: 120px;">
          <!--begin::Logo-->
          <a href="#" class="m-auto">
-             <img alt="Logo" src="{{ $site_settings->logo }}" class=" logo" style="height: 100px;" />
+             <img alt="Logo" src="{{ $site_settings->logo }}" class=" logo"  />
          </a>
          <!--end::Logo-->
          <!--begin::Aside toggler-->
@@ -330,7 +330,27 @@
                              <span class="menu-title">{{__('Settings')}}</span>
                              <span class="menu-arrow"></span>
                          </span>
-                         <div class="menu-sub menu-sub-accordion menu-active-bg">
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                             <div class="menu-item">
+                                 <a class="menu-link" href="{{ route('settings.site.show') }}">
+                                     <span class="menu-bullet">
+                                         <span class="bullet bullet-dot"></span>
+                                     </span>
+                                     <span class="menu-title">{{__('General Settings')}}</span>
+                                 </a>
+                             </div>
+                             </div>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                             <div class="menu-item">
+                                 <a class="menu-link" href="{{ route('settings.social.show') }}">
+                                     <span class="menu-bullet">
+                                         <span class="bullet bullet-dot"></span>
+                                     </span>
+                                     <span class="menu-title">{{__('Social Settings')}}</span>
+                                 </a>
+                             </div>
+                             </div>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
                              <div class="menu-item">
                                  <a class="menu-link" href="{{ route('currency.index') }}">
                                      <span class="menu-bullet">

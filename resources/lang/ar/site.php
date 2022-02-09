@@ -266,7 +266,7 @@ return [
     'Open Price'=>'سعر دخول الصفقة',
     'Balance'=>'رصيد الكوينات',
     'notification'=>'الاشعارات',
-
+'about'=>"عنا",
 
 
 

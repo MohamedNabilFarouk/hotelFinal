@@ -4,7 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductGallery extends Model
+class HotelGallery extends Model
 {
-    //
+    public function getImageAttribute($value)
+    {
+        return asset('images/hotels' . $value);
+    } // end of get image attribute
 }

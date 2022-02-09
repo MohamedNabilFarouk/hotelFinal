@@ -45,6 +45,8 @@ Route::namespace("Api")->group(function () {
     Route::post('user/login', 'UsersController@login')->name('user.login');
     //get user history booking
     Route::get('user/booking-history/{id}', 'UsersController@historyBooking')->name('user.historyBooking');
+    //get special tours
+    Route::get('tours/special', 'SiteController@SpecialTours')->name('tours.special');
 
 //});
 });

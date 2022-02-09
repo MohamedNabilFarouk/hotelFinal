@@ -56,6 +56,13 @@
 
 
                 <div class='row'>
+                    <div class="form-group mb-5">
+                        <label for="exampleFormControlInput1" class="required form-label">{{__('Type')}}</label>
+                        <select class="form-control"  name='type'  >
+                            <option value='ordinary' @if($tour->type == 'ordinary' ) selected @endif>ordinary</option>
+                            <option value='special' @if($tour->type == 'special' ) selected @endif>special</option>
+                        </select>
+                    </div>
                 @foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value )
 
                 <div class="form-group mb-10 col-md-6" id="{{$key}}">
