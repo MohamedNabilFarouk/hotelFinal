@@ -25,14 +25,10 @@ Route::group(['prefix'=>'dashboard','namespace' => 'Admin','middleware' => ['rol
     Route::resource('/room','RoomController');
     Route::resource('/space','SpaceController');
     Route::resource('/tour','TourController');
-    Route::resource('/currency','CurrencyController');
-    Route::resource('/attribute','AttributeController');
     Route::resource('/bookings','BookingController');
-  Route::resource('/governorate','govController');
+    Route::put('/RoomEditPrice\{id}','Admin\RoomController@editPrice')->name('room.updatePrice');
 
-    Route::resource('/user','UsersController');
-    Route::get('/user/zerobalance/{vendor_id}','UsersController@zerobalance')->name('user.zerobalance');
-    Route::get('/user/Role/{role}','UsersController@getUserByRole')->name('user.byrole');
+
 
     Route::resource('/permissions','PermissionController');
 
@@ -42,7 +38,24 @@ Route::group(['prefix'=>'dashboard','namespace' => 'Admin','middleware' => ['rol
 
 
 });
+Route::group(['prefix'=>'dashboard','namespace' => 'Admin','middleware' => ['role:admin|moderator','auth']], function(){
+    Route::resource('/governorate','govController');
+    Route::resource('/currency','CurrencyController');
+    Route::resource('/attribute','AttributeController');
+    Route::resource('/user','UsersController');
+    Route::get('/user/zerobalance/{vendor_id}','UsersController@zerobalance')->name('user.zerobalance');
+    Route::get('/user/Role/{role}','UsersController@getUserByRole')->name('user.byrole');
+    Route::get('/userAddRole','UsersController@addRole');
+    Route::put('/userEditRole','UsersController@editUserRole')->name('user.role.edit');
+    /* Site Settings Routes */
+    Route::get('site_settings', 'SiteSettingController@generalShow')->name('settings.site.show');
+    Route::put('site_settings', 'SiteSettingController@generalUpdate')->name('settings.site.update');
 
+    Route::get('social_settings', 'SiteSettingController@socialShow')->name('settings.social.show');
+    Route::put('social_settings', 'SiteSettingController@socialUpdate')->name('settings.social.update');
+// every vendor report
+Route::get('/vendor/report/{vendor_id}','VendorController@transactionReport')->name('vendor.transactionReport');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -54,9 +67,8 @@ Route::post('addorder','OrdersController@store')->name('order.store');
 
 // Route::resource('/user','UsersController');
 Route::get('/yourcodes','UsersController@userCode')->name('yourcodes');
-Route::get('/userAddRole','UsersController@addRole');
-Route::put('/userEditRole','UsersController@editUserRole')->name('user.role.edit');
-Route::put('/RoomEditPrice\{id}','Admin\RoomController@editPrice')->name('room.updatePrice');
+
+
 
 Route::get('/codeGenerator','productController@codeGenerator');
 Route::get('/allproducts', 'productController@allproducts')->name('Allproducts');

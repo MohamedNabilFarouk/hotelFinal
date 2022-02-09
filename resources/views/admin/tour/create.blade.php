@@ -52,6 +52,13 @@
 
                 @endif
 <div class='row'>
+    <div class="form-group mb-5">
+        <label for="exampleFormControlInput1" class="required form-label">{{__('Type')}}</label>
+        <select class="form-control"  name='type'  >
+            <option value='ordinary'>ordinary</option>
+            <option value='special'>special</option>
+        </select>
+    </div>
 @foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value )
 <div class="form-group mb-10 col-md-6">
     <label for="exampleFormControlInput1" class="required form-label">{{__('Title')}} ({{$key}})</label>
@@ -90,7 +97,7 @@
                         </select>
                     </div>
 
-                    <div id='country_price'>
+                        <div id='country_price'>
                         <div class="form-group mb-5">
                             <label for="exampleFormControlInput1" class="required form-label">{{__('Price')}}</label>
                             <input type='number' name="price" class="form-control" value="{{ old('price') }}" />

@@ -268,6 +268,7 @@ return [
     'Balance'=>'Balance',
     'notification'=>'notification',
 
+    'about'=>"About Us",
 
 
 

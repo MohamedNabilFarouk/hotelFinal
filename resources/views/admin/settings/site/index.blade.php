@@ -95,8 +95,33 @@
                                         </div>
                                     </div>
                                 </td>
+
                             </tr>
 
+
+
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex justify-content-start flex-column m-auto">
+                                            <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6 text-center">@lang('site.Email')</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex justify-content-start flex-column">
+                                            <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $site_settings -> email }}</a>
+                                            <input type="text" name="email" class="form-control form-control-solid" placeholder="@lang('site.Enter New') @lang('site.Email')"/>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -241,7 +266,7 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="d-flex justify-content-start flex-column m-auto">
-                                            <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@lang('site.Welcome Phrase')</a>
+                                            <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@lang('site.about')</a>
                                         </div>
                                     </div>
                                 </td>
@@ -250,8 +275,10 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="d-flex justify-content-start flex-column">
-                                            <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $site_settings -> welcome_phrase_en }}</a>
-                                            <input type="text" name="welcome_phrase_en" class="form-control form-control-solid" placeholder="@lang('site.Enter New') @lang('site.Welcome Phrase') @lang('site.in English')"/>
+                                            {{-- <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $site_settings -> about_en }}</a>
+                                            <input type="text" name="about_en" class="form-control form-control-solid" placeholder="@lang('site.Enter New') @lang('site.about') @lang('site.in English')"/>
+                                             --}}
+                                             <textarea  name="about_en" class="form-control form-control-solid" placeholder="@lang('site.Enter New') @lang('site.about') @lang('site.in English')" >{{ $site_settings -> about_en }}</textarea>
                                         </div>
                                     </div>
                                 </td>
@@ -259,8 +286,9 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="d-flex justify-content-start flex-column">
-                                            <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $site_settings -> welcome_phrase_ar }}</a>
-                                            <input type="text" name="welcome_phrase_ar" class="form-control form-control-solid" placeholder="@lang('site.Enter New') @lang('site.Welcome Phrase') @lang('site.in Arabic')"/>
+                                            {{-- <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ $site_settings -> about_ar }}</a> --}}
+                                            {{-- <input type="text" name="about_ar" class="form-control form-control-solid" placeholder="@lang('site.Enter New') @lang('site.about') @lang('site.in Arabic')"/> --}}
+                                            <textarea  name="about_ar" class="form-control form-control-solid" placeholder="@lang('site.Enter New') @lang('site.about') @lang('site.in Arabic')" >{{ $site_settings -> about_ar }}</textarea>
                                         </div>
                                     </div>
                                 </td>
