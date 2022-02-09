@@ -5,6 +5,8 @@ import Router from 'vue-router'
 import store from "./store";
 import axios from "axios";
 import i18n from "./i18n";
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 Vue.use(Router);
 
 const lang = localStorage.getItem("lang") || "en";
@@ -14,6 +16,12 @@ Vue.config.productionTip = false;
 
 let routes = [
     { path: '/', component: require("./components/Home.vue").default, meta: {auth: false} },
+
+    { path: '/hotels', component: require("./components/Hotels.vue").default, meta: {auth: false} },
+    { path: '/hotel/:id', component: require("./components/Hotels/SingleHotel.vue").default, meta: {auth: false} },
+
+    { path: '/tours', component: require("./components/Tours.vue").default, meta: {auth: false} },
+    { path: '/tour/:id', component: require("./components/Tours/SingleTour.vue").default, meta: {auth: false} },
 ];
 
 const router = new Router({

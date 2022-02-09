@@ -39,12 +39,12 @@
                                                             </router-link>
                                                         </li>
                                                         <li class="hover">
-                                                            <router-link to="/hotel" class="clearfix">
+                                                            <router-link to="/hotels" class="clearfix">
                                                                 {{$t('hotels')}}
                                                             </router-link>
                                                         </li>
                                                         <li class="hover">
-                                                            <router-link to="/tour" class="clearfix">
+                                                            <router-link to="/tours" class="clearfix">
                                                                 {{$t('tours')}}
                                                             </router-link>
                                                         </li>

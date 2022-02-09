@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------------- /
-	
+
 Magentech jQuery
 Created by Magentech
 v1.0 - 20.9.2016
@@ -7,7 +7,7 @@ All rights reserved.
 
 / -------------------------------------------------------------------------------- */
 
-$(window).scroll(function() {   
+$(window).scroll(function() {
 	var target = $( '.tour-single' );
 	var sticky_nav_offset = $(".tour-single").offset();
 	if( sticky_nav_offset != null ){

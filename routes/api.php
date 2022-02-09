@@ -29,6 +29,14 @@ Route::namespace("Api")->group(function () {
     // return all home page
     Route::get('home', 'HomeController@home')->name('home');
 
+    // return all hotels
+    Route::get('hotels', 'HotelsController@hotels')->name('hotels');
+    Route::post('hotel', 'HotelsController@singleHotel')->name('hotel');
+
+    // return all tours
+    Route::get('tours', 'ToursController@tours')->name('tours');
+    Route::post('tour', 'ToursController@singleTour')->name('tour');
+
     // become a vendor
     Route::get('user/create', 'UsersController@create')->name('user.create');
     Route::post('user/store', 'UsersController@store')->name('user.store');

@@ -70,6 +70,6 @@ Route::get('Callback','paymentController@callback');
 //
 
 
-Route::get('/{any}', function () {
+Route::any('/{any}', function () {
     return view('welcome');
-});
+})->where('any', '.*');
