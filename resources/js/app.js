@@ -5,7 +5,10 @@ import Router from 'vue-router'
 import store from "./store";
 import axios from "axios";
 import i18n from "./i18n";
+import vSelect from "vue-select";
+
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component("v-select", vSelect);
 
 Vue.use(Router);
 

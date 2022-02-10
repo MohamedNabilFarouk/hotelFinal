@@ -15,7 +15,7 @@ class Hotel extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'title_api', 'address_api', 'content_api'
+        'title_api', 'address_api', 'content_api', 'data'
     ];
 
     public function getTitleApiAttribute()
@@ -64,6 +64,14 @@ class Hotel extends Model
 
     }
 
+    public function getDataAttribute(){
+        return [
+            'gallery' => $this->gallery,
+            'country' => $this->country,
+            'gov' => $this->gov,
+        ];
+    }
+
     public function incrementSlug($slug) {
 
         $original = $slug;
@@ -93,6 +101,7 @@ class Hotel extends Model
     public function gov(){
         return $this->belongsTo(Governorate::class,'gov_id','id');
     }
+
     public function gallery(){
         return $this->hasMany(HotelGallery::class,'hotel_id','id');
     }

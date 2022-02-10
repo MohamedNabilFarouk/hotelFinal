@@ -8,6 +8,8 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~vue-slick-carousel/dist/vue-slick-carousel.css';
 @import '~vue-slick-carousel/dist/vue-slick-carousel-theme.css';
+@import "~vue-select/src/scss/vue-select.scss";
+
 .typeheader-1 .header-bonus {
     background: #ffffff;
     border-bottom: 1px solid #dfdfdf;
@@ -322,6 +324,7 @@ footer.typefooter-1 .footer--link ul.about-list li i{
 }
 label{
     display: block;
+    font-size: 13px;
 }
 .products-category .products-list.gird .item .item-block .image img{
     width: 100%;
@@ -415,4 +418,98 @@ header .dropdown-menu > li .btn-block {
 }
 .dropdown-toggle::after {
     content: none;
+}
+.detail-content .tab-content p{
+    margin-top: 33px;
+}
+.gallery-slider-main .slick-next {
+    right: 10px;
+    z-index: 2;
+}
+.gallery-slider-main .slick-prev {
+    left: 10px;
+    z-index: 2;
+}
+.vs__selected{
+    position:absolute;
+    top: 7px;
+    bottom: 7px;
+    left: 7px;
+    z-index: 5;
+    padding: 0;
+    font-size: 1.2rem;
+}
+.vs__dropdown-menu{
+    font-size: 1.2rem;
+}
+.vs__search, .vs__search:focus{
+    border-radius: 0;
+    background-color: #eee;
+    border: none;
+    color: #3d3d3d;
+    padding: 7px;
+    font-size: 1.2rem;
+    box-shadow: none !important;
+    transition: all 0.3s ease;
+    margin: 0;
+}
+.vs__search{
+    border: 2px solid #0060df;
+}
+.location-input .vs__open-indicator{
+    opacity: 0;
+}
+.location-input .vs__actions::before{
+    content: "\F041";
+    font-family: fontawesome;
+    color: #2db2ff;
+    position: absolute;
+    bottom: 7px;
+    right: 10px;
+    font-size: 16px;
+    top: 5px;
+}
+.vs__dropdown-toggle{
+    background: #eee;
+    border: none;
+    border-radius: 3px;
+    white-space: normal;
+    padding: 0;
+    margin: 0;
+}
+textarea, input, select{
+    border-radius: 3px;
+    background-color: #eee;
+    border: none;
+    color: #3d3d3d;
+    padding: 9px;
+    font-size: 1.2rem;
+    box-shadow: none !important;
+    transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+}
+.btn {
+    display: inline-block;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 0.75rem 0.75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    border-radius: 0.25rem;
+}
+.nav-link{
+    display: block;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.2rem;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #fff;
+    background-color: #2db2ff;
+    border-color: #2db2ff #2db2ff transparent;
 }
