@@ -149,6 +149,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                              </a>
+                             <a href="{{ route('vendor.transactionReport', $c->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">  <i class="fa fa-eye"></i></a>
                             <form action="{{ route('user.destroy', $c->id) }}" method="post" id='delform' style="display: inline-block">
                                 @csrf
                                 @method('delete')
