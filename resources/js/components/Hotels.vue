@@ -30,25 +30,6 @@
                                         </button>
                                     </div>
                                 </div>
-                                <!-- <div class="short-by-show justify-content-end form-inline col-md-10 col-sm-10">
-                                    <div class="form-group">
-                                        <label class="control-label">Show 1-6 of 8 results</label>
-                                    </div>
-                                    <div class="form-group short-by">
-                                        <select class="form-control w-100">
-                                            <option value="" selected="selected">Sort By</option>
-                                            <option value="">Name (A - Z)</option>
-                                            <option value="">Name (Z - A)</option>
-                                            <option value="">Price (Low &gt; High)</option>
-                                            <option value="">Price (High &gt; Low)</option>
-                                            <option value="">Rating (Highest)</option>
-                                            <option value="">Rating (Lowest)</option>
-                                            <option value="">Model (A - Z)</option>
-                                            <option value="">Model (Z - A)</option>
-                                        </select>
-                                    </div>
-
-                                </div>-->
                             </div>
                         </div>
 
@@ -80,8 +61,6 @@
                                             </div>
                                             <ul>
                                                 <li><i class="fa fa-map-marker" aria-hidden="true"></i> {{hotel.address_api}}</li>
-                                                <li><i class="fa fa-clock-o" aria-hidden="true"></i> 2 Day</li>
-                                                <li><i class="fa fa-user-circle" aria-hidden="true"></i> 4 persons</li>
                                             </ul>
                                             <div class="des">{{hotel.content_api}}</div>
                                             <div class="item-bot clearfix">

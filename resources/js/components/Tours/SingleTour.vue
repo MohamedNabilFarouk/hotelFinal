@@ -39,6 +39,7 @@
                         </div>
                         <div class="content-tabs">
                             <div class="tab-content">
+                                <Gallery v-if="tour.gallery && tour.gallery.length > 0" :images="tour.gallery" />
                                 <p id="home">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                                 <ul class="location-wee clearfix">
                                     <li>
@@ -254,14 +255,14 @@
 </template>
 <script>
 import starRating from "vue-star-rating";
-
+import Gallery from "../Layouts/Gallery";
 export default {
     name: 'SingleTour',
     props: {
         // PageTitle: {type: String, default:  () => ('')},
     },
     components:{
-        starRating
+        starRating, Gallery
     },
     data(){
         return{

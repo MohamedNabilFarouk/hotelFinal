@@ -1,51 +1,147 @@
 <template>
-    <div class="mt-5 pt-5 travel-search-content">
+    <div class="mt-5 travel-search-content">
         <div class="container page-builder-ltr">
-            <div class="row">
-                <form method="get" class="travl-search-advanced border-1 clearfix">
-                    <div class="search-item city pull-left">
-                        <p>Destinations</p>
-                        <input type="text" class="tour-search-input" id="city" placeholder="City, region or anywhere">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <button
+                        @click="switchFormSearch('hotelSearch')"
+                        :class="hotelSearch ? 'active': ''"
+                        class="nav-link">
+                        <i class="fa fa-building-o mr-1"></i>
+                        Hotels
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button
+                        @click="switchFormSearch('tourSearch')"
+                        :class="tourSearch ? 'active': ''"
+                        class="nav-link">
+                        <i class="fa fa-pagelines mr-1"></i>
+                        tours
+                    </button>
+                </li>
+            </ul>
+
+            <form v-if="hotelSearch" @submit.prevent="" class="row py-3 shadow-lg justify-content-between align-items-center">
+
+                <div class="col-lg-3 col-md-3 col-6">
+                    <div class="form-group location-input">
+                        <label>Destinations
+                            <v-select
+                                autocomplete="on"
+                                placeholder="City, region or anywhere"
+                                :get-option-label="(option) => option.name"
+                                :options="cities"></v-select>
+                        </label>
                     </div>
-                    <div class="search-item date pull-left">
-                        <p>Check in</p>
-                        <input type="text" class="tour-search-input datepicker hasDatepicker" id="date_from" placeholder="DD/MM/YY">
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <div class="form-group">
+                        <label>date from
+                            <input type="date" placeholder="date from" />
+                        </label>
                     </div>
-                    <div class="search-item date pull-left">
-                        <p>Check out</p>
-                        <input type="text" class="tour-search-input datepicker hasDatepicker" id="date_to" placeholder="DD/MM/YY">
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <div class="form-group">
+                        <label>date to
+                            <input type="date" placeholder="date to" />
+                        </label>
                     </div>
-                    <div class="search-item item-select pull-left">
-                        <p>People</p>
-                        <select name="people">
-                            <option value="1">1 people</option>
-                            <option value="2">2 people</option>
-                            <option value="3">3 people</option>
-                            <option value="4">4 people</option>
-                        </select>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-6">
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label>adults
+                                <input min="1" type="number" v-model="searchForm.people.adult" placeholder="adults" />
+                            </label>
+
+                            <div class="mx-2"></div>
+
+                            <label>children
+                                <input min="0" type="number" v-model="searchForm.people.children" placeholder="children" />
+                            </label>
+                        </div>
                     </div>
-                    <div class="search-item item-budget pull-left">
-                        <p>Max Budget</p>
-                        <input type="number" class="hotel-budget-input" id="budget" placeholder="$1000">
+                </div>
+
+                <div class="col-lg-2 text-center col-md-12 col-12">
+                    <button type="submit" class="btn button btn-primary">
+                        search
+                        <i aria-hidden="true" class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </form>
+
+            <form v-if="tourSearch" @submit.prevent="" class="row py-3 shadow-lg justify-content-between align-items-center">
+
+                <div class="col-lg-4 col-md-4 col-6">
+                    <div class="form-group location-input">
+                        <label>Destinations
+                            <v-select
+                                autocomplete="on"
+                                placeholder="City, region or anywhere"
+                                :get-option-label="(option) => option.name"
+                                :options="cities"></v-select>
+                        </label>
                     </div>
-                    <div class="search-item button-submit pull-left">
-                        <p>.</p>
-                        <button type="submit" class="button">Search Tour <i class="fa fa-angle-right" aria-hidden="true"></i></button>
-                        <input type="hidden" name="s">
-                        <input type="hidden" name="search_tour" value="1">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-6">
+                    <div class="form-group">
+                        <label>date
+                            <input type="date" placeholder="date" />
+                        </label>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="col-lg-4 text-center col-md-12 col-12">
+                    <button type="submit" class="btn button btn-primary">
+                        search
+                        <i aria-hidden="true" class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
 </template>
 <script>
-
+import Form from 'vform';
 export default {
 name: 'Search',
     data() {
         return {
-
+            hotelSearch: true,
+            tourSearch: false,
+            cities: [
+                {id: 1, name: 'cairo'},
+                {id: 2, name: 'aswan'},
+                {id: 3, name: 'sa sas a'},
+                {id: 4, name: 'sadad asdasd '},
+                {id: 5, name: 'fsdf sdfsd '},
+                {id: 6, name: 'sa  fsdf  a'},
+            ],
+            searchForm: new Form({
+                city: '',
+                date_from: '',
+                date_to: '',
+                people: {adult: 2, children: 0}
+            })
+        }
+    },
+    methods: {
+        switchFormSearch(switcher){
+            if (switcher === 'hotelSearch'){
+                this.hotelSearch = true;
+                this.tourSearch = false;
+            }else {
+                this.hotelSearch = false;
+                this.tourSearch = true;
+            }
         }
     }
 }

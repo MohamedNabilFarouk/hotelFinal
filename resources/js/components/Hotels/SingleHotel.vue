@@ -4,16 +4,19 @@
             <img :src="hotel.image" :alt="hotel.title_api" class="img-responsive">
         </div>
         <!-- Main Container  -->
-        <div class="container product-detail tour-single">
+        <div  class="container product-detail tour-single">
             <div class="row">
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
-                    <a href="javascript:void(0)" class="open-sidebar hidden-lg hidden-md">
-                        <i class="fa fa-bars"></i>Sidebar</a>
+
+                    <a href="" class="open-sidebar hidden-lg hidden-md">
+                        <i class="fa fa-bars"></i>Sidebar
+                    </a>
+
                     <div class="detail-content">
-                        <div class="view-top">
-                            <a href="#"><i class="fa fa-camera-retro" aria-hidden="true"></i>View photo</a>
-                            <a href="#"><i class="fa fa-play" aria-hidden="true"></i>View preview</a>
-                        </div>
+<!--                        <div class="view-top">-->
+<!--                            <a href="#"><i class="fa fa-camera-retro" aria-hidden="true"></i>View photo</a>-->
+<!--                            <a href="#"><i class="fa fa-play" aria-hidden="true"></i>View preview</a>-->
+<!--                        </div>-->
                         <div class="sticky-content">
                             <h1>{{hotel.title_api}}</h1>
                             <ul class="box-meta">
@@ -40,63 +43,14 @@
                         </div>
                         <div class="content-tabs">
                             <div class="tab-content">
-                                <div class="gallery-slider-main">
-                                    <VueSlickCarousel
-                                        ref="c1"
-                                        :asNavFor="$refs.c2"
-                                        :focusOnSelect="true">
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                    </VueSlickCarousel>
-                                </div>
-                                <div class="gallery-slider-nav">
-                                    <VueSlickCarousel
-                                        ref="c2"
-                                        :asNavFor="$refs.c1"
-                                        :slidesToShow="4"
-                                        :focusOnSelect="true">
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                        <div><img :src="hotel.image" alt=""></div>
-                                    </VueSlickCarousel>
-                                </div>
+                                <Gallery v-if="hotel.gallery && hotel.gallery.length > 0" :images="hotel.gallery" />
 
-                                <p id="home">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p id="home">{{hotel.content_api}}</p>
+
                                 <ul class="location-wee clearfix">
                                     <li>
                                         <label>Location</label>
-                                        <div class="item">Turoa, Ruapehu, <a href="#">New Zealand</a></div>
+                                        <div class="item">{{hotel.address_api}}</div>
                                     </li>
                                     <li>
                                         <label>Wearing</label>
@@ -152,7 +106,7 @@
                                 </div>
                                 <div id="menu2" class="tour-map">
                                     <h3>Map Located</h3>
-<!--                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.281234622878!2d-74.009579709455!3d40.71146597631483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2zVGjDoG5oIHBo4buRIE5ldyBZb3JrLCBUaeG7g3UgYmFuZyBOZXcgWW9yaywgSG9hIEvhu7M!5e0!3m2!1svi!2s!4v1572333240599!5m2!1svi!2s" width="900" height="500" frameborder="0" style="border:0;" allowfullscreen=""></iframe>-->
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.281234622878!2d-74.009579709455!3d40.71146597631483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2zVGjDoG5oIHBo4buRIE5ldyBZb3JrLCBUaeG7g3UgYmFuZyBOZXcgWW9yaywgSG9hIEvhu7M!5e0!3m2!1svi!2s!4v1572333240599!5m2!1svi!2s" width="900" height="500" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                                 </div>
                                 <div id="menu3" class="tour-amen clearfix">
                                     <h3>Amenities</h3>
@@ -307,15 +261,11 @@
 </template>
 <script>
 import starRating from "vue-star-rating";
-import VueSlickCarousel from 'vue-slick-carousel';
-
+import Gallery from "../Layouts/Gallery";
 export default {
     name: 'SingleHotel',
-    props: {
-        // PageTitle: {type: String, default:  () => ('')},
-    },
     components:{
-        starRating, VueSlickCarousel
+        starRating, Gallery
     },
     data(){
         return{
