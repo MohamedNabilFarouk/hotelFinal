@@ -108,6 +108,10 @@
                     <label for="exampleFormControlInput1" class="required form-label">Image</label>
                     <input class="image_name" type="file" name="image" value="">
                 </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1" class="required form-label">Gallery</label>
+                    <input class="image_name" type="file" name="gallery[]" value="" multiple>
+                </div>
 
                 <div class="form-group mb-10">
                     <div class="form-check form-switch form-check-custom form-check-solid">
