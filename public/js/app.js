@@ -3666,6 +3666,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Navbar',
@@ -3741,67 +3746,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Topnav',
   data: function data() {
     return {};
+  },
+  methods: {
+    langChange: function langChange(lang) {
+      localStorage.setItem("lang", lang);
+      window.location.reload();
+    }
   }
 });
 
@@ -29142,6 +29096,28 @@ var render = function () {
                                         "router-link",
                                         {
                                           staticClass: "clearfix",
+                                          attrs: { to: "tours/special" },
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                                            " +
+                                              _vm._s(_vm.$t("special tours")) +
+                                              "\n                                                        "
+                                          ),
+                                        ]
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "li",
+                                    { staticClass: "hover" },
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "clearfix",
                                           attrs: { to: "/FlightBooking" },
                                         },
                                         [
@@ -29272,31 +29248,21 @@ var render = function () {
       _c("div", { staticClass: "row justify-content-between" }, [
         _c("div", { staticClass: "col-md-6" }, [
           _c("div", { staticClass: "bonus-login pull-left" }, [
-            _c(
-              "a",
-              {
-                attrs: {
-                  "data-toggle": "modal",
-                  "data-target": "#so_sociallogin",
-                  href: "#",
-                },
-              },
-              [
-                _c("i", {
-                  staticClass: "fa fa-user",
-                  attrs: { "aria-hidden": "true" },
-                }),
-                _vm._v(
+            _c("a", { attrs: { href: "login" } }, [
+              _c("i", {
+                staticClass: "fa fa-user",
+                attrs: { "aria-hidden": "true" },
+              }),
+              _vm._v(
+                "\n                        " +
+                  _vm._s(_vm.$t("login")) +
                   "\n                        " +
-                    _vm._s(_vm.$t("login")) +
-                    "\n                        " +
-                    _vm._s(_vm.$t("or")) +
-                    "\n                        " +
-                    _vm._s(_vm.$t("registration")) +
-                    "\n                    "
-                ),
-              ]
-            ),
+                  _vm._s(_vm.$t("or")) +
+                  "\n                        " +
+                  _vm._s(_vm.$t("registration")) +
+                  "\n                    "
+              ),
+            ]),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "bonus-language pull-left" }, [
@@ -29326,11 +29292,16 @@ var render = function () {
                     {
                       staticClass: "btn-block language-select",
                       attrs: { type: "button", name: "ar-ar" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.langChange("ar")
+                        },
+                      },
                     },
                     [
                       _c("img", {
                         attrs: {
-                          src: "image/catalog/flags/ar.png",
+                          src: "https://hoteelsegypt.com/libs/flags/flags/4x3/eg.svg",
                           alt: "Ar",
                           title: "Ar",
                         },
@@ -29350,11 +29321,16 @@ var render = function () {
                     {
                       staticClass: "btn-block language-select",
                       attrs: { type: "button", name: "en-gb" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.langChange("en")
+                        },
+                      },
                     },
                     [
                       _c("img", {
                         attrs: {
-                          src: "image/catalog/flags/gb.png",
+                          src: "https://hoteelsegypt.com/libs/flags/flags/4x3/gb.svg",
                           alt: "En",
                           title: "En",
                         },
@@ -29375,8 +29351,6 @@ var render = function () {
         _vm._m(0),
       ]),
     ]),
-    _vm._v(" "),
-    _vm._m(1),
   ])
 }
 var staticRenderFns = [
@@ -29424,232 +29398,13 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "bonus-mail pull-right" }, [
-        _c("a", { attrs: { href: "mailto:info@hoteelsegypt.com" } }, [
-          _vm._v("info@hoteelsegypt.com"),
-        ]),
+        _c(
+          "a",
+          { attrs: { target: "_blank", href: "mailto:info@hoteelsegypt.com" } },
+          [_vm._v("info@hoteelsegypt.com")]
+        ),
       ]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade in",
-        attrs: {
-          id: "so_sociallogin",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c("div", { staticClass: "modal-dialog block-popup-login" }, [
-          _c("a", {
-            staticClass: "close close-login fa fa-times-circle",
-            attrs: {
-              href: "javascript:void(0)",
-              title: "Close",
-              "data-dismiss": "modal",
-            },
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "tt_popup_login" }, [
-            _c("strong", [_vm._v("Sign in Or Register")]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "block-content" }, [
-            _c("div", { staticClass: " col-reg registered-account" }, [
-              _c("div", { staticClass: "block-content" }, [
-                _c(
-                  "form",
-                  {
-                    staticClass: "form form-login",
-                    attrs: { action: "#", method: "post", id: "login-form" },
-                  },
-                  [
-                    _c(
-                      "fieldset",
-                      {
-                        staticClass: "fieldset login",
-                        attrs: { "data-hasrequired": "* Required Fields" },
-                      },
-                      [
-                        _c(
-                          "div",
-                          { staticClass: "field email required email-input" },
-                          [
-                            _c("div", { staticClass: "control" }, [
-                              _c("input", {
-                                staticClass: "input-text",
-                                attrs: {
-                                  name: "email",
-                                  value: "",
-                                  autocomplete: "off",
-                                  id: "email",
-                                  type: "email",
-                                  title: "Email",
-                                  placeholder: "E-Mail Address",
-                                },
-                              }),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "field password required pass-input" },
-                          [
-                            _c("div", { staticClass: "control" }, [
-                              _c("input", {
-                                staticClass: "input-text",
-                                attrs: {
-                                  name: "password",
-                                  type: "password",
-                                  autocomplete: "off",
-                                  id: "pass",
-                                  title: "Password",
-                                  placeholder: "Password",
-                                },
-                              }),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: " form-group" }, [
-                          _c("label", { staticClass: "control-label" }, [
-                            _vm._v("Login with your social account"),
-                          ]),
-                          _vm._v(" "),
-                          _c("div", [
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "btn btn-social-icon btn-sm btn-google-plus",
-                                attrs: { href: "#" },
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-google fa-fw",
-                                  attrs: { "aria-hidden": "true" },
-                                }),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "btn btn-social-icon btn-sm btn-facebook",
-                                attrs: { href: "#" },
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-facebook fa-fw",
-                                  attrs: { "aria-hidden": "true" },
-                                }),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "btn btn-social-icon btn-sm btn-twitter",
-                                attrs: { href: "#" },
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-twitter fa-fw",
-                                  attrs: { "aria-hidden": "true" },
-                                }),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "btn btn-social-icon btn-sm btn-linkdin",
-                                attrs: { href: "#" },
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-linkedin fa-fw",
-                                  attrs: { "aria-hidden": "true" },
-                                }),
-                              ]
-                            ),
-                          ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "secondary ft-link-p" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "action remind",
-                              attrs: { href: "#" },
-                            },
-                            [_c("span", [_vm._v("Forgot Your Password?")])]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "actions-toolbar" }, [
-                          _c("div", { staticClass: "primary" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "action login primary",
-                                attrs: {
-                                  type: "submit",
-                                  name: "send",
-                                  id: "send2",
-                                },
-                              },
-                              [_c("span", [_vm._v("Login")])]
-                            ),
-                          ]),
-                        ]),
-                      ]
-                    ),
-                  ]
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-reg login-customer" }, [
-              _c("h2", [_vm._v("NEW HERE?")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "note-reg" }, [
-                _vm._v("Registration is free and easy!"),
-              ]),
-              _vm._v(" "),
-              _c("ul", { staticClass: "list-log" }, [
-                _c("li", [_vm._v("Faster checkout")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Save multiple shipping addresses")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("View and track orders and more")]),
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn-reg-popup",
-                  attrs: { title: "Register", href: "#" },
-                },
-                [_vm._v("Create an account")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticStyle: { clear: "both" } }),
-          ]),
-        ]),
-      ]
-    )
   },
 ]
 render._withStripped = true
@@ -61422,10 +61177,10 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_i18n__WEBPACK_IMPORTED_MODULE
 /*!***********************************!*\
   !*** ./resources/js/lang/ar.json ***!
   \***********************************/
-/*! exports provided: lang, home, hotels, tours, flight booking, become a vendor, contact, login, registration, or, arabic, english, default */
+/*! exports provided: lang, home, hotels, tours, flight booking, become a vendor, contact, login, registration, or, arabic, english, special tours, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"lang\":\"اللغة\",\"home\":\"الرئيسية\",\"hotels\":\"الفنادق\",\"tours\":\"الرحلات\",\"flight booking\":\"حجز الطيران\",\"become a vendor\":\"كن شريك\",\"contact\":\"تواصل معنا\",\"login\":\"تسجيل الدخول\",\"registration\":\"تسجيل\",\"or\":\"أو\",\"arabic\":\"العربية\",\"english\":\"الانجليزية\"}");
+module.exports = JSON.parse("{\"lang\":\"اللغة\",\"home\":\"الرئيسية\",\"hotels\":\"الفنادق\",\"tours\":\"الرحلات\",\"flight booking\":\"حجز الطيران\",\"become a vendor\":\"كن شريك\",\"contact\":\"تواصل معنا\",\"login\":\"تسجيل الدخول\",\"registration\":\"تسجيل\",\"or\":\"أو\",\"arabic\":\"العربية\",\"english\":\"الانجليزية\",\"special tours\":\"رحلات خاصة\"}");
 
 /***/ }),
 
@@ -61433,10 +61188,10 @@ module.exports = JSON.parse("{\"lang\":\"اللغة\",\"home\":\"الرئيسي�
 /*!***********************************!*\
   !*** ./resources/js/lang/en.json ***!
   \***********************************/
-/*! exports provided: lang, home, hotels, tours, flight booking, become a vendor, contact, login, registration, or, arabic, english, default */
+/*! exports provided: lang, home, hotels, tours, flight booking, become a vendor, contact, login, registration, or, arabic, english, special tours, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"lang\":\"language\",\"home\":\"home\",\"hotels\":\"hotels\",\"tours\":\"tours\",\"flight booking\":\"flight booking\",\"become a vendor\":\"become a vendor\",\"contact\":\"contact\",\"login\":\"login\",\"registration\":\"registration\",\"or\":\"or\",\"arabic\":\"arabic\",\"english\":\"english\"}");
+module.exports = JSON.parse("{\"lang\":\"language\",\"home\":\"home\",\"hotels\":\"hotels\",\"tours\":\"tours\",\"flight booking\":\"flight booking\",\"become a vendor\":\"become a vendor\",\"contact\":\"contact\",\"login\":\"login\",\"registration\":\"registration\",\"or\":\"or\",\"arabic\":\"arabic\",\"english\":\"english\",\"special tours\":\"special tours\"}");
 
 /***/ }),
 

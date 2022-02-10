@@ -11136,13 +11136,40 @@ a.text-dark:focus {
 .typeheader-1 .header-bonus {
   background: #ffffff;
   border-bottom: 1px solid #dfdfdf;
+  padding: 5px 0;
+}
+
+.typeheader-1 ol,
+.typeheader-1 ul,
+.typeheader-1 dl {
+  margin-bottom: 0;
+}
+
+.typeheader-1 .header-bonus .bonus-social::before {
+  content: "";
+  width: 1px;
+  height: 14px;
+  background: #dfdfdf;
+  position: absolute;
+  left: -3px;
+  top: 2px;
+}
+
+.typeheader-1 .header-bonus .bonus-login::before {
+  content: "";
+  width: 1px;
+  height: 14px;
+  background: #919191;
+  position: absolute;
+  top: 2px;
 }
 
 .typeheader-1 .header-bonus .bonus-phone li a,
 .typeheader-1 .header-bonus .bonus-phone li,
 .typeheader-1 .header-bonus .bonus-login a,
 .typeheader-1 .header-bonus .bonus-language .btn-group .btn-link,
-.typeheader-1 .header-bonus .bonus-social li a {
+.typeheader-1 .header-bonus .bonus-social li a,
+.typeheader-1 .header-bonus a {
   color: #191919;
 }
 
@@ -11587,5 +11614,23 @@ label {
 
 .module-search2 form {
   background: #fff;
+}
+
+header .dropdown-menu > li .btn-block {
+  line-height: 18px;
+  color: #2a292a;
+  font-weight: bold;
+}
+
+.typeheader-1 .header-bonus .bonus-language .dropdown-menu .btn-block img {
+  margin-top: 0;
+  width: 16px;
+  height: 14px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.dropdown-toggle::after {
+  content: none;
 }
 
