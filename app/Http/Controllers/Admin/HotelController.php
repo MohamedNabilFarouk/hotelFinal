@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Hotel;
+use App\HotelGallery;
 use App\User;
 use App\Country;
 use App\Governorate;
@@ -55,7 +56,7 @@ class HotelController extends Controller
                 $data['vendor_id'] = Auth::user()->id; // if vendor
             }
 
-            $except=['_token','add','image','arr'];
+            $except=['_token','add','image','arr','gallery'];
             foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value ){
                 $except[]="title_".$key;
                 $except[]="content_".$key;
@@ -76,9 +77,20 @@ class HotelController extends Controller
             $image = $this -> saveImages($request -> image, 'images/hotels');
             $data['image'] = $image;
         }
+      $hotel=  Hotel::create($data);
+        if ($request -> has('gallery')) {
 
+            foreach($request->gallery as $i){
 
-        Hotel::create($data);
+                $image = $this -> saveImages($i, 'images/hotels');
+                $gallery = new HotelGallery();
+                $gallery->hotel_id = $hotel->id;
+                $gallery->image = $image;
+                $gallery->save();
+            }
+
+        }
+
         session() -> flash('success', trans('added successfully'));
         return redirect() -> route('hotel.index');
     }
@@ -108,7 +120,7 @@ class HotelController extends Controller
 
 
 
-        $except=['_token','add','image','arr'];
+        $except=['_token','add','image','arr','gallery'];
         foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value ){
             $except[]="title_".$key;
             $except[]="content_".$key;
@@ -140,7 +152,18 @@ if($request->home == null){
     $data['home']= 0;
 }
         $hotel -> update($data);
+        if ($request -> has('gallery')) {
 
+            foreach($request->gallery as $i){
+
+                $image = $this -> saveImages($i, 'images/hotels');
+                $gallery = new HotelGallery();
+                $gallery->hotel_id = $id;
+                $gallery->image = $image;
+                $gallery->save();
+            }
+
+        }
         DB::commit();
 
         session() -> flash('success', trans('Updated Successfully'));
