@@ -24,7 +24,7 @@ Route::namespace("Api")->group(function () {
 
     Route::post('doBooking', 'BookingController@booking')->name('doBooking');
     Route::get('checkAvailability', 'BookingController@checkAvailability')->name('checkAvailability');
-    Route::get('checkRoomInDateroom/{room}/{date}', 'BookingController@checkRoomInDate')->name('checkRoomInDate');
+    Route::get('checkRoomInDateroom/{room}/{date}', 'BookingController@checkRoomInDate')->name('checkRoomInDate'); //not used
 
     // return all home page
     Route::get('home', 'HomeController@home')->name('home');
