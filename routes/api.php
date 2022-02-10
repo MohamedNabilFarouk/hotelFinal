@@ -36,6 +36,8 @@ Route::namespace("Api")->group(function () {
     // return all tours
     Route::get('tours', 'ToursController@tours')->name('tours');
     Route::post('tour', 'ToursController@singleTour')->name('tour');
+    //get special tours
+    Route::get('tours/special', 'SiteController@SpecialTours')->name('tours.special');
 
     // become a vendor
     Route::get('user/create', 'UsersController@create')->name('user.create');
@@ -45,8 +47,7 @@ Route::namespace("Api")->group(function () {
     Route::post('user/login', 'UsersController@login')->name('user.login');
     //get user history booking
     Route::get('user/booking-history/{id}', 'UsersController@historyBooking')->name('user.historyBooking');
-    //get special tours
-    Route::get('tours/special', 'SiteController@SpecialTours')->name('tours.special');
+
 
 //});
 });
