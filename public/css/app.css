@@ -12121,3 +12121,21 @@ select {
   border-color: #2db2ff #2db2ff transparent;
 }
 
+.text-danger {
+  background-color: transparent;
+}
+
+.is-invalid {
+  border: 2px solid #dc3545 !important;
+}
+
+.module-search form .button {
+  padding: 7px 15px;
+  border-radius: 6px;
+  text-transform: capitalize;
+  font-weight: normal;
+  font-size: 13px;
+  width: auto;
+  display: inline-block;
+}
+

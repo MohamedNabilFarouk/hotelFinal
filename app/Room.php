@@ -84,7 +84,7 @@ class Room extends Model
 
     public function getImageAttribute()
     {
-        return $this->gallery[0] ? $this->gallery[0]->image : "";
+        return isset($this->gallery[0]) ? $this->gallery[0]->image : "";
     } // end of get image attribute
 
     public function gallery(){

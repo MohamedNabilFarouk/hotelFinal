@@ -69,6 +69,7 @@ class Hotel extends Model
             'gallery' => $this->gallery,
             'country' => $this->country,
             'gov' => $this->gov,
+            'rooms' => $this->rooms
         ];
     }
 
@@ -101,6 +102,11 @@ class Hotel extends Model
     public function gov(){
         return $this->belongsTo(Governorate::class,'gov_id','id');
     }
+
+    public function rooms(){
+        return $this->hasMany(Room::class,'hotel_id','id');
+    }
+
 
     public function gallery(){
         return $this->hasMany(HotelGallery::class,'hotel_id','id');

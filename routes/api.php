@@ -32,6 +32,7 @@ Route::namespace("Api")->group(function () {
     // return all hotels
     Route::get('hotels', 'HotelsController@hotels')->name('hotels');
     Route::post('hotel', 'HotelsController@singleHotel')->name('hotel');
+    Route::get('searchHotel', 'HotelsController@searchHotel')->name('search.hotel');
 
     // return all tours
     Route::get('tours', 'ToursController@tours')->name('tours');
@@ -48,6 +49,8 @@ Route::namespace("Api")->group(function () {
     //get user history booking
     Route::get('user/booking-history/{id}', 'UsersController@historyBooking')->name('user.historyBooking');
 
+    //get all Cities
+    Route::get('cities', 'CitiesController@cities')->name('cities');
 
 //});
 });
