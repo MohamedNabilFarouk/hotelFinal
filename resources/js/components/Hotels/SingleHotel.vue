@@ -13,10 +13,6 @@
                     </a>
 
                     <div class="detail-content">
-<!--                        <div class="view-top">-->
-<!--                            <a href="#"><i class="fa fa-camera-retro" aria-hidden="true"></i>View photo</a>-->
-<!--                            <a href="#"><i class="fa fa-play" aria-hidden="true"></i>View preview</a>-->
-<!--                        </div>-->
                         <div class="sticky-content">
                             <h1>{{hotel.title_api}}</h1>
                             <ul class="box-meta">
@@ -27,14 +23,11 @@
                                         :show-rating="false"
                                         :read-only="true"></starRating>
                                 </li>
-                                <li><i class="fa fa-clock-o" aria-hidden="true"></i>3 day 2 nights</li>
-                                <li><i class="fa fa-male" aria-hidden="true"></i><a href="#">Holiday</a>, <a href="#">Adventure</a></li>
-                                <li><i class="fa fa-users" aria-hidden="true"></i>16 persion</li>
                             </ul>
                             <div class="top-tab" id="nav">
                                 <ul class="nav nav-tabs">
-                                    <li><a href="#home">Overview</a></li>
-                                    <li><a href="#menu1">Tour Plans</a></li>
+                                    <li><a href="#gallery">gallery</a></li>
+                                    <li><a href="#hotel_content">content</a></li>
                                     <li><a href="#menu2">Map</a></li>
                                     <li><a href="#menu3">Amenities</a></li>
                                     <li><a href="#menu4">Review</a></li>
@@ -43,9 +36,10 @@
                         </div>
                         <div class="content-tabs">
                             <div class="tab-content">
-                                <Gallery v-if="hotel.gallery && hotel.gallery.length > 0" :images="hotel.gallery" />
-
-                                <p id="home">{{hotel.content_api}}</p>
+                                <div id="gallery">
+                                    <Gallery v-if="hotel.gallery && hotel.gallery.length > 0" :images="hotel.gallery" />
+                                </div>
+                                <p id="hotel_content">{{hotel.content_api}}</p>
 
                                 <ul class="location-wee clearfix">
                                     <li>
@@ -82,6 +76,10 @@
                                         </div>
                                     </li>
                                 </ul>
+
+                                <div id="rooms">
+
+                                </div>
                                 <div id="menu1" class="tour-plan clearfix">
                                     <h3>tour plans</h3>
                                     <div class="item-content">

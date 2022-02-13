@@ -20,7 +20,12 @@ Vue.config.productionTip = false;
 let routes = [
     { path: '/', component: require("./components/Home.vue").default, meta: {auth: false} },
 
-    { path: '/hotels', component: require("./components/Hotels.vue").default, meta: {auth: false} },
+    { path: '/hotels',
+        component: require("./components/Hotels.vue").default,
+        name: "Hotels",
+        props: true, //{ search: false, hotels: {} },
+        meta: {auth: false}
+    },
     { path: '/hotel/:id', component: require("./components/Hotels/SingleHotel.vue").default, meta: {auth: false} },
 
     { path: '/tours', component: require("./components/Tours.vue").default, meta: {auth: false} },
