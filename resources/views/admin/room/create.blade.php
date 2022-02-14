@@ -133,6 +133,9 @@
                     <label for="exampleFormControlInput1" class="required form-label">{{__('Size')}} </label>
                     <input type='number' name="size" class="form-control" value="{{ old('size') }}" />
                 </div>
+
+
+
                 <div id='country_price'>
                         <div class="form-group mb-5">
                             <label for="exampleFormControlInput1" class="required form-label">{{__('Price')}}</label>
@@ -198,7 +201,7 @@
 
     //    alert('here');
     //    var input = '<div class="col-md-3"><div class="form-title"><strong>{{__("Countries")}}</strong></div><div class="form-group"><div class="upload-btn-wrapper"> <select class="form-control" name="arr['+i+'][country]" > @foreach($countries as $r) <option value="{{$r->code}}" > {{$r->name}}</option> @endforeach </select></div></div></div><div class="col-md-3"><div class="form-title"><strong>{{__("Price")}}</strong></div><div class="form-group"><div class="upload-btn-wrapper"><div class="input-group"><input type="number" name="arr['+i+'][price]" class="form-control text-view" required></div></div></div></div>';
-       var input = '<div class="row g-9 mb-8" data-select2-id="select2-data-72-jo53"><!--begin::Col--><div class="col-md-6 fv-row" data-select2-id="select2-data-71-0h3a"><label class="required fs-6 fw-bold mb-2">{{__('Country')}}</label> <select class="form-control" name="arr['+i+'][country]" > @foreach($countries as $r) <option value="{{$r->code}}" > {{$r->name}}</option> @endforeach </select> </div><!--end::Col--><!--begin::Col--><div class="col-md-6 fv-row"><label class="required fs-6 fw-bold mb-2">{{__("price")}}</label><!--begin::Input--><div class="position-relative d-flex align-items-center"><!--begin::Datepicker--><input type="number" name="arr['+i+'][price]"  class="form-control text-view" required><!--end::Datepicker--></div><!--end::Input--></div><!--end::Col--></div>';
+       var input = '<div class="row g-9 mb-8" data-select2-id="select2-data-72-jo53"><!--begin::Col--><div class="col-md-6 fv-row" data-select2-id="select2-data-71-0h3a"><label class="required fs-6 fw-bold mb-2">{{__('Country')}}</label> <select class="form-control" multiple name="arr['+i+'][country][]" > @foreach($countries as $r) <option value="{{$r->code}}" > {{$r->name}}</option> @endforeach </select> </div><!--end::Col--><!--begin::Col--><div class="col-md-6 fv-row"><label class="required fs-6 fw-bold mb-2">{{__("price")}}</label><!--begin::Input--><div class="position-relative d-flex align-items-center"><!--begin::Datepicker--><input type="number" name="arr['+i+'][price]"  class="form-control text-view" required><!--end::Datepicker--></div><!--end::Input--></div><!--end::Col--></div>';
 
        $('#country_price').append(input);
        i++;

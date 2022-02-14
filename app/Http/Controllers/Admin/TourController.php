@@ -88,15 +88,17 @@ class TourController extends Controller
 
         if(isset($request->arr)){
             foreach($request->arr as $p){
+                foreach($p['country'] as $i){
                 $prices = new TourPrices();
                 $prices->tour_id = $tour->id;
-                $prices->ip = $p['country'];
+                $prices->ip = $i;
                 $prices->price = $p['price'];
                 $prices->ch_price = $p['ch_price'];
                 $prices->save();
+                }
             }
-        }
 
+        }
 
         DB::commit();
 
@@ -159,20 +161,33 @@ class TourController extends Controller
             }
         }
 // dd($request->arr);
+            // if(isset($request->arr)){
+            //     TourPrices::where('tour_id',$id)->delete();
+            //     foreach($request->arr as $p){
+            //         $prices = new TourPrices();
+            //         $prices->tour_id = $tour->id;
+            //         $prices->ip = $p['country'];
+            //         $prices->price = $p['price'];
+            //         $prices->ch_price = $p['ch_price'];
+
+            //         $prices->save();
+            //     }
+            // }
+
             if(isset($request->arr)){
                 TourPrices::where('tour_id',$id)->delete();
                 foreach($request->arr as $p){
+                    foreach($p['country'] as $i){
                     $prices = new TourPrices();
                     $prices->tour_id = $tour->id;
-                    $prices->ip = $p['country'];
+                    $prices->ip = $i;
                     $prices->price = $p['price'];
                     $prices->ch_price = $p['ch_price'];
-
                     $prices->save();
+                    }
                 }
+
             }
-
-
 
 
         $tour -> update($data);

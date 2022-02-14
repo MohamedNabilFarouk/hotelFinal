@@ -45,7 +45,7 @@ class RoomController extends Controller
     {
 
         $data = $request -> validate([
-            'title' => 'required|string|max:100',
+            'title' => 'nullable|string|max:100',
             'content' => 'string',
              'image' => 'required',
             'hotel_id'=>'required',
@@ -91,12 +91,16 @@ class RoomController extends Controller
         }
 
         if(isset($request->arr)){
+
             foreach($request->arr as $p){
+                foreach($p['country'] as $i){
+
                 $prices = new RoomPrices();
                 $prices->room_id = $room->id;
-                $prices->ip = $p['country'];
+                $prices->ip = $i;
                 $prices->price = $p['price'];
                 $prices->save();
+                }
             }
         }
 
@@ -165,18 +169,30 @@ class RoomController extends Controller
             }
         }
 // dd($request->arr);
+            // if(isset($request->arr)){
+            //     RoomPrices::where('room_id',$id)->delete();
+            //     foreach($request->arr as $p){
+            //         $prices = new RoomPrices();
+            //         $prices->room_id = $room->id;
+            //         $prices->ip = $p['country'];
+            //         $prices->price = $p['price'];
+            //         $prices->save();
+            //     }
+            // }
+
             if(isset($request->arr)){
-                RoomPrices::where('room_id',$id)->delete();
+
                 foreach($request->arr as $p){
+                    foreach($p['country'] as $i){
+
                     $prices = new RoomPrices();
                     $prices->room_id = $room->id;
-                    $prices->ip = $p['country'];
+                    $prices->ip = $i;
                     $prices->price = $p['price'];
                     $prices->save();
+                    }
                 }
             }
-
-
 
 
         $room -> update($data);
