@@ -27,6 +27,7 @@
         "laravel-vue-pagination": "^2.3.1",
         "vform": "^2.1.2",
         "vue-i18n": "^8.27.0",
+        "vue-js-modal": "^2.0.1",
         "vue-router": "^3.5.3",
         "vue-select": "^3.16.0",
         "vue-slick-carousel": "^1.0.6",

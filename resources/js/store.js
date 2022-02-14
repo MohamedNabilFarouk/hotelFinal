@@ -5,6 +5,7 @@ import axios from 'axios'
 Vue.use(Vuex);
 
 const state = {
+    searchHotels: null,
     sidebarShow: 'responsive',
     sidebarMinimize: false,
     user: null
@@ -27,7 +28,10 @@ const mutations = {
         localStorage.setItem('user', JSON.stringify(userData));
         axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`
     },
-
+    setSearchHotelsForm(state, formData){
+        state.searchHotels = formData;
+        localStorage.setItem('searchHotels', JSON.stringify(formData));
+    },
     clearUserData () {
         localStorage.removeItem('user');
         if (location.pathname !== '/login'){
@@ -43,6 +47,9 @@ const actions = {
                 commit('setUserData', data)
             })
     },
+    searchHotels ({ commit }, formData){
+        return  commit('setSearchHotelsForm', formData)
+    },
     logout ({ commit }) {
         commit('clearUserData')
     }
@@ -51,6 +58,9 @@ const getters = {
     isLogged: state => !!state.user,
     user(state) {
         return state.user;
+    },
+    searchHotels(state){
+        return state.searchHotels;
     }
 };
 

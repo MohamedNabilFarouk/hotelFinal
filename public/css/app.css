@@ -12139,3 +12139,37 @@ select {
   display: inline-block;
 }
 
+#rooms.products-category .products-list.list .item .item-block .item-content {
+  padding: 10px;
+}
+
+#rooms.products-category .products-list.list .item .item-block .item-content .item-bot {
+  right: 10px;
+}
+
+.media img {
+  width: 60px;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.module-search2 form {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100vh - 110px);
+}
+
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 0.25rem 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+
+.vm--modal {
+  padding: 20px;
+  overflow-y: scroll;
+}
+

@@ -117,7 +117,6 @@
                         </form>
 
                     </div>
-
                     <HotelsFilter />
                 </aside>
 
@@ -224,12 +223,18 @@ import Breadcrumbs from "./Layouts/Breadcrumbs";
 import HotelsFilter from "./Hotels/Filter";
 import starRating from "vue-star-rating";
 import Form from "vform";
+import { mapGetters } from 'vuex';
 export default {
     name: 'Hotels',
     components:{
         Breadcrumbs,
         HotelsFilter,
         starRating
+    },
+    computed: {
+        ...mapGetters([
+            'searchHotels'
+        ])
     },
     data(){
         return{
@@ -250,6 +255,7 @@ export default {
     mounted() {
         this.search ? this.fillFormData() : this.getHotels();
         this.getCities();
+        this.searchHotelsForm.fill(this.searchHotels ? this.searchHotels : '');
     },
     methods: {
         getCities(){
@@ -266,7 +272,7 @@ export default {
             }).catch(() =>{});
         },
         fillFormData(){
-            this.$route.params.formData ? this.searchHotelsForm.fill(this.$route.params.formData): '';
+            this.searchHotelsForm.fill(this.searchHotels);
         },
         getSearchHotels(page = 1){
             this.searchHotelsForm.get('searchHotel?page=' + page).then((res)=>{
@@ -276,9 +282,10 @@ export default {
         },
         gridViewFun(view){view === 'grid' ? this.gridView = true : this.gridView = false},
         searchHotel(){
-            this.searchHotelsForm.city =  this.searchHotelsForm.sCity.id ? this.searchHotelsForm.sCity.id : '';
+            this.searchHotelsForm.city =  this.searchHotelsForm.sCity ? this.searchHotelsForm.sCity.id : '';
             this.searchHotelsForm.get("searchHotel").then((res)=>{
                 if (res.data.success === 'true'){
+                    this.$store.dispatch('searchHotels', this.searchHotelsForm);
                     this.hotels = res.data.data && res.data.data.hotels ? res.data.data.hotels : [];
                     this.search = true;
                 }else{
