@@ -158,6 +158,8 @@
 </template>
 <script>
 import Form from "vform";
+import { mapGetters } from 'vuex';
+
 export default {
 name: 'Search',
     data() {
@@ -175,8 +177,14 @@ name: 'Search',
             })
         }
     },
+    computed: {
+        ...mapGetters([
+            'searchHotels'
+        ])
+    },
     mounted(){
         this.getCities();
+        this.searchHotelsForm.fill(this.searchHotels ? this.searchHotels : '');
     },
     methods: {
         getCities(){
@@ -196,9 +204,10 @@ name: 'Search',
             }
         },
         searchHotel(){
-            this.searchHotelsForm.city =  this.searchHotelsForm.sCity.id ? this.searchHotelsForm.sCity.id : '';
+            this.searchHotelsForm.city =  this.searchHotelsForm.sCity ? this.searchHotelsForm.sCity.id : '';
             this.searchHotelsForm.get("searchHotel").then((res)=>{
                     if (res.data.success === 'true'){
+                        this.$store.dispatch('searchHotels', this.searchHotelsForm);
                         this.$router.push({
                             name: 'Hotels',
                             params:{

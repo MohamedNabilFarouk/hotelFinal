@@ -6,11 +6,13 @@ import store from "./store";
 import axios from "axios";
 import i18n from "./i18n";
 import vSelect from "vue-select";
+import VModal from 'vue-js-modal'
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component("v-select", vSelect);
 
 Vue.use(Router);
+Vue.use(VModal,  { componentName: 'modal' });
 
 const lang = localStorage.getItem("lang") || "en";
 axios.defaults.baseURL = "http://localhost:8000/api";
@@ -59,6 +61,11 @@ new Vue({
         if (userInfo) {
             const userData = JSON.parse(userInfo);
             this.$store.commit('setUserData', userData)
+        }
+        const searchHotels = localStorage.getItem('searchHotels');
+        if (searchHotels) {
+            const formData = JSON.parse(searchHotels);
+            this.$store.commit('setSearchHotelsForm', formData)
         }
         axios.interceptors.response.use(
             response => response,

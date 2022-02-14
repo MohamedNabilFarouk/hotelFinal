@@ -76,7 +76,7 @@
     <script type="text/javascript" src="{{url('/front/js/themejs/custom_h1.js')}}"></script>
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/noui.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/nouislider.js')}}"></script>--}}
-{{--    <script type="text/javascript" src="{{url('/front/js/themejs/addtostick.js')}}"></script>--}}
+    <script type="text/javascript" src="{{url('/front/js/themejs/addtostick.js')}}"></script>
 
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
