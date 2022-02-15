@@ -8,6 +8,8 @@ import i18n from "./i18n";
 import vSelect from "vue-select";
 import VModal from 'vue-js-modal'
 
+Vue.component('VuePhoneNumberInput', require('vue-phone-number-input'));
+
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component("v-select", vSelect);
 
@@ -20,18 +22,13 @@ axios.defaults.headers.common["lang"] = lang;
 Vue.config.productionTip = false;
 
 let routes = [
-    { path: '/', component: require("./components/Home.vue").default, meta: {auth: false} },
+    { path: '/', component: require("./components/Home.vue").default, name: "Home", meta: {auth: false} },
 
-    { path: '/hotels',
-        component: require("./components/Hotels.vue").default,
-        name: "Hotels",
-        props: true, //{ search: false, hotels: {} },
-        meta: {auth: false}
-    },
-    { path: '/hotel/:id', component: require("./components/Hotels/SingleHotel.vue").default, meta: {auth: false} },
+    { path: '/hotels', component: require("./components/Hotels.vue").default, name: "Hotels", props: true, meta: {auth: false}},
+    { path: '/hotel/:id', component: require("./components/Hotels/SingleHotel.vue").default, name: "Hotel", meta: {auth: false} },
 
-    { path: '/tours', component: require("./components/Tours.vue").default, meta: {auth: false} },
-    { path: '/tour/:id', component: require("./components/Tours/SingleTour.vue").default, meta: {auth: false} },
+    { path: '/tours', component: require("./components/Tours.vue").default, name: "Tours", meta: {auth: false} },
+    { path: '/tour/:id', component: require("./components/Tours/SingleTour.vue").default, name: "Tour", meta: {auth: false} },
 ];
 
 const router = new Router({
@@ -40,18 +37,27 @@ const router = new Router({
     linkActiveClass: 'active',
     routes: routes
 });
-router.beforeEach((to, from, next) => {
-    const loggedIn = localStorage.getItem('user');
-    if (to.matched.some(record => record.meta.auth) && !loggedIn) {
-        next('/login');
-        return
-    }
-    if (to.path === '/login' && loggedIn){
-        next('/');
-        return
-    }
-    next();
-});
+
+// router.beforeEach((to, from, next) => {
+//     const loggedIn = localStorage.getItem('user');
+//     if (to.matched.some(record => record.meta.auth) && !loggedIn) {
+//         next('/login');
+//         return
+//     }
+//     if (to.path === '/login' && loggedIn){
+//         next('/');
+//         return
+//     }
+//     next();
+// });
+
+
+// fetch("https://ipinfo.io/json?token=eff8d09c8a179d").then(
+//     (response) => response.json()
+// ).then(
+//     (jsonResponse) => console.log(jsonResponse)
+// );
+
 new Vue({
     router,
     store,
@@ -67,15 +73,15 @@ new Vue({
             const formData = JSON.parse(searchHotels);
             this.$store.commit('setSearchHotelsForm', formData)
         }
-        axios.interceptors.response.use(
-            response => response,
-            error => {
-                if (error.response.status === 401) {
-                    this.$store.dispatch('logout')
-                }
-                return Promise.reject(error)
-            }
-        )
+        // axios.interceptors.response.use(
+        //     response => response,
+        //     error => {
+        //         if (error.response.status === 401) {
+        //             this.$store.dispatch('logout')
+        //         }
+        //         return Promise.reject(error)
+        //     }
+        // )
     },
     render: h => h(App)
 }).$mount('#app');

@@ -92,7 +92,7 @@
                             <div class="tab-content m-0" id="Map">
                                 <div class="tour-map">
                                     <h3>Map Located</h3>
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.281234622878!2d-74.009579709455!3d40.71146597631483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2zVGjDoG5oIHBo4buRIE5ldyBZb3JrLCBUaeG7g3UgYmFuZyBOZXcgWW9yaywgSG9hIEvhu7M!5e0!3m2!1svi!2s!4v1572333240599!5m2!1svi!2s" width="900" height="500" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+<!--                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.281234622878!2d-74.009579709455!3d40.71146597631483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2zVGjDoG5oIHBo4buRIE5ldyBZb3JrLCBUaeG7g3UgYmFuZyBOZXcgWW9yaywgSG9hIEvhu7M!5e0!3m2!1svi!2s!4v1572333240599!5m2!1svi!2s" width="900" height="500" frameborder="0" style="border:0;" allowfullscreen=""></iframe>-->
                                 </div>
                             </div>
 
@@ -300,7 +300,7 @@
                                         </div>
                                     </div>
                                     <div class="media-right">
-                                        <button @click="removeRoomFromBookingHotelForm(index)" class="btn btn-sm btn-danger">
+                                        <button type="button" @click="removeRoomFromBookingHotelForm(index)" class="btn btn-sm btn-danger">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </div>
@@ -367,8 +367,16 @@
         <!-- //Main Container -->
 
         <!-- booking modal  -->
-        <modal :scrollable="true" width="90%" height="400" name="bookingModal">
-            <form @submit.prevent="" class="row ">
+        <modal :scrollable="true" width="90%" height="auto" name="bookingModal">
+            <div class="tt_popup_modal">
+                <i @click="closeModal()" class="fa fa-times-circle close-modal"></i>
+                <strong>
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                    Checkin Now
+                </strong>
+            </div>
+
+            <form @submit.prevent="" class="row">
 
                 <div class="col-md-3 col-6">
                     <div class="form-group">
@@ -507,6 +515,7 @@ import starRating from "vue-star-rating";
 import Gallery from "../Layouts/Gallery";
 import Form from "vform";
 import { mapGetters } from 'vuex';
+
 export default {
     name: 'SingleHotel',
     components:{
@@ -547,11 +556,13 @@ export default {
         this.getHotel();
         this.getCities();
         this.fillBookingHotelForm(this.searchHotels);
-        this.$modal.show('bookingModal');
     },
     methods: {
         showModal(){
             this.$modal.show('bookingModal');
+        },
+        closeModal(){
+            this.$modal.hide('bookingModal');
         },
         getCities(){
             axios.get('cities')
@@ -581,9 +592,9 @@ export default {
                 this.bookingHotelForm.rooms.push({
                     id: room.id,
                     price: room.price,
-                    adult: 2, // calc adult from search data
+                    adult: room.adult <= this.bookingHotelForm.adult ? room.adult : this.bookingHotelForm.adult,
                     maxAdult: room.adult,
-                    child: 0, // calc adult from search data
+                    child: room.child <= this.bookingHotelForm.child ? room.child : this.bookingHotelForm.child,
                     maxChild: room.child,
                     number: 1,
                     maxNumber: room.availability,

@@ -26,25 +26,25 @@ const mutations = {
     setUserData (state, userData) {
         state.user = userData;
         localStorage.setItem('user', JSON.stringify(userData));
-        axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`
+        axios.defaults.headers.common["user_id"] = userData.id;
+
+        // axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`
     },
     setSearchHotelsForm(state, formData){
         state.searchHotels = formData;
         localStorage.setItem('searchHotels', JSON.stringify(formData));
     },
     clearUserData () {
+        state.user = null;
         localStorage.removeItem('user');
-        if (location.pathname !== '/login'){
-            location.reload();
-        }
     }
 };
 const actions = {
     login ({ commit }, credentials) {
         return axios
-            .post('login', credentials)
+            .post('user/login', credentials)
             .then(({ data }) => {
-                commit('setUserData', data)
+                commit('setUserData', data.data)
             })
     },
     searchHotels ({ commit }, formData){
