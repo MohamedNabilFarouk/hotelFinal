@@ -28,7 +28,7 @@ class UsersController extends Controller
      $this->apiToken = uniqid(base64_encode(Str::random(40)));
      }
 
-    
+
 
 
 
@@ -40,8 +40,8 @@ class UsersController extends Controller
 
     protected function store(Request $request) //register
     {
-        
-        // dd($request->all());
+
+        //  dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -56,7 +56,7 @@ class UsersController extends Controller
         $data = $request->all();
         // dd($data['password']);
         // $data['country'] = $request->country;
-    
+
         $data['password'] = Hash::make($data['password']);
 
         if($request->has('tax_card')){
@@ -68,7 +68,7 @@ class UsersController extends Controller
         if($request->has('commercial_record')){
             $commercial_record = $this -> saveImages($request -> commercial_record, 'images/vendorData');
             $data['commercial_record'] = $commercial_record;
-        } 
+        }
         $data['bank_name']= $request->bank_name;
         $data['bank_account']= $request->bank_account;
         // dd($data);
@@ -83,14 +83,34 @@ class UsersController extends Controller
         //     session()->flash('success', trans('validation.User Added Successfully, Please Fill Delivery Information'));
         //     return redirect()->route('deliveryBoy.create');
         // } else {
-            
-            return response()->json(['success'=>'true','data'=>$user]);
-        // }
+
+
+
+            $credentials = request(['email', 'password']);
+            // dd($credentials);
+
+            if ($token = Auth::attempt($credentials)) {
+
+            $success['token'] = $this->apiToken;
+            $success['id'] =  $user->id;
+            $success['name'] =  $user->name;
+            $success['role'] =  $user->roles[0]->name;
+            return response()->json([
+                'status' => 'success',
+                'data' => $success
+            ]);
+            } else {
+            return response()->json([
+                'status' => 'error',
+                'data' => 'Unauthorized Access'
+            ]);
+            }
+
 
     }
 
 
-    
+
 
 
     public function edit($id){
@@ -107,14 +127,14 @@ class UsersController extends Controller
             'name' => ['string', 'max:255'],
             'email' => [ 'string', 'email', 'max:255', 'unique:users,email,'.$id],
           'phone' => ['string', 'max:255', 'unique:users,phone,'.$id],
-            
+
 
         ]);
         if ($validator->fails()) {
 
             return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
         }
-        
+
         $data = $request->all();
         // dd($data);
         $user = User::find($id);
@@ -129,7 +149,7 @@ class UsersController extends Controller
         if($request->has('commercial_record')){
             $commercial_record = $this -> saveImages($request -> commercial_record, 'images/vendorData');
             $data['commercial_record'] = $commercial_record;
-        } 
+        }
         $data['bank_name']= $request->bank_name;
         $data['bank_account']= $request->bank_account;
 
@@ -140,11 +160,22 @@ class UsersController extends Controller
 
     }
 
-            public function login(Request $request){ 
+            public function login(Request $request){
+                $validator = Validator::make($request->all(), [
+
+                    'email' => ['required'],
+
+                    'password' => ['required'],
+
+                ]);
+                if ($validator->fails()) {
+
+                    return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
+                }
                 //User check
-                if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
-                $user = Auth::user(); 
-                //Setting login response 
+                if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+                $user = Auth::user();
+                //Setting login response
                 $success['token'] = $this->apiToken;
                 $success['id'] =  $user->id;
                 $success['name'] =  $user->name;
@@ -152,16 +183,16 @@ class UsersController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'data' => $success
-                ]); 
-                } else { 
+                ]);
+                } else {
                 return response()->json([
                     'status' => 'error',
                     'data' => 'Unauthorized Access'
-                ]); 
-                } 
+                ]);
+                }
             }
 
-    
+
             public function historyBooking($id){
 
                 $booking_history= Booking::where('customer_id',$id)->with('hotel')->get();
@@ -170,7 +201,6 @@ class UsersController extends Controller
             }
 
 
-    
 }
 
 

@@ -149,7 +149,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                              </a>
-                             <a href="{{ route('vendor.transactionReport', $c->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">  <i class="fa fa-eye"></i></a>
+
                             <form action="{{ route('user.destroy', $c->id) }}" method="post" id='delform' style="display: inline-block">
                                 @csrf
                                 @method('delete')
@@ -159,7 +159,7 @@
                             </form>
 
                             @if($c->roles[0]->name == 'vendor')
-
+                            <a href="{{ route('vendor.transactionReport', $c->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">  <i class="fa fa-eye"></i></a>
                                 <a href="{{ route('user.zerobalance', $c->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <!-- begin::Svg Icon | path: icons/stockholm/Communication/Write.svg -->
                                 <span class="svg-icon svg-icon-3">
