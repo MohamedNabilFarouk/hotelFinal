@@ -29,7 +29,7 @@ class BookingController extends Controller
 //             'number'=>'numeric|required',
 //         ]);
 
-      
+
 //         $begin = new DateTime( $request->from);
 //         $end   = new DateTime( $request->to );
 
@@ -47,10 +47,10 @@ class BookingController extends Controller
 //         DB::beginTransaction();
 
 //         $booking= Booking::create($data);
-//         $hotel_room = Room::find($request->room_id); 
+//         $hotel_room = Room::find($request->room_id);
 //         if(isset($booking)){
 //             for($i = $begin; $i < $end; $i->modify('+1 day'))
-//             {   
+//             {
 //             HotelBooking::create([
 //                 'room_id'        =>$request['room_id'],
 //                 'booking_id'               =>$booking->id,
@@ -60,9 +60,9 @@ class BookingController extends Controller
 //                 'number'                  => $request['number'],
 //             ]);
 //         }
-//         } 
+//         }
 //         DB::commit();
-        
+
 //         return response()->json(['success'=>'true','message'=>'added successfully']);
 
 // }
@@ -71,7 +71,7 @@ class BookingController extends Controller
 
 
 public function booking(Request $request){
-   
+
     $validator = Validator::make($request->all(), [
            'name' => 'required|string|max:100',
            'phone' => 'string',
@@ -90,53 +90,78 @@ public function booking(Request $request){
 
         return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
     }
-    
-     
+
+
        if($request->partial_payment == 1){
-        $request->paid = $request->deposit; 
+        $request->paid = $request->deposit;
     }else{
-      $request->paid = $request->total; 
+      $request->paid = $request->total;
     }
     // dd($request);
 
 
-       $data = $request->all();
-     
+        //  $data = $request->all();
+
+    //    $data =  ['name' => $request->name,
+    //             'phone' => $request->phone,
+    //             'email' => $request->email,
+    //             'type' => $request->type,
+    //             'adult' => $request->adult,
+    //             'child' => $request->child,
+    //             'total' =>   $request->total,
+    //             'deposit' => $request->deposit,
+    //             'from'=> $request->from,
+    //             'to'=>$request->to,
+// ];
 
 if($request->type == 'hotel'){
+    DB::beginTransaction();
+// dd($data);
+    $booking= Booking::create($request->except('rooms'));
+
+    foreach($request->rooms as $r){
+        //   dd($r['number']);
+        $request['room_id'] =  $r['room_id'];
+        $request['number'] = $r['number'];
+
+        $result = $this->checkAvailability($request);
+        if($result['success'] == 'false'){
+            return response()->json(['success'=>'false','message'=>'Not Aavailable']);
+         }
 
 
-    $result= $this->checkAvailability($request);
-    if($result == false){
-       return response()->json(['success'=>'true','message'=>'Not Aavailable']);
+        $hotel_room = Room::find($r['room_id']);
+        if(isset($booking)){
+
+            // dd($r);
+            HotelBooking::create([
+                'room_id'        =>$r['room_id'],
+                'booking_id'               =>$booking->id,
+                'from'               => $request['from'],
+                'to'                 => $request['to'],
+                'remain_no'                  => ($hotel_room->number) - $r['number'],
+                'number'                  => $r['number'],
+
+            ]);
+
+        }
+        DB::commit();
     }
 
-    DB::beginTransaction();
-    $booking= Booking::create($data);
 
-    $hotel_room = Room::find($request->room_id); 
-    if(isset($booking)){
-        HotelBooking::create([
-            'room_id'        =>$request['room_id'],
-            'booking_id'               =>$booking->id,
-            'from'               => $request['from'],
-            'to'                 => $request['to'],
-             'remain_no'                  => ($hotel_room->number) - $request['number'],
-            'number'                  => $request['number'],
-          
-        ]);
-   
-    } 
-    DB::commit();
+
+
+
+
 }else{
 
-    $booking= Booking::create($data);
+    $booking= Booking::create($request);
 
 }
-      
+
     //   payment here
-     
-       
+
+
        return response()->json(['success'=>'true','message'=>'added successfully']);
 
 }
@@ -144,54 +169,64 @@ if($request->type == 'hotel'){
 
 
 
-// not used NOW 
+// not used NOW
 public function checkRoomInDate($room,$date){
                 $no_rooms_booked=  HotelBooking::where([['room_id',$room],['from', $date]])->sum('number');
-                $hotel_room = Room::find($room); 
+                $hotel_room = Room::find($room);
                 $no_rooms_available = ($hotel_room->number)-$no_rooms_booked;
                 return $no_rooms_available;
 }
 
 
 public function checkAvailability(Request $request){
-   
-    $data = $request -> validate([
+
+    // dd($request);
+
+    $validator = Validator::make($request->all(), [
         'from' => 'required|string|max:100',
-        'number' => 'required',
-        'to' => 'string',
-        'room_id' => 'string',
+        'number' => 'required|required',
+        'to' => 'required|string',
+        'room_id' => 'required|string',
     ]);
 
+    if ($validator->fails()) {
+        return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
+    }
+
     // $room_availabilty = HotelBooking::where([['room_id',$request->room_id]])->whereBetween('from', [$request->from, $request->to])->get();
-    $no_rooms_booked = HotelBooking::where([['room_id',$request->room_id]])->whereBetween('from', [$request->from, $request->to])
-                                                                        ->orWhereBetween('to', [$request->from, $request->to])->sum('number');
-    
+    $no_rooms_booked = HotelBooking::where([['room_id',$request['room_id']]])->whereBetween('from', [$request['from'], $request['to']])
+                                                                      ->orWhereBetween('to', [$request['from'], $request['from']])->sum('number');
+
+
 // dd($no_rooms_booked);
-                                                                        
-    $hotel_room = Room::find($request->room_id); 
-    $no_rooms_available = ($hotel_room->number)-$no_rooms_booked; 
+
+    $hotel_room = Room::find($request['room_id']);
+
+    $no_rooms_available = ($hotel_room->number)-$no_rooms_booked;
         // dd($no_rooms_available);
-    if($request->number > $no_rooms_available){
-        // return response()->json(['success'=>'true','message'=>'Not Aavailable']);
-        return false;
-   
+    if($request['number'] > $no_rooms_available){
+
+        //  return response()->json(['success'=>'true','message'=>'Not Aavailable']);
+        return  ['number'=>$no_rooms_available, 'success'=>'false'];
+
         // foreach($room_availabilty as $f){
     //   $ava_no =  $this->checkRoomInDate($request->room_id, $f->from);
     //   if($ava_no < $request->number){
     //     return response()->json(['success'=>'true','message'=>'Not Aavailable in  '. \Carbon\Carbon::parse($f->from)->format('d-m-Y')]);
-    //       break; 
+    //       break;
     // //   }else{
     // //     echo $f->from .'--->'.$ava_no .'<br>';
     //   }
-       
+
     // }
-     
-    
+
+
 }else{
+
     // return response()->json(['success'=>'true','message'=>'Aavailable '. $no_rooms_available]);
-    return $no_rooms_available;
+    return  ['number'=>$no_rooms_available, 'success'=>'true'];
 }
-} 
+}
 
 
 }
