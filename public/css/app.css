@@ -12256,3 +12256,14 @@ select {
   border: 1px solid #ccc;
 }
 
+input[disabled] {
+  background-color: #ccc;
+}
+
+.hotel-rooms img {
+  height: 150px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+

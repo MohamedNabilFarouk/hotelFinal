@@ -47,45 +47,69 @@
 
                             <div class="tab-content m-0 products-category" id="rooms">
                                 <h3>Rooms</h3>
-                                <div v-if="hotel.rooms" class="section-style4 products-list row number-col-3 so-filter-gird list">
+                                <div v-if="hotel.rooms">
+                                    <div v-for="room in hotel.rooms" class="hotel-rooms shadow mb-3 rounded border pr-1">
+                                        <div class="row justify-content-between align-items-center">
+                                            <div class="col-md-4 col-4">
+                                                <img :src="room.image" :alt="room.title_api" class="img-responsive">
+                                            </div>
 
-                                    <div v-for="room in hotel.rooms" class="product-layout col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="product-item-container item">
-                                            <div class="item-block so-quickview">
-                                                <div class="image">
-                                                    <img :src="room.image" :alt="room.title_api" class="img-responsive">
+                                            <div class="col-md-5 col-4">
+                                                <h3>{{room.title_api}}</h3>
+
+                                                <ul class="d-inline-flex">
+                                                    <li title="size"><i aria-hidden="true" class="fa fa-arrows-alt"></i> {{room.size}} m<sup>2</sup></li>
+                                                    <li title="bed"><i aria-hidden="true" class="fa fa-bed"></i> {{room.bed}}</li>
+                                                    <li title="adult"><i aria-hidden="true" class="fa fa-user"></i> {{room.adult}}</li>
+                                                    <li title="child"><i aria-hidden="true" class="fa fa-child"></i> {{room.child}}</li>
+                                                    <li title="bathroom"><i aria-hidden="true" class="fa fa-bath"></i> {{room.bathroom}}</li>
+                                                </ul>
+                                                <div class="des">{{room.content_api}}</div>
+                                            </div>
+
+                                            <div class="col-md-3 col-4 text-center">
+                                                <div class="price">
+                                                    <h4>price</h4>
+                                                    <label>{{room.price}}/Night</label>
+                                                    <span>{{room.adult}} adult | {{room.child}} child</span>
                                                 </div>
-                                                <div class="item-content clearfix">
-                                                    <h3>{{room.title_api}}</h3>
 
-                                                    <ul>
-                                                        <li title="size"><i aria-hidden="true" class="fa fa-arrows-alt"></i> {{room.size}} m<sup>2</sup></li>
-                                                        <li title="bed"><i aria-hidden="true" class="fa fa-bed"></i> {{room.bed}}</li>
-                                                        <li title="adult"><i aria-hidden="true" class="fa fa-user"></i> {{room.adult}}</li>
-                                                        <li title="child"><i aria-hidden="true" class="fa fa-child"></i> {{room.child}}</li>
-                                                        <li title="bathroom"><i aria-hidden="true" class="fa fa-bath"></i> {{room.bathroom}}</li>
-                                                    </ul>
+                                                <form v-if="!bookingHotelForm.rooms.some(r => r.id === room.id)"
+                                                      @submit.prevent="addRoomToBookingHotelForm(room)">
 
-                                                    <div class="des">{{room.content_api}}</div>
+                                                    <span v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))"
+                                                          class="text-danger">
+                                                        Please select date From and date to From Checkin
+                                                    </span>
 
-                                                    <div class="item-bot text-center clearfix">
-                                                        <div class="price">
-                                                            Rooms ({{room.availability}})<br>
-                                                            price
-                                                            <label>{{room.price}}</label>
-                                                            <span>{{room.adult}} adult | {{room.child}} child</span>
+                                                    <span v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')"
+                                                          class="text-danger">
+                                                        this room only available: {{checkAvailabilityForm.errors.get('number')}}.
+                                                    </span>
+                                                    <span v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('diffDate')"
+                                                          class="text-danger">
+                                                        dirty date
+                                                    </span>
+
+
+                                                    <div class="input-group">
+                                                        <input
+                                                            @change="changeRoomNumber($event)"
+                                                            value="1"
+                                                            style="height: 31px;"
+                                                            min="1" type="number"
+                                                            class="form-control" placeholder="Room number">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-primary" type="submit">
+                                                                <i class="fa fa-plus-circle"></i>
+                                                                checkin
+                                                            </button>
                                                         </div>
-                                                        <button v-if="room.availability > 0"
-                                                            @click="addRoomToBookingHotelForm(room)"
-                                                                class="book-now btn-quickview quickview quickview_handler" >
-                                                            Add To checkin
-                                                        </button>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -157,7 +181,7 @@
                     <span id="close-sidebar" class="fa fa-times"></span>
                     <div class="module-search2 clearfix">
                         <h3 class="modtitle">Checkin</h3>
-                        <form @submit.prevent="showModal()" class="search-pr">
+                        <form @submit.prevent="showCheckinModal()" class="search-pr">
 
                             <div class="form-group">
                                 <label>date from
@@ -288,13 +312,18 @@
                                                             :class="{
                                                                 'is-invalid': bookingHotelForm.errors.has('adult')
                                                             }"
-                                                            type="number"
-                                                            v-model="room.price * room.number" placeholder="total" />
+                                                            type="text"
+                                                            v-model="room.price + '/Night'" placeholder="total" />
                                                     </label>
                                                     <span class="text-danger"
                                                           v-if="bookingHotelForm.errors.has('adult')"
                                                           v-html="bookingHotelForm.errors.get('adult')">
                                                     </span>
+                                                </div>
+
+                                                <div class="col-12 d-flex justify-content-between">
+                                                    <strong>Days: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</strong>
+                                                    <strong>price: {{room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number}}$</strong>
                                                 </div>
                                             </div>
                                         </div>
@@ -308,7 +337,9 @@
                             </div>
 
                             <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0">
-                                <h4>Total: {{total_price}}</h4>
+                                <h4>Rooms: {{total_rooms}}</h4>
+                                <h4>Days: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</h4>
+                                <h4>Total: {{total_price}}$</h4>
                                 <hr />
                             </div>
 
@@ -365,149 +396,7 @@
             </div>
         </div>
         <!-- //Main Container -->
-
-        <!-- booking modal  -->
-        <modal :scrollable="true" width="90%" height="auto" name="bookingModal">
-            <div class="tt_popup_modal">
-                <i @click="closeModal()" class="fa fa-times-circle close-modal"></i>
-                <strong>
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                    Checkin Now
-                </strong>
-            </div>
-
-            <form @submit.prevent="" class="row">
-
-                <div class="col-md-3 col-6">
-                    <div class="form-group">
-                        <label>first name
-                            <input
-                                :class="{
-                                    'is-invalid': checkinForm.errors.has('first_name')
-                                }"
-                                v-model="checkinForm.first_name"
-                                type="text" placeholder="first name" />
-                        </label>
-                        <span class="text-danger"
-                          v-if="checkinForm.errors.has('first_name')"
-                          v-html="checkinForm.errors.get('first_name')">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="form-group">
-                        <label>last name
-                            <input
-                                :class="{
-                                    'is-invalid': checkinForm.errors.has('last_name')
-                                }"
-                                v-model="checkinForm.last_name"
-                                type="text" placeholder="last name" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="checkinForm.errors.has('last_name')"
-                              v-html="checkinForm.errors.get('last_name')">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="form-group">
-                        <label>email
-                            <input
-                                :class="{
-                                    'is-invalid': checkinForm.errors.has('email')
-                                }"
-                                v-model="checkinForm.email"
-                                type="email" placeholder="email" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="checkinForm.errors.has('email')"
-                              v-html="checkinForm.errors.get('email')">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="form-group">
-                        <label>phone
-                            <input
-                                :class="{
-                                    'is-invalid': checkinForm.errors.has('phone')
-                                }"
-                                v-model="checkinForm.phone"
-                                type="text" placeholder="phone" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="checkinForm.errors.has('phone')"
-                              v-html="checkinForm.errors.get('phone')">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="form-group">
-                        <label>country
-                            <input
-                                :class="{
-                                    'is-invalid': checkinForm.errors.has('country')
-                                }"
-                                v-model="checkinForm.country"
-                                type="text" placeholder="country" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="checkinForm.errors.has('country')"
-                              v-html="checkinForm.errors.get('country')">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="form-group">
-                        <label>city
-                            <input
-                                :class="{
-                                    'is-invalid': checkinForm.errors.has('city')
-                                }"
-                                v-model="checkinForm.city"
-                                type="text" placeholder="city" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="checkinForm.errors.has('city')"
-                              v-html="checkinForm.errors.get('city')">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label>notes
-                            <textarea
-                                rows="5"
-                                :class="{
-                                    'is-invalid': checkinForm.errors.has('notes')
-                                }"
-                                v-model="checkinForm.notes"
-                                placeholder="notes" ></textarea>
-                        </label>
-                        <span class="text-danger"
-                              v-if="checkinForm.errors.has('notes')"
-                              v-html="checkinForm.errors.get('notes')">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="text-center col-12">
-                    <button type="submit" class="btn btn-primary">
-                        Done
-                        <span v-if="checkinForm.busy" class="spinner-border spinner-border-sm"></span>
-                        <i v-if="!checkinForm.busy" aria-hidden="true" class="fa fa-check"></i>
-                    </button>
-                </div>
-            </form>
-        </modal>
-        <!-- end booking modal-->
+        <CheckinModal :bookingHotelForm="bookingHotelForm" />
     </div>
 </template>
 <script>
@@ -515,17 +404,16 @@ import starRating from "vue-star-rating";
 import Gallery from "../Layouts/Gallery";
 import Form from "vform";
 import { mapGetters } from 'vuex';
-
+import CheckinModal from "./CheckinModal";
 export default {
     name: 'SingleHotel',
     components:{
-        starRating, Gallery
+        starRating, Gallery, CheckinModal
     },
     computed: {
-        ...mapGetters([
-            'searchHotels'
-        ]),
-        total_price(){return this.bookingHotelForm.rooms.reduce( (Sum, room) => parseFloat(room.price * room.number) + parseFloat(Sum),0);},
+        ...mapGetters(['searchHotels']),
+        total_price(){return this.bookingHotelForm.rooms.reduce( (Sum, room) => parseFloat(room.price * room.number * this.diffDate(this.bookingHotelForm.date_from, this.bookingHotelForm.date_to)) + parseFloat(Sum),0);},
+        total_rooms(){return this.bookingHotelForm.rooms.reduce( (Sum, room) => parseFloat(room.number) + parseFloat(Sum),0);},
     },
     data(){
         return{
@@ -541,28 +429,22 @@ export default {
                 children: 0,
                 rooms: []
             }),
-            checkinForm: new Form({
-                first_name: "",
-                last_name: "",
-                email: "",
-                phone: "",
-                country: "",
-                city: "",
-                notes: ""
+            checkAvailabilityForm: new Form({
+                from: '',
+                to: '',
+                number: 1,
+                room_id: '',
             })
         }
     },
     mounted() {
         this.getHotel();
-        this.getCities();
+        // this.getCities();
         this.fillBookingHotelForm(this.searchHotels);
     },
     methods: {
-        showModal(){
+        showCheckinModal(){
             this.$modal.show('bookingModal');
-        },
-        closeModal(){
-            this.$modal.hide('bookingModal');
         },
         getCities(){
             axios.get('cities')
@@ -588,23 +470,44 @@ export default {
             }
         },
         addRoomToBookingHotelForm(room){
-            if (room.availability > 0){
-                this.bookingHotelForm.rooms.push({
-                    id: room.id,
-                    price: room.price,
-                    adult: room.adult <= this.bookingHotelForm.adult ? room.adult : this.bookingHotelForm.adult,
-                    maxAdult: room.adult,
-                    child: room.child <= this.bookingHotelForm.child ? room.child : this.bookingHotelForm.child,
-                    maxChild: room.child,
-                    number: 1,
-                    maxNumber: room.availability,
-                    title_api: room.title_api
-                });
-            }
+            this.checkAvailabilityForm.room_id = room.id;
+            this.checkAvailabilityForm.from = this.bookingHotelForm.date_from;
+            this.checkAvailabilityForm.to = this.bookingHotelForm.date_to;
+
+            return this.diffDate(this.bookingHotelForm.date_from, this.bookingHotelForm.date_to) < 1 ? this.checkAvailabilityForm.errors.set({diffDate: 'dirty date'}) :
+
+            this.checkAvailabilityForm.get('checkAvailability').then((res)=>{
+                if (res.data.success === 'true') {
+                    this.bookingHotelForm.rooms.push({
+                        id: room.id,
+                        price: room.price,
+                        adult: room.adult <= this.bookingHotelForm.adult ? room.adult : this.bookingHotelForm.adult,
+                        maxAdult: room.adult,
+                        child: room.child <= this.bookingHotelForm.child ? room.child : this.bookingHotelForm.child,
+                        maxChild: room.child,
+                        number: this.checkAvailabilityForm.number,
+                        maxNumber: res.data.number,
+                        title_api: room.title_api
+                    });
+                } else {
+                    this.checkAvailabilityForm.errors.set(res.data.data ? res.data.data : res.data);
+                }
+
+            }).catch()
+
+
         },
         removeRoomFromBookingHotelForm(index){
             this.bookingHotelForm.rooms.splice(index, 1);
         },
+        changeRoomNumber(event){
+            this.checkAvailabilityForm.number = event.target.value;
+        },
+        diffDate(date1, date2){
+            const a = moment(date1);
+            const b = moment(date2);
+            return b.diff(a, 'days');
+        }
     }
 }
 </script>
