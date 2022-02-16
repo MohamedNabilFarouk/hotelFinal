@@ -6,7 +6,8 @@ import store from "./store";
 import axios from "axios";
 import i18n from "./i18n";
 import vSelect from "vue-select";
-import VModal from 'vue-js-modal'
+import VModal from 'vue-js-modal';
+import moment from 'moment';
 
 Vue.component('VuePhoneNumberInput', require('vue-phone-number-input'));
 
@@ -20,6 +21,13 @@ const lang = localStorage.getItem("lang") || "en";
 axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.common["lang"] = lang;
 Vue.config.productionTip = false;
+
+Vue.filter('date', function(date){
+    return moment(date).format('YYYY-MMM-Do dddd, h:mm a');
+    // const a = moment(date1);
+    // const b = moment(date2);x
+    // return a.diff(b, 'days');
+});
 
 let routes = [
     { path: '/', component: require("./components/Home.vue").default, name: "Home", meta: {auth: false} },

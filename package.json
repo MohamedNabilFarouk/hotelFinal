@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "laravel-vue-pagination": "^2.3.1",
+        "moment": "^2.29.1",
         "vform": "^2.1.2",
         "vue-i18n": "^8.27.0",
         "vue-js-modal": "^2.0.1",

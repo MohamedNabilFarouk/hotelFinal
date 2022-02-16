@@ -613,3 +613,11 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
     background-color: #fff;
     border: 1px solid #ccc;
 }
+input[disabled]{
+    background-color: #ccc;
+}
+.hotel-rooms img {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+}

@@ -9,8 +9,9 @@ use App\Room;
 use DB;
 use DateTime;
 use Validator;
+use function MongoDB\BSON\toJSON;
 
-class BookingController extends Controller
+class BookingControllerOld extends Controller
 {
 
 // public function booking(Request $request){
@@ -76,7 +77,7 @@ public function booking(Request $request){
            'name' => 'required|string|max:100',
            'phone' => 'string',
            'email' => 'string|required|email',
-           'type' => 'string|required',
+           'type' => 'string|required', // hotel || tour
            'from' => 'date|required',
            'to' => 'date|required',
            'adult' => 'string|required',
@@ -86,76 +87,51 @@ public function booking(Request $request){
         //    'room_id'=>'required',
         //    'number'=>'numeric|required',
        ]);
+
        if ($validator->fails()) {
+            return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
+       }
 
-        return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
+
+       if($request->partial_payment == 1){ // partial_payment 1 ==  deposit [else 0] paid total
+            $request->paid = $request->deposit;
+       }else{
+            $request->paid = $request->total;
+       }
+
+
+       $data = $request->all();
+
+
+    if($request->type == 'hotel'){
+
+
+    $result= $this->checkAvailability($request);
+
+    if($result['success'] == 'false'){
+       return response()->json(['success'=>'false','message'=>'Not Aavailable']);
     }
 
-
-       if($request->partial_payment == 1){
-        $request->paid = $request->deposit;
-    }else{
-      $request->paid = $request->total;
-    }
-    // dd($request);
-
-
-        //  $data = $request->all();
-
-    //    $data =  ['name' => $request->name,
-    //             'phone' => $request->phone,
-    //             'email' => $request->email,
-    //             'type' => $request->type,
-    //             'adult' => $request->adult,
-    //             'child' => $request->child,
-    //             'total' =>   $request->total,
-    //             'deposit' => $request->deposit,
-    //             'from'=> $request->from,
-    //             'to'=>$request->to,
-// ];
-
-if($request->type == 'hotel'){
     DB::beginTransaction();
-// dd($data);
-    $booking= Booking::create($request->except('rooms'));
+    $booking= Booking::create($data);
 
-    foreach($request->rooms as $r){
-        //   dd($r['number']);
-        $request['room_id'] =  $r['room_id'];
-        $request['number'] = $r['number'];
+    $hotel_room = Room::find($request->room_id);
+    if(isset($booking)){
+        HotelBooking::create([
+            'room_id'        =>$request['room_id'],
+            'booking_id'               =>$booking->id,
+            'from'               => $request['from'],
+            'to'                 => $request['to'],
+             'remain_no'                  => ($hotel_room->number) - $request['number'],
+            'number'                  => $request['number'],
 
-        $result = $this->checkAvailability($request);
-        if($result['success'] == 'false'){
-            return response()->json(['success'=>'false','message'=>'Not Aavailable']);
-         }
+        ]);
 
-
-        $hotel_room = Room::find($r['room_id']);
-        if(isset($booking)){
-
-            // dd($r);
-            HotelBooking::create([
-                'room_id'        =>$r['room_id'],
-                'booking_id'               =>$booking->id,
-                'from'               => $request['from'],
-                'to'                 => $request['to'],
-                'remain_no'                  => ($hotel_room->number) - $r['number'],
-                'number'                  => $r['number'],
-
-            ]);
-
-        }
-        DB::commit();
     }
-
-
-
-
-
-
+    DB::commit();
 }else{
 
-    $booking= Booking::create($request);
+    $booking= Booking::create($data);
 
 }
 
@@ -180,8 +156,6 @@ public function checkRoomInDate($room,$date){
 
 public function checkAvailability(Request $request){
 
-    // dd($request);
-
     $validator = Validator::make($request->all(), [
         'from' => 'required|string|max:100',
         'number' => 'required|required',
@@ -193,20 +167,25 @@ public function checkAvailability(Request $request){
         return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
     }
 
-    // $room_availabilty = HotelBooking::where([['room_id',$request->room_id]])->whereBetween('from', [$request->from, $request->to])->get();
-    $no_rooms_booked = HotelBooking::where([['room_id',$request['room_id']]])->whereBetween('from', [$request['from'], $request['to']])
-                                                                      ->orWhereBetween('to', [$request['from'], $request['from']])->sum('number');
+    $data = $request -> validate([
+        'from' => 'required|string|max:100',
+        'number' => 'required|required',
+        'to' => 'required|string',
+        'room_id' => 'required|string',
+    ]);
 
+    // $room_availabilty = HotelBooking::where([['room_id',$request->room_id]])->whereBetween('from', [$request->from, $request->to])->get();
+    $no_rooms_booked = HotelBooking::where([['room_id',$request->room_id]])
+        ->whereBetween('from', [$request->from, $request->to])
+        ->orWhereBetween('to', [$request->from, $request->to])->sum('number');
 
 // dd($no_rooms_booked);
 
-    $hotel_room = Room::find($request['room_id']);
-
-    $no_rooms_available = ($hotel_room->number)-$no_rooms_booked;
+    $hotel_room = Room::find($request->room_id);
+    $no_rooms_available = ($hotel_room->number) - $no_rooms_booked;
         // dd($no_rooms_available);
-    if($request['number'] > $no_rooms_available){
-
-        //  return response()->json(['success'=>'true','message'=>'Not Aavailable']);
+    if($request->number > $no_rooms_available){
+//         return response()->json(['success'=>'false','number'=>$no_rooms_available]);
         return  ['number'=>$no_rooms_available, 'success'=>'false'];
 
         // foreach($room_availabilty as $f){
@@ -222,9 +201,8 @@ public function checkAvailability(Request $request){
 
 
 }else{
-
-    // return response()->json(['success'=>'true','message'=>'Aavailable '. $no_rooms_available]);
-    return  ['number'=>$no_rooms_available, 'success'=>'true'];
+//     return response()->json(['success'=>'true', 'number'=> $no_rooms_available]);
+        return  ['number'=>$no_rooms_available, 'success'=>'true'];
 }
 }
 
