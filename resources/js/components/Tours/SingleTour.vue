@@ -9,10 +9,7 @@
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
                     <a href="javascript:void(0)" class="open-sidebar hidden-lg hidden-md"><i class="fa fa-bars"></i>Sidebar</a>
                     <div class="detail-content">
-                        <div class="view-top">
-                            <a href="#"><i class="fa fa-camera-retro" aria-hidden="true"></i>View photo</a>
-                            <a href="#"><i class="fa fa-play" aria-hidden="true"></i>View preview</a>
-                        </div>
+
                         <div class="sticky-content">
                             <h1>{{tour.title_api}}</h1>
                             <ul class="box-meta">
@@ -23,56 +20,57 @@
                                         :show-rating="false"
                                         :read-only="true"></starRating>
                                 </li>
-                                <li><i class="fa fa-clock-o" aria-hidden="true"></i>3 day 2 nights</li>
-                                <li><i class="fa fa-male" aria-hidden="true"></i><a href="#">Holiday</a>, <a href="#">Adventure</a></li>
-                                <li><i class="fa fa-users" aria-hidden="true"></i>16 persion</li>
                             </ul>
                             <div class="top-tab" id="nav">
                                 <ul class="nav nav-tabs">
-                                    <li><a href="#home">Overview</a></li>
-                                    <li><a href="#menu1">Tour Plans</a></li>
-                                    <li><a href="#menu2">Map</a></li>
-                                    <li><a href="#menu3">Amenities</a></li>
-                                    <li><a href="#menu4">Review</a></li>
+                                    <li><a href="#gallery">gallery</a></li>
+                                    <li><a href="#tour_content">content</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="content-tabs">
-                            <div class="tab-content">
+                            <div class="tab-content m-0" id="gallery">
+                                <h3>Gallery</h3>
                                 <Gallery v-if="tour.gallery && tour.gallery.length > 0" :images="tour.gallery" />
-                                <p id="home">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </div>
+
+                            <div class="tab-content m-0" id="tour_content">
+                                <h3>Content</h3>
+                                {{tour.content_api}}
+                            </div>
+
+
+                            <div class="tab-content">
+                                <p id="home">
+                                </p>
                                 <ul class="location-wee clearfix">
                                     <li>
-                                        <label>Location</label>
-                                        <div class="item">Turoa, Ruapehu, <a href="#">New Zealand</a></div>
+                                        <label>address</label>
+                                        <div class="item">{{tour.address_api}}</div>
                                     </li>
                                     <li>
-                                        <label>Wearing</label>
-                                        <div class="item">Comfortable athletic clothing, hiking boots, hat, jacket and sunscreen</div>
+                                        <label>min people</label>
+                                        <div class="item">{{tour.min_people}} person</div>
                                     </li>
                                     <li>
-                                        <label>Departure Time</label>
-                                        <div class="item">3 Hours Before Flight Time</div>
+                                        <label>max people</label>
+                                        <div class="item">{{tour.max_people}} person</div>
                                     </li>
                                     <li>
-                                        <label>Return Time</label>
-                                        <div class="item">Approximately 08:00 PM</div>
+                                        <label>min day befor booking</label>
+                                        <div class="item">{{tour.min_day_befor_booking}} day</div>
                                     </li>
                                     <li>
-                                        <label>Price Included</label>
+                                        <label>Prices</label>
                                         <div class="item">
-                                            <div class="info"><i class="fa fa-check" aria-hidden="true"></i>Air fares</div>
-                                            <div class="info"><i class="fa fa-check" aria-hidden="true"></i>All transportation in destination location</div>
-                                            <div class="info"><i class="fa fa-check" aria-hidden="true"></i>2 Nights tour Aaccomodation</div>
-                                            <div class="info"><i class="fa fa-check" aria-hidden="true"></i>Tour guide</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <label>Price Excludes</label>
-                                        <div class="item">
-                                            <div class="info2"><i class="fa fa-times" aria-hidden="true"></i>Any private expenses</div>
-                                            <div class="info2"><i class="fa fa-times" aria-hidden="true"></i>Room service fees</div>
-                                            <div class="info2"><i class="fa fa-times" aria-hidden="true"></i>Souvenir</div>
+                                            <div class="info">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                {{ tour.price ? tour.price.price : "" }}/person
+                                            </div>
+                                            <div class="info">
+                                                <i class="fa fa-child" aria-hidden="true"></i>
+                                                {{ tour.price ? tour.price.ch_price : "" }}/child
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
@@ -176,38 +174,164 @@
                         </div>
                     </div>
                 </div>
+
                 <aside class="col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas">
                     <span id="close-sidebar" class="fa fa-times"></span>
                     <div class="module-search2 clearfix">
-                        <h3 class="modtitle"><label>$267.00</label><span>person</span></h3>
-                        <form method="get" class="search-pr">
-                            <div class="search-item date">
-                                <input type="text" class="tour-search-input datepicker hasDatepicker" id="date_from" placeholder="10/07/2019">
+                        <h3 class="modtitle">
+                            <label>{{ tour.price ? tour.price.price : "" }}</label><span>person</span>
+                            <label>{{ tour.price ? tour.price.ch_price : "" }}</label><span>child</span>
+                        </h3>
+
+                        <form @submit.prevent="" class="search-pr">
+
+                            <div class="form-group">
+                                <label>date from
+                                    <input
+                                        :class="{
+                                        'is-invalid': bookingHotelForm.errors.has('date_from')
+                                    }"
+                                        v-model="bookingHotelForm.date_from"
+                                        type="date" placeholder="date from" />
+                                </label>
+                                <span class="text-danger"
+                                      v-if="bookingHotelForm.errors.has('date_from')"
+                                      v-html="bookingHotelForm.errors.get('date_from')">
+                                </span>
                             </div>
-                            <div class="item-avai">Ticket Available: <span>4</span></div>
-                            <div class="search-item item-select">
-                                <select name="adult">
-                                    <option value="1">Adult</option>
-                                    <option value="2">2 people</option>
-                                    <option value="3">3 people</option>
-                                    <option value="4">4 people</option>
-                                </select>
+
+                            <div class="form-group">
+                                <label>date to
+                                    <input
+                                        :class="{
+                                        'is-invalid': bookingHotelForm.errors.has('date_to')
+                                    }"
+                                        v-model="bookingHotelForm.date_to" type="date" placeholder="date to" />
+                                </label>
+                                <span class="text-danger"
+                                      v-if="bookingHotelForm.errors.has('date_to')"
+                                      v-html="bookingHotelForm.errors.get('date_to')">
+                                </span>
                             </div>
-                            <div class="search-item item-select">
-                                <select name="children">
-                                    <option value="1">Children < 12 (-50%)</option>
-                                    <option value="2">Children < 10 (-70%)</option>
-                                    <option value="3">Children < 5 (-100%)</option>
-                                </select>
+
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <label>adults
+                                            <input
+                                                :class="{
+                                                'is-invalid': bookingHotelForm.errors.has('adult')
+                                            }"
+                                                type="number" v-model="bookingHotelForm.adult" placeholder="adults" />
+                                        </label>
+                                        <span class="text-danger"
+                                              v-if="bookingHotelForm.errors.has('adult')"
+                                              v-html="bookingHotelForm.errors.get('adult')">
+                                     </span>
+                                    </div>
+
+                                    <div class="mx-2"></div>
+
+                                    <div>
+                                        <label>children
+                                            <input
+                                                :class="{
+                                            'is-invalid': bookingHotelForm.errors.has('children')
+                                            }"
+                                                min="0" type="number" v-model="bookingHotelForm.children" placeholder="children" />
+                                        </label>
+                                        <span class="text-danger"
+                                              v-if="bookingHotelForm.errors.has('children')"
+                                              v-html="bookingHotelForm.errors.get('children')">
+                                    </span>
+                                    </div>
+                                </div>
                             </div>
-                            <ul>
-                                <li><span>Tax (+10%):</span><label>$26.00</label></li>
-                                <li><span>Discount (0%):</span><label>$0.00</label></li>
-                            </ul>
-                            <div class="button-submit">
-                                <button type="submit" class="button">book now</button>
+
+                            <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length === 0">
+                                <h4>Choose Rooms To checkin</h4>
+                            </div>
+
+                            <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0" class="form-group">
+                                <h4>Rooms</h4>
+
+                                <div
+                                    v-for="(room, index) in bookingHotelForm.rooms"
+                                    :class="index === 0 ? 'border-top': ''"
+                                    class="media mb-3 border-bottom align-items-center justify-content-between">
+                                    <div class="media-body">
+                                        <div class="media-heading">
+                                            <h4 class="mt-2 text-center">{{room.title_api}}</h4>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row justify-content-between align-items-center">
+                                                <div class="col-6">
+                                                    <strong>Adults: {{room.adult}}</strong>
+                                                </div>
+                                                <div class="col-6">
+                                                    <strong>Children: {{room.child}}</strong>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>number
+                                                        <input
+                                                            :class="{
+                                                                'is-invalid': bookingHotelForm.errors.has('adult')
+                                                            }"
+                                                            type="number" min="1" :max="room.maxNumber" v-model="room.number" placeholder="number" />
+                                                    </label>
+                                                    <span class="text-danger"
+                                                          v-if="bookingHotelForm.errors.has('adult')"
+                                                          v-html="bookingHotelForm.errors.get('adult')">
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <label>price
+                                                        <input
+                                                            disabled
+                                                            :class="{
+                                                                'is-invalid': bookingHotelForm.errors.has('adult')
+                                                            }"
+                                                            type="text"
+                                                            v-model="room.price + '/Night'" placeholder="total" />
+                                                    </label>
+                                                    <span class="text-danger"
+                                                          v-if="bookingHotelForm.errors.has('adult')"
+                                                          v-html="bookingHotelForm.errors.get('adult')">
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-12 d-flex justify-content-between">
+                                                    <strong>Days: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</strong>
+                                                    <strong>price: {{room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number}}$</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="media-right">
+                                        <button type="button" @click="removeRoomFromBookingHotelForm(index)" class="btn btn-sm btn-danger">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0">
+                                <h4>Rooms: {{total_rooms}}</h4>
+                                <h4>Days: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</h4>
+                                <h4>Total: {{total_price}}$</h4>
+                                <hr />
+                            </div>
+
+                            <div class="text-center" v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0">
+                                <button type="submit" class="btn btn-primary">
+                                    book now
+                                    <span v-if="bookingHotelForm.busy" class="spinner-border spinner-border-sm"></span>
+                                    <i v-if="!bookingHotelForm.busy" aria-hidden="true" class="fa fa-check"></i>
+                                </button>
                             </div>
                         </form>
+
                     </div>
                     <div class="module-why clearfix">
                         <h3>Why should travel with us?</h3>
@@ -256,6 +380,8 @@
 <script>
 import starRating from "vue-star-rating";
 import Gallery from "../Layouts/Gallery";
+import Form from "vform";
+
 export default {
     name: 'SingleTour',
     props: {
@@ -267,7 +393,35 @@ export default {
     data(){
         return{
             id: this.$route.params.id,
-            tour: {}
+            tour: {},
+            bookingTourForm: new Form({
+                name: "",
+                email: "",
+                phone: "",
+                e164Phone: "",
+                country: "",
+                vendor_id: "",
+                type: "tour", // hotel , tour
+                tour: {},
+                customer_id: "", //from auth
+                object_id: this.$route.params.id, // hotel id
+                from: "", // date from
+                to: "", // date to
+                adult: "",
+                child: "",
+                total: "", // price * no. of rooms*nights if hotel // if tour person no * person price
+                deposit: 0, // دفع جزئي (x%) (total*x/100)
+                note: "",
+                is_paid: 0,
+                partial_payment: 0, //
+                paid: "",
+                city: '',
+                sCity: '',
+                date_from: '',
+                date_to: '',
+                children: 0,
+            }),
+
         }
     },
     mounted() {

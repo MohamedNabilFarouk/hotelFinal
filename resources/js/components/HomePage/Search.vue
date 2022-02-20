@@ -123,32 +123,50 @@
                 </div>
             </form>
 
-            <form v-if="tourSearch" @submit.prevent="" class="row py-3 shadow-lg justify-content-between align-items-center">
+            <form v-if="tourSearch" @submit.prevent="searchTour()" class="row py-3 shadow-lg justify-content-between align-items-center">
 
                 <div class="col-lg-4 col-md-4 col-6">
                     <div class="form-group location-input">
                         <label>Destinations
                             <v-select
+                                v-model="searchToursForm.sCity"
+                                :class="{
+                                    'is-invalid': searchToursForm.errors.has('city')
+                                }"
                                 autocomplete="on"
                                 placeholder="City, region or anywhere"
                                 :get-option-label="(option) => option.name"
                                 :options="cities"></v-select>
                         </label>
+                        <span class="text-danger"
+                              v-if="searchToursForm.errors.has('city')"
+                              v-html="searchToursForm.errors.get('city')">
+                        </span>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-6">
                     <div class="form-group">
                         <label>date
-                            <input type="date" placeholder="date" />
+                            <input
+                                :class="{
+                                    'is-invalid': searchToursForm.errors.has('date')
+                                }"
+                                v-model="searchToursForm.date"
+                                type="date" placeholder="date" />
                         </label>
+                        <span class="text-danger"
+                              v-if="searchToursForm.errors.has('date')"
+                              v-html="searchToursForm.errors.get('date')">
+                        </span>
                     </div>
                 </div>
 
                 <div class="col-lg-4 text-center col-md-12 col-12">
                     <button type="submit" class="btn button btn-primary">
                         search
-                        <i aria-hidden="true" class="fa fa-angle-right"></i>
+                        <span v-if="searchToursForm.busy" class="spinner-border spinner-border-sm"></span>
+                        <i v-if="!searchToursForm.busy" aria-hidden="true" class="fa fa-search"></i>
                     </button>
                 </div>
             </form>
@@ -174,17 +192,23 @@ name: 'Search',
                 date_to: '',
                 adult: 2,
                 children: 0
+            }),
+            searchToursForm: new Form({
+                city: '',
+                sCity: '',
+                date: ''
             })
         }
     },
     computed: {
         ...mapGetters([
-            'searchHotels'
+            'searchHotels', 'searchTours'
         ])
     },
     mounted(){
         this.getCities();
         this.searchHotelsForm.fill(this.searchHotels ? this.searchHotels : '');
+        this.searchToursForm.fill(this.searchTours ? this.searchTours : '');
     },
     methods: {
         getCities(){
@@ -221,6 +245,25 @@ name: 'Search',
                         this.searchHotelsForm.errors.set(res.data.data);
                     }
                 }).catch(()=>{});
+        },
+        searchTour(){
+            this.searchToursForm.city =  this.searchToursForm.sCity ? this.searchToursForm.sCity.id : '';
+            this.searchToursForm.get("searchTour").then((res)=>{
+                if (res.data.success === 'true'){
+                    this.$store.dispatch('searchTours', this.searchToursForm);
+                    this.$router.push({
+                        name: 'Tours',
+                        params:{
+                            search: true,
+                            tours: res.data.data.tours,
+                            formData: this.searchToursForm
+                        },
+                    }).catch(()=>{});
+
+                }else{
+                    this.searchToursForm.errors.set(res.data.data);
+                }
+            }).catch(()=>{});
         }
     }
 }

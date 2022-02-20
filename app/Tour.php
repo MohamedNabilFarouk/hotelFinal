@@ -82,6 +82,11 @@ class Tour extends Model
         return $this->gallery[0] ? $this->gallery[0]->image : "";
     } // end of get image attribute
 
+    public function getPriceAttribute()
+    {
+        return isset($this->prices[0]) ? $this->prices[0] : "";
+    } // end of get image attribute
+
     public function vendor(){
         return $this->belongsTo(User::class,'vendor_id','id');
     }
@@ -89,9 +94,11 @@ class Tour extends Model
     public function country(){
         return $this->belongsTo(Country::class,'country_id','id');
     }
+
     public function gallery(){
         return $this->hasMany(TourGallery::class,'tour_id','id');
     }
+
     public function prices(){
         return $this->hasMany(TourPrices::class,'tour_id','id');
     }
