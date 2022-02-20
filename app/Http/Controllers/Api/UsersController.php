@@ -162,16 +162,15 @@ class UsersController extends Controller
 
             public function login(Request $request){
                 $validator = Validator::make($request->all(), [
-
-                    'email' => ['required'],
-
-                    'password' => ['required'],
-
+                    'email' => 'required|email|exists:users,email',
+                    'password' => 'required|string',
                 ]);
+
                 if ($validator->fails()) {
 
                     return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
                 }
+
                 //User check
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
                 $user = Auth::user();
@@ -180,6 +179,9 @@ class UsersController extends Controller
                 $success['id'] =  $user->id;
                 $success['name'] =  $user->name;
                 $success['role'] =  $user->roles[0]->name;
+                $success['email'] = $user->email;
+                $success['phone'] = $user->phone;
+                $success['country'] = $user->country;
                 return response()->json([
                     'status' => 'success',
                     'data' => $success

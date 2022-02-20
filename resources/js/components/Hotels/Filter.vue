@@ -1,6 +1,44 @@
 <template>
-    <div>
+    <aside class="col-md-3 col-sm-4 col-xs-12 content-aside left_column sidebar-offcanvas">
+        <span id="close-sidebar" class="fa fa-times"></span>
 
+        <div class="module-search clearfix">
+            <h3 class="modtitle">Hotel searching</h3>
+            <form @submit.prevent=""
+                  class="row py-3 justify-content-between align-items-center">
+
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="form-group location-input">
+                        <label>Destinations
+                            <select placeholder="City, region or anywhere">
+                                <option>City</option>
+                                <option>City</option>
+                                <option>City</option>
+                                <option>City</option>
+                                <option>City</option>
+                                <option>City</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="form-group">
+                        <label>date
+                            <input type="date" placeholder="date from" />
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12 text-center col-md-12 col-12">
+                    <button type="submit" class="btn btn-sm button btn-primary">
+                        Search
+                        <i aria-hidden="true" class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
         <div class="module-travel clearfix">
             <h3>travel style</h3>
             <ul>
@@ -51,7 +89,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </aside>
 </template>
 
 <script>

@@ -104,7 +104,8 @@ class Hotel extends Model
     }
 
     public function rooms(){
-        return $this->hasMany(Room::class,'hotel_id','id');
+        return $this->hasMany(Room::class,'hotel_id','id')
+            ->with('prices');
     }
 
 

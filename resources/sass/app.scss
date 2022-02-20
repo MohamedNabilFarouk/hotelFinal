@@ -10,7 +10,7 @@
 @import '~vue-slick-carousel/dist/vue-slick-carousel-theme.css';
 @import "~vue-select/src/scss/vue-select.scss";
 @import '~vue-phone-number-input/dist/vue-phone-number-input.css';
-
+@import '~vue-simple-range-slider/dist/vueSimpleRangeSlider.css';
 .typeheader-1 .header-bonus {
     background: #ffffff;
     border-bottom: 1px solid #dfdfdf;
@@ -620,4 +620,22 @@ input[disabled]{
     height: 150px;
     width: 100%;
     object-fit: cover;
+}
+input[type=radio], input[type=checkbox]{
+    display: inline-block;
+    width: auto;
+    margin: 0 5px;
+    float: inherit;
+}
+.module-rate ul li{
+    margin-bottom: 5px;
+}
+.module-rate ul li .vue-star-rating{
+    cursor: pointer;
+}
+.simple-range-slider-bar{
+    width: 100% !important;
+}
+body{
+    font-size: 1.2rem;
 }

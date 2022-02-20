@@ -5,7 +5,7 @@
             <div class="so-page-builder">
                 <div class="container-fluid page-builder-ltr">
                     <div class="row row_mvtd footer--center2 row-color ">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_6fdl float_none container">
+                        <div class="container">
                             <div class="row row_hwmc  ">
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col_6ps1 footer--link">
                                     <div class="footer-logo">
