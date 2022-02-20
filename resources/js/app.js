@@ -35,7 +35,7 @@ let routes = [
     { path: '/hotels', component: require("./components/Hotels.vue").default, name: "Hotels", props: true, meta: {auth: false}},
     { path: '/hotel/:id', component: require("./components/Hotels/SingleHotel.vue").default, name: "Hotel", meta: {auth: false} },
 
-    { path: '/tours', component: require("./components/Tours.vue").default, name: "Tours", meta: {auth: false} },
+    { path: '/tours', component: require("./components/Tours.vue").default, name: "Tours", props: true, meta: {auth: false} },
     { path: '/tour/:id', component: require("./components/Tours/SingleTour.vue").default, name: "Tour", meta: {auth: false} },
 ];
 
@@ -80,6 +80,11 @@ new Vue({
         if (searchHotels) {
             const formData = JSON.parse(searchHotels);
             this.$store.commit('setSearchHotelsForm', formData)
+        }
+        const searchTours = localStorage.getItem('searchTours');
+        if (searchTours) {
+            const formData = JSON.parse(searchTours);
+            this.$store.commit('setSearchToursForm', formData)
         }
         // axios.interceptors.response.use(
         //     response => response,

@@ -129,14 +129,39 @@
 
                         <div class="module-travel clearfix">
                             <h3>Price</h3>
-                            <VueSimpleRangeSlider
-                                style="width: 250px"
-                                :min="min_price"
-                                :max="max_price"
-                                :logarithmic="true"
-                                v-model="filterHotelForm.price"
-                            />
+                            <span class="text-danger"
+                                  v-if="filterHotelForm.errors.has('price')"
+                                  v-html="filterHotelForm.errors.get('price')">
+                            </span>
+                            <div class="d-flex justify-content-between">
+                                <div class="form-group mr-1">
+                                    <label>min price
+                                        <input
+                                            :class="{
+                                                'is-invalid': filterHotelForm.errors.has('price')
+                                            }"
+                                            :min="min_price"
+                                            :max="max_price"
+                                            v-model="filterHotelForm.price[0]"
+                                            type="number" placeholder="date from" />
+                                    </label>
+                                </div>
+
+                                <div class="form-group ml-1">
+                                    <label>max price
+                                        <input
+                                            :class="{
+                                                'is-invalid': filterHotelForm.errors.has('price')
+                                            }"
+                                            :min="min_price"
+                                            :max="max_price"
+                                            v-model="filterHotelForm.price[1]"
+                                            type="number" placeholder="date from" />
+                                    </label>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="module-rate clearfix">
                             <h3>star rating</h3>
                             <ul>
@@ -321,8 +346,8 @@ export default {
                 adult: 2,
                 children: 0
             }),
-            min_price: 100,
-            max_price: 5000,
+            min_price: 0,
+            max_price: 0,
             filterHotelForm: new Form({
                 price: [100, 5000],
                 star_rate: [],
@@ -332,7 +357,6 @@ export default {
             })
         }
     },
-    watch: {},
     mounted() {
         this.search ? this.fillFormData() : this.getHotels();
         this.getCities();
@@ -419,7 +443,6 @@ export default {
                 }
             }).catch(()=>{});
         },
-
     }
 }
 </script>

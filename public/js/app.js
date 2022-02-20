@@ -2378,6 +2378,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2394,13 +2412,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         date_to: '',
         adult: 2,
         children: 0
+      }),
+      searchToursForm: new vform__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        city: '',
+        sCity: '',
+        date: ''
       })
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['searchHotels'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['searchHotels', 'searchTours'])),
   mounted: function mounted() {
     this.getCities();
     this.searchHotelsForm.fill(this.searchHotels ? this.searchHotels : '');
+    this.searchToursForm.fill(this.searchTours ? this.searchTours : '');
   },
   methods: {
     getCities: function getCities() {
@@ -2437,6 +2461,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           })["catch"](function () {});
         } else {
           _this2.searchHotelsForm.errors.set(res.data.data);
+        }
+      })["catch"](function () {});
+    },
+    searchTour: function searchTour() {
+      var _this3 = this;
+
+      this.searchToursForm.city = this.searchToursForm.sCity ? this.searchToursForm.sCity.id : '';
+      this.searchToursForm.get("searchTour").then(function (res) {
+        if (res.data.success === 'true') {
+          _this3.$store.dispatch('searchTours', _this3.searchToursForm);
+
+          _this3.$router.push({
+            name: 'Tours',
+            params: {
+              search: true,
+              tours: res.data.data.tours,
+              formData: _this3.searchToursForm
+            }
+          })["catch"](function () {});
+        } else {
+          _this3.searchToursForm.errors.set(res.data.data);
         }
       })["catch"](function () {});
     }
@@ -3243,6 +3288,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3274,8 +3344,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         adult: 2,
         children: 0
       }),
-      min_price: 100,
-      max_price: 5000,
+      min_price: 0,
+      max_price: 0,
       filterHotelForm: new vform__WEBPACK_IMPORTED_MODULE_3__["default"]({
         price: [100, 5000],
         star_rate: [],
@@ -3303,7 +3373,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })
     };
   },
-  watch: {},
   mounted: function mounted() {
     var _this = this;
 
@@ -5413,6 +5482,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Hotels_Filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Hotels/Filter */ "./resources/js/components/Hotels/Filter.vue");
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-star-rating */ "./node_modules/vue-star-rating/dist/VueStarRating.common.js");
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_star_rating__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.es.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5530,11 +5607,159 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Tours',
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(['searchTours'])),
   components: {
     Breadcrumbs: _Layouts_Breadcrumbs__WEBPACK_IMPORTED_MODULE_0__["default"],
     HotelsFilter: _Hotels_Filter__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -5543,23 +5768,146 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       gridView: true,
-      tours: []
+      tours: this.$route.params.tours ? this.$route.params.tours : [],
+      search: this.$route.params.search ? this.$route.params.search : false,
+      filter: false,
+      cities: [],
+      searchToursForm: new vform__WEBPACK_IMPORTED_MODULE_4__["default"]({
+        city: '',
+        sCity: '',
+        date: ''
+      }),
+      filterToursForm: new vform__WEBPACK_IMPORTED_MODULE_4__["default"]({
+        price: [0, 5000],
+        star_rate: [],
+        stars: [{
+          star: 5,
+          selected: false
+        }, {
+          star: 4,
+          selected: false
+        }, {
+          star: 3,
+          selected: false
+        }, {
+          star: 2,
+          selected: false
+        }, {
+          star: 1,
+          selected: false
+        }, {
+          star: 0,
+          selected: false
+        }],
+        gov_id: [],
+        cities: []
+      })
     };
   },
   mounted: function mounted() {
-    this.getTours();
+    var _this = this;
+
+    this.getCities();
+    this.search ? this.fillFormData() : this.getTours();
+    this.searchToursForm.fill(this.searchTours ? this.searchTours : '');
+
+    if (this.searchToursForm.city) {
+      this.filterToursForm.gov_id.push(parseInt(this.searchToursForm.city));
+    }
+
+    axios.post('toursRoomsMinMaxPrice').then(function (res) {
+      if (res.data.success === 'true') {
+        _this.min_price = res.data.data && res.data.data.min_price ? res.data.data.min_price : 0;
+        _this.max_price = res.data.data && res.data.data.max_price ? res.data.data.max_price : 1;
+        _this.filterToursForm.price[0] = _this.min_price;
+        _this.filterToursForm.price[1] = _this.max_price;
+        _this.loading = false;
+      }
+    })["catch"]();
   },
   methods: {
+    getCities: function getCities() {
+      var _this2 = this;
+
+      axios.get('cities').then(function (res) {
+        _this2.cities = res.data.data && res.data.data.cities ? res.data.data.cities : [];
+        _this2.filterToursForm.cities = _this2.cities;
+      })["catch"]();
+    },
+    fillFormData: function fillFormData() {
+      this.searchToursForm.fill(this.searchTours);
+    },
     getTours: function getTours() {
-      var _this = this;
+      var _this3 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios.get('tours?page=' + page).then(function (res) {
-        _this.tours = res.data.data ? res.data.data.tours : [];
+        _this3.tours = res.data.data ? res.data.data.tours : [];
+        _this3.search = false;
+        _this3.filter = false;
+      })["catch"](function () {});
+    },
+    getSearchTours: function getSearchTours() {
+      var _this4 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      this.searchToursForm.get('searchTour?page=' + page).then(function (res) {
+        _this4.tours = res.data.data ? res.data.data.tours : [];
+        _this4.search = true;
+        _this4.filter = false;
+      })["catch"](function () {});
+    },
+    searchTour: function searchTour() {
+      var _this5 = this;
+
+      this.searchToursForm.city = this.searchToursForm.sCity ? this.searchToursForm.sCity.id : '';
+      this.searchToursForm.get("searchTour").then(function (res) {
+        if (res.data.success === 'true') {
+          _this5.$store.dispatch('searchTours', _this5.searchToursForm);
+
+          _this5.tours = res.data.data && res.data.data.tours ? res.data.data.tours : [];
+          _this5.search = true;
+          _this5.filter = false;
+        } else {
+          _this5.searchToursForm.errors.set(res.data.data);
+        }
       })["catch"](function () {});
     },
     gridViewFun: function gridViewFun(view) {
       view === 'grid' ? this.gridView = true : this.gridView = false;
+    },
+    starSelected: function starSelected(star) {
+      if (star.selected) {
+        this.filterToursForm.star_rate.push(parseInt(star.star));
+      } else {
+        var index = this.filterToursForm.star_rate.indexOf(star.star);
+        this.filterToursForm.star_rate.splice(index, 1);
+      } // console.log(this.filterHotelForm.star_rate);
+
+    },
+    citySelected: function citySelected(city) {
+      var index = this.filterToursForm.gov_id.indexOf(city.id);
+
+      if (index < 0) {
+        this.filterToursForm.gov_id.push(parseInt(city.id));
+      } else {
+        this.filterToursForm.gov_id.splice(index, 1);
+      }
+    },
+    filterTour: function filterTour() {
+      var _this6 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      this.filterToursForm.get("filterTours?page=" + page).then(function (res) {
+        if (res.data.success === 'true') {
+          // this.$store.dispatch('searchHotels', this.searchHotelsForm);
+          _this6.tours = res.data.data && res.data.data.tours ? res.data.data.tours : [];
+          _this6.search = false;
+          _this6.filter = true;
+        } else {
+          _this6.filterToursForm.errors.set(res.data.data);
+        }
+      })["catch"](function () {});
     }
   }
 });
@@ -5578,6 +5926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-star-rating */ "./node_modules/vue-star-rating/dist/VueStarRating.common.js");
 /* harmony import */ var vue_star_rating__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_star_rating__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Layouts_Gallery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Layouts/Gallery */ "./resources/js/components/Layouts/Gallery.vue");
+/* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.es.js");
 //
 //
 //
@@ -5833,6 +6182,131 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5846,7 +6320,42 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       id: this.$route.params.id,
-      tour: {}
+      tour: {},
+      bookingTourForm: new vform__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        name: "",
+        email: "",
+        phone: "",
+        e164Phone: "",
+        country: "",
+        vendor_id: "",
+        type: "tour",
+        // hotel , tour
+        tour: {},
+        customer_id: "",
+        //from auth
+        object_id: this.$route.params.id,
+        // hotel id
+        from: "",
+        // date from
+        to: "",
+        // date to
+        adult: "",
+        child: "",
+        total: "",
+        // price * no. of rooms*nights if hotel // if tour person no * person price
+        deposit: 0,
+        // دفع جزئي (x%) (total*x/100)
+        note: "",
+        is_paid: 0,
+        partial_payment: 0,
+        //
+        paid: "",
+        city: '',
+        sCity: '',
+        date_from: '',
+        date_to: '',
+        children: 0
+      })
     };
   },
   mounted: function mounted() {
@@ -49368,6 +49877,7 @@ var render = function () {
               on: {
                 submit: function ($event) {
                   $event.preventDefault()
+                  return _vm.searchTour()
                 },
               },
             },
@@ -49379,6 +49889,9 @@ var render = function () {
                     [
                       _vm._v("Destinations\n                        "),
                       _c("v-select", {
+                        class: {
+                          "is-invalid": _vm.searchToursForm.errors.has("city"),
+                        },
                         attrs: {
                           autocomplete: "on",
                           placeholder: "City, region or anywhere",
@@ -49387,55 +49900,114 @@ var render = function () {
                           },
                           options: _vm.cities,
                         },
+                        model: {
+                          value: _vm.searchToursForm.sCity,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.searchToursForm, "sCity", $$v)
+                          },
+                          expression: "searchToursForm.sCity",
+                        },
                       }),
                     ],
                     1
                   ),
+                  _vm._v(" "),
+                  _vm.searchToursForm.errors.has("city")
+                    ? _c("span", {
+                        staticClass: "text-danger",
+                        domProps: {
+                          innerHTML: _vm._s(
+                            _vm.searchToursForm.errors.get("city")
+                          ),
+                        },
+                      })
+                    : _vm._e(),
                 ]),
               ]),
               _vm._v(" "),
-              _vm._m(0),
+              _c("div", { staticClass: "col-lg-4 col-md-4 col-6" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [
+                    _vm._v("date\n                        "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.searchToursForm.date,
+                          expression: "searchToursForm.date",
+                        },
+                      ],
+                      class: {
+                        "is-invalid": _vm.searchToursForm.errors.has("date"),
+                      },
+                      attrs: { type: "date", placeholder: "date" },
+                      domProps: { value: _vm.searchToursForm.date },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.searchToursForm,
+                            "date",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]),
+                  _vm._v(" "),
+                  _vm.searchToursForm.errors.has("date")
+                    ? _c("span", {
+                        staticClass: "text-danger",
+                        domProps: {
+                          innerHTML: _vm._s(
+                            _vm.searchToursForm.errors.get("date")
+                          ),
+                        },
+                      })
+                    : _vm._e(),
+                ]),
+              ]),
               _vm._v(" "),
-              _vm._m(1),
+              _c(
+                "div",
+                { staticClass: "col-lg-4 text-center col-md-12 col-12" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn button btn-primary",
+                      attrs: { type: "submit" },
+                    },
+                    [
+                      _vm._v(
+                        "\n                    search\n                    "
+                      ),
+                      _vm.searchToursForm.busy
+                        ? _c("span", {
+                            staticClass: "spinner-border spinner-border-sm",
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.searchToursForm.busy
+                        ? _c("i", {
+                            staticClass: "fa fa-search",
+                            attrs: { "aria-hidden": "true" },
+                          })
+                        : _vm._e(),
+                    ]
+                  ),
+                ]
+              ),
             ]
           )
         : _vm._e(),
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-lg-4 col-md-4 col-6" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", [
-          _vm._v("date\n                        "),
-          _c("input", { attrs: { type: "date", placeholder: "date" } }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-lg-4 text-center col-md-12 col-12" }, [
-      _c(
-        "button",
-        { staticClass: "btn button btn-primary", attrs: { type: "submit" } },
-        [
-          _vm._v("\n                    search\n                    "),
-          _c("i", {
-            staticClass: "fa fa-angle-right",
-            attrs: { "aria-hidden": "true" },
-          }),
-        ]
-      ),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -50722,30 +51294,112 @@ var render = function () {
                         ]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "module-travel clearfix" },
-                        [
-                          _c("h3", [_vm._v("Price")]),
-                          _vm._v(" "),
-                          _c("VueSimpleRangeSlider", {
-                            staticStyle: { width: "250px" },
-                            attrs: {
-                              min: _vm.min_price,
-                              max: _vm.max_price,
-                              logarithmic: true,
-                            },
-                            model: {
-                              value: _vm.filterHotelForm.price,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.filterHotelForm, "price", $$v)
+                      _c("div", { staticClass: "module-travel clearfix" }, [
+                        _c("h3", [_vm._v("Price")]),
+                        _vm._v(" "),
+                        _vm.filterHotelForm.errors.has("price")
+                          ? _c("span", {
+                              staticClass: "text-danger",
+                              domProps: {
+                                innerHTML: _vm._s(
+                                  _vm.filterHotelForm.errors.get("price")
+                                ),
                               },
-                              expression: "filterHotelForm.price",
-                            },
-                          }),
-                        ],
-                        1
-                      ),
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "d-flex justify-content-between" },
+                          [
+                            _c("div", { staticClass: "form-group mr-1" }, [
+                              _c("label", [
+                                _vm._v(
+                                  "min price\n                                    "
+                                ),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.filterHotelForm.price[0],
+                                      expression: "filterHotelForm.price[0]",
+                                    },
+                                  ],
+                                  class: {
+                                    "is-invalid":
+                                      _vm.filterHotelForm.errors.has("price"),
+                                  },
+                                  attrs: {
+                                    min: _vm.min_price,
+                                    max: _vm.max_price,
+                                    type: "number",
+                                    placeholder: "date from",
+                                  },
+                                  domProps: {
+                                    value: _vm.filterHotelForm.price[0],
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.filterHotelForm.price,
+                                        0,
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ]),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group ml-1" }, [
+                              _c("label", [
+                                _vm._v(
+                                  "max price\n                                    "
+                                ),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.filterHotelForm.price[1],
+                                      expression: "filterHotelForm.price[1]",
+                                    },
+                                  ],
+                                  class: {
+                                    "is-invalid":
+                                      _vm.filterHotelForm.errors.has("price"),
+                                  },
+                                  attrs: {
+                                    min: _vm.min_price,
+                                    max: _vm.max_price,
+                                    type: "number",
+                                    placeholder: "date from",
+                                  },
+                                  domProps: {
+                                    value: _vm.filterHotelForm.price[1],
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.filterHotelForm.price,
+                                        1,
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ]),
+                            ]),
+                          ]
+                        ),
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "module-rate clearfix" }, [
                         _c("h3", [_vm._v("star rating")]),
@@ -55755,302 +56409,882 @@ var render = function () {
       }),
       _vm._v(" "),
       _c("div", { staticClass: "container product-detail" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("HotelsFilter"),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "col-md-9 col-sm-12 col-xs-12",
-                attrs: { id: "content" },
-              },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "open-sidebar hidden-lg hidden-md",
-                    attrs: { to: "" },
-                  },
-                  [
-                    _c("i", { staticClass: "fa fa-bars" }),
-                    _vm._v("\n                    Sidebar\n                "),
-                  ]
-                ),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "aside",
+            {
+              staticClass:
+                "col-md-3 col-sm-4 col-xs-12 content-aside left_column sidebar-offcanvas",
+            },
+            [
+              _c("span", {
+                staticClass: "fa fa-times",
+                attrs: { id: "close-sidebar" },
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "module-rate clearfix" }, [
+                _c("h3", { staticClass: "modtitle" }, [
+                  _vm._v("Tour searching"),
+                ]),
                 _vm._v(" "),
                 _c(
-                  "div",
-                  { staticClass: "products-category" },
+                  "form",
+                  {
+                    staticClass:
+                      "row px-4 justify-content-between align-items-center",
+                    on: {
+                      submit: function ($event) {
+                        $event.preventDefault()
+                        return _vm.searchTour()
+                      },
+                    },
+                  },
                   [
+                    _c("div", { staticClass: "col-lg-12 col-md-12 col-12" }, [
+                      _c("div", { staticClass: "form-group location-input" }, [
+                        _c(
+                          "label",
+                          [
+                            _vm._v(
+                              "Destinations\n                                    "
+                            ),
+                            _c("v-select", {
+                              class: {
+                                "is-invalid":
+                                  _vm.searchToursForm.errors.has("city"),
+                              },
+                              attrs: {
+                                autocomplete: "on",
+                                placeholder: "City, region or anywhere",
+                                "get-option-label": function (option) {
+                                  return option.name
+                                },
+                                options: _vm.cities,
+                              },
+                              model: {
+                                value: _vm.searchToursForm.sCity,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.searchToursForm, "sCity", $$v)
+                                },
+                                expression: "searchToursForm.sCity",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _vm.searchToursForm.errors.has("city")
+                          ? _c("span", {
+                              staticClass: "text-danger",
+                              domProps: {
+                                innerHTML: _vm._s(
+                                  _vm.searchToursForm.errors.get("city")
+                                ),
+                              },
+                            })
+                          : _vm._e(),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-12 col-md-12 col-12" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [
+                          _vm._v("date\n                                    "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.searchToursForm.date,
+                                expression: "searchToursForm.date",
+                              },
+                            ],
+                            class: {
+                              "is-invalid":
+                                _vm.searchToursForm.errors.has("date"),
+                            },
+                            attrs: { type: "date", placeholder: "date from" },
+                            domProps: { value: _vm.searchToursForm.date },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.searchToursForm,
+                                  "date",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _vm.searchToursForm.errors.has("date")
+                          ? _c("span", {
+                              staticClass: "text-danger",
+                              domProps: {
+                                innerHTML: _vm._s(
+                                  _vm.searchToursForm.errors.get("date")
+                                ),
+                              },
+                            })
+                          : _vm._e(),
+                      ]),
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "product-filter hidden-xs filters-panel" },
+                      { staticClass: "col-lg-12 text-center col-md-12 col-12" },
                       [
-                        _c("div", { staticClass: "row" }, [
-                          _c(
-                            "div",
-                            { staticClass: "col-md-2 col-sm-2 hidden-xs" },
-                            [
-                              _c("div", { staticClass: "list-view" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-default",
-                                    class: _vm.gridView ? "active" : "",
-                                    on: {
-                                      click: function ($event) {
-                                        return _vm.gridViewFun("grid")
-                                      },
-                                    },
-                                  },
-                                  [_c("i", { staticClass: "fa fa-th-large" })]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-default",
-                                    class: _vm.gridView ? "" : "active",
-                                    on: {
-                                      click: function ($event) {
-                                        return _vm.gridViewFun("list")
-                                      },
-                                    },
-                                  },
-                                  [_c("i", { staticClass: "fa fa-th-list" })]
-                                ),
-                              ]),
-                            ]
-                          ),
-                        ]),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm.tours.data
-                      ? _c(
-                          "div",
+                        _c(
+                          "button",
                           {
-                            staticClass:
-                              "section-style4 products-list row number-col-3 so-filter-gird",
-                            class: _vm.gridView ? "gird" : "list",
+                            staticClass: "btn button btn-primary",
+                            attrs: { type: "submit" },
                           },
-                          _vm._l(_vm.tours.data, function (tour) {
-                            return _c(
-                              "div",
+                          [
+                            _vm._v(
+                              "\n                                Search\n                                "
+                            ),
+                            _vm.searchToursForm.busy
+                              ? _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm",
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.searchToursForm.busy
+                              ? _c("i", {
+                                  staticClass: "fa fa-search",
+                                  attrs: { "aria-hidden": "true" },
+                                })
+                              : _vm._e(),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.search
+                          ? _c(
+                              "button",
                               {
-                                staticClass: "product-layout ",
-                                class: _vm.gridView
-                                  ? "col-lg-6 col-md-6 col-sm-6 col-xs-6"
-                                  : "col-lg-12 col-md-12 col-sm-12 col-xs-12",
+                                staticClass: "btn button btn-danger",
+                                attrs: { type: "button" },
+                                on: { click: _vm.getTours },
                               },
                               [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "product-item-container item",
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "item-block so-quickview",
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "image" },
-                                          [
-                                            _c(
-                                              "router-link",
-                                              {
-                                                attrs: {
-                                                  to: "tour/" + tour.id,
-                                                  target: "_self",
-                                                },
-                                              },
-                                              [
-                                                _c("img", {
-                                                  staticClass: "img-responsive",
-                                                  attrs: {
-                                                    src: tour.image,
-                                                    alt: tour.title_api,
-                                                  },
-                                                }),
-                                              ]
-                                            ),
-                                          ],
-                                          1
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "item-content clearfix",
-                                          },
-                                          [
-                                            _c(
-                                              "h3",
-                                              [
-                                                _c(
-                                                  "router-link",
-                                                  {
-                                                    attrs: {
-                                                      to: "tour/" + tour.id,
-                                                    },
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(tour.title_api)
-                                                    ),
-                                                  ]
-                                                ),
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "reviews-content",
-                                              },
-                                              [
-                                                _c("starRating", {
-                                                  attrs: {
-                                                    "star-size": 15,
-                                                    rating: tour.star_rate
-                                                      ? parseInt(tour.star_rate)
-                                                      : 0,
-                                                    "show-rating": false,
-                                                    "read-only": true,
-                                                  },
-                                                }),
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c("ul", [
-                                              _c("li", [
-                                                _c("i", {
-                                                  staticClass:
-                                                    "fa fa-map-marker",
-                                                  attrs: {
-                                                    "aria-hidden": "true",
-                                                  },
-                                                }),
-                                                _vm._v(
-                                                  " " + _vm._s(tour.address_api)
-                                                ),
-                                              ]),
-                                              _vm._v(" "),
-                                              _vm._m(0, true),
-                                              _vm._v(" "),
-                                              _vm._m(1, true),
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("div", { staticClass: "des" }, [
-                                              _vm._v(_vm._s(tour.content_api)),
-                                            ]),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "item-bot clearfix",
-                                              },
-                                              [
-                                                _vm._m(2, true),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "router-link",
-                                                  {
-                                                    staticClass:
-                                                      "book-now btn-quickview quickview quickview_handler pull-right",
-                                                    attrs: {
-                                                      to: "tour/" + tour.id,
-                                                      title: "Quick View",
-                                                      "data-title":
-                                                        "Quick View",
-                                                      "data-fancybox-type":
-                                                        "iframe",
-                                                    },
-                                                  },
-                                                  [_vm._v("Book now")]
-                                                ),
-                                              ],
-                                              1
-                                            ),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                  ]
+                                _vm._v(
+                                  "\n                                Cancel\n                            "
                                 ),
                               ]
                             )
-                          }),
-                          0
-                        )
+                          : _vm._e(),
+                      ]
+                    ),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  staticClass: "sidefilter-form",
+                  on: {
+                    submit: function ($event) {
+                      $event.preventDefault()
+                      return _vm.filterTour()
+                    },
+                  },
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        position: "sticky",
+                        top: "63px",
+                        "z-index": "2",
+                        background: "#f8f8f8",
+                      },
+                    },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm.filter
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn button btn-danger",
+                              attrs: { type: "button" },
+                              on: { click: _vm.getTours },
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Cancel\n                        "
+                              ),
+                            ]
+                          )
+                        : _vm._e(),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "module-travel clearfix" }, [
+                    _c("h3", [_vm._v("Price")]),
+                    _vm._v(" "),
+                    _vm.filterToursForm.errors.has("price")
+                      ? _c("span", {
+                          staticClass: "text-danger",
+                          domProps: {
+                            innerHTML: _vm._s(
+                              _vm.filterToursForm.errors.get("price")
+                            ),
+                          },
+                        })
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.tours.data
-                      ? _c(
-                          "pagination",
-                          {
-                            attrs: {
-                              align: "center",
-                              showDisabled: true,
-                              limit: 5,
-                              data: _vm.tours,
-                            },
-                            on: { "pagination-change-page": _vm.getTours },
-                          },
-                          [
-                            _c(
-                              "span",
-                              {
-                                staticClass: "w-auto",
-                                attrs: { slot: "prev-nav" },
-                                slot: "prev-nav",
+                    _c(
+                      "div",
+                      { staticClass: "d-flex justify-content-between" },
+                      [
+                        _c("div", { staticClass: "form-group mr-1" }, [
+                          _c("label", [
+                            _vm._v(
+                              "min price\n                                    "
+                            ),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.filterToursForm.price[0],
+                                  expression: "filterToursForm.price[0]",
+                                },
+                              ],
+                              class: {
+                                "is-invalid":
+                                  _vm.filterToursForm.errors.has("price"),
                               },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-angle-left",
-                                  attrs: { "aria-hidden": "true" },
-                                }),
-                              ]
+                              attrs: {
+                                min: _vm.min_price,
+                                max: _vm.max_price,
+                                type: "number",
+                                placeholder: "date from",
+                              },
+                              domProps: { value: _vm.filterToursForm.price[0] },
+                              on: {
+                                input: function ($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.filterToursForm.price,
+                                    0,
+                                    $event.target.value
+                                  )
+                                },
+                              },
+                            }),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group ml-1" }, [
+                          _c("label", [
+                            _vm._v(
+                              "max price\n                                    "
                             ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { attrs: { slot: "next-nav" }, slot: "next-nav" },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-angle-right",
-                                  attrs: { "aria-hidden": "true" },
-                                }),
-                              ]
-                            ),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.filterToursForm.price[1],
+                                  expression: "filterToursForm.price[1]",
+                                },
+                              ],
+                              class: {
+                                "is-invalid":
+                                  _vm.filterToursForm.errors.has("price"),
+                              },
+                              attrs: {
+                                min: _vm.min_price,
+                                max: _vm.max_price,
+                                type: "number",
+                                placeholder: "date from",
+                              },
+                              domProps: { value: _vm.filterToursForm.price[1] },
+                              on: {
+                                input: function ($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.filterToursForm.price,
+                                    1,
+                                    $event.target.value
+                                  )
+                                },
+                              },
+                            }),
+                          ]),
+                        ]),
+                      ]
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "module-rate clearfix" }, [
+                    _c("h3", [_vm._v("star rating")]),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.filterToursForm.stars, function (star) {
+                        return _c("li", [
+                          _c(
+                            "label",
+                            { staticClass: "d-flex align-items-center" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: star.selected,
+                                    expression: "star.selected",
+                                  },
+                                ],
+                                attrs: { type: "checkbox" },
+                                domProps: {
+                                  checked: Array.isArray(star.selected)
+                                    ? _vm._i(star.selected, null) > -1
+                                    : star.selected,
+                                },
+                                on: {
+                                  change: [
+                                    function ($event) {
+                                      var $$a = star.selected,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = null,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              star,
+                                              "selected",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              star,
+                                              "selected",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(star, "selected", $$c)
+                                      }
+                                    },
+                                    function ($event) {
+                                      return _vm.starSelected(star)
+                                    },
+                                  ],
+                                },
+                              }),
+                              _vm._v(" "),
+                              _c("starRating", {
+                                attrs: {
+                                  "star-size": 18,
+                                  rating: star.star,
+                                  "show-rating": false,
+                                  "read-only": true,
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ])
+                      }),
+                      0
+                    ),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.filterToursForm.star_rate) +
+                        "\n                    "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "module-rate clearfix" }, [
+                    _c("h3", [_vm._v("Cities")]),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.filterToursForm.gov_id) +
+                        "\n                        "
+                    ),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.filterToursForm.cities, function (city) {
+                        return _c("li", [
+                          _c(
+                            "label",
+                            { staticClass: "d-flex align-items-center" },
+                            [
+                              _c("input", {
+                                attrs: { type: "checkbox" },
+                                domProps: {
+                                  checked:
+                                    _vm.filterToursForm.gov_id.indexOf(
+                                      city.id
+                                    ) >= 0
+                                      ? "checked"
+                                      : "",
+                                },
+                                on: {
+                                  change: function ($event) {
+                                    return _vm.citySelected(city)
+                                  },
+                                },
+                              }),
+                              _vm._v(" "),
+                              _c("strong", [_vm._v(_vm._s(city.name))]),
+                            ]
+                          ),
+                        ])
+                      }),
+                      0
+                    ),
+                  ]),
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(1),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-md-9 col-sm-12 col-xs-12",
+              attrs: { id: "content" },
+            },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "open-sidebar hidden-lg hidden-md",
+                  attrs: { to: "" },
+                },
+                [
+                  _c("i", { staticClass: "fa fa-bars" }),
+                  _vm._v("\n                    Sidebar\n                "),
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "products-category" },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "product-filter hidden-xs filters-panel" },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col-md-2 col-sm-2 hidden-xs" },
+                          [
+                            _c("div", { staticClass: "list-view" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-default",
+                                  class: _vm.gridView ? "active" : "",
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.gridViewFun("grid")
+                                    },
+                                  },
+                                },
+                                [_c("i", { staticClass: "fa fa-th-large" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-default",
+                                  class: _vm.gridView ? "" : "active",
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.gridViewFun("list")
+                                    },
+                                  },
+                                },
+                                [_c("i", { staticClass: "fa fa-th-list" })]
+                              ),
+                            ]),
                           ]
-                        )
-                      : _vm._e(),
-                  ],
-                  1
-                ),
-              ],
-              1
-            ),
-          ],
-          1
-        ),
+                        ),
+                      ]),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.tours.data
+                    ? _c(
+                        "div",
+                        {
+                          staticClass:
+                            "section-style4 products-list row number-col-3 so-filter-gird",
+                          class: _vm.gridView ? "gird" : "list",
+                        },
+                        _vm._l(_vm.tours.data, function (tour) {
+                          return _c(
+                            "div",
+                            {
+                              staticClass: "product-layout ",
+                              class: _vm.gridView
+                                ? "col-lg-6 col-md-6 col-sm-6 col-xs-6"
+                                : "col-lg-12 col-md-12 col-sm-12 col-xs-12",
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "product-item-container item" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "item-block so-quickview" },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "image" },
+                                        [
+                                          _c(
+                                            "router-link",
+                                            {
+                                              attrs: {
+                                                to: "tour/" + tour.id,
+                                                target: "_self",
+                                              },
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticClass: "img-responsive",
+                                                attrs: {
+                                                  src: tour.image,
+                                                  alt: tour.title_api,
+                                                },
+                                              }),
+                                            ]
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass: "item-content clearfix",
+                                        },
+                                        [
+                                          _c(
+                                            "h3",
+                                            [
+                                              _c(
+                                                "router-link",
+                                                {
+                                                  attrs: {
+                                                    to: "tour/" + tour.id,
+                                                  },
+                                                },
+                                                [_vm._v(_vm._s(tour.title_api))]
+                                              ),
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "reviews-content" },
+                                            [
+                                              _c("starRating", {
+                                                attrs: {
+                                                  "star-size": 15,
+                                                  rating: tour.star_rate
+                                                    ? parseInt(tour.star_rate)
+                                                    : 0,
+                                                  "show-rating": false,
+                                                  "read-only": true,
+                                                },
+                                              }),
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("ul", [
+                                            _c("li", [
+                                              _c("i", {
+                                                staticClass: "fa fa-map-marker",
+                                                attrs: {
+                                                  "aria-hidden": "true",
+                                                },
+                                              }),
+                                              _vm._v(
+                                                " " + _vm._s(tour.address_api)
+                                              ),
+                                            ]),
+                                            _vm._v(" "),
+                                            _vm._m(2, true),
+                                            _vm._v(" "),
+                                            _vm._m(3, true),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "des" }, [
+                                            _vm._v(_vm._s(tour.content_api)),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "item-bot clearfix",
+                                            },
+                                            [
+                                              _vm._m(4, true),
+                                              _vm._v(" "),
+                                              _c(
+                                                "router-link",
+                                                {
+                                                  staticClass:
+                                                    "book-now btn-quickview quickview quickview_handler pull-right",
+                                                  attrs: {
+                                                    to: "tour/" + tour.id,
+                                                    title: "Quick View",
+                                                    "data-title": "Quick View",
+                                                    "data-fancybox-type":
+                                                      "iframe",
+                                                  },
+                                                },
+                                                [_vm._v("Book now")]
+                                              ),
+                                            ],
+                                            1
+                                          ),
+                                        ]
+                                      ),
+                                    ]
+                                  ),
+                                ]
+                              ),
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.tours.data && !_vm.search && !_vm.filter
+                    ? _c(
+                        "pagination",
+                        {
+                          attrs: {
+                            align: "center",
+                            showDisabled: true,
+                            limit: 5,
+                            data: _vm.tours,
+                          },
+                          on: { "pagination-change-page": _vm.getTours },
+                        },
+                        [
+                          _c(
+                            "span",
+                            {
+                              staticClass: "w-auto",
+                              attrs: { slot: "prev-nav" },
+                              slot: "prev-nav",
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-angle-left",
+                                attrs: { "aria-hidden": "true" },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { attrs: { slot: "next-nav" }, slot: "next-nav" },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-angle-right",
+                                attrs: { "aria-hidden": "true" },
+                              }),
+                            ]
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.tours.data && !_vm.search && _vm.filter
+                    ? _c(
+                        "pagination",
+                        {
+                          attrs: {
+                            align: "center",
+                            showDisabled: true,
+                            limit: 5,
+                            data: _vm.tours,
+                          },
+                          on: { "pagination-change-page": _vm.filterTour },
+                        },
+                        [
+                          _c(
+                            "span",
+                            {
+                              staticClass: "w-auto",
+                              attrs: { slot: "prev-nav" },
+                              slot: "prev-nav",
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-angle-left",
+                                attrs: { "aria-hidden": "true" },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { attrs: { slot: "next-nav" }, slot: "next-nav" },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-angle-right",
+                                attrs: { "aria-hidden": "true" },
+                              }),
+                            ]
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.tours.data && _vm.search && !_vm.filter
+                    ? _c(
+                        "pagination",
+                        {
+                          attrs: {
+                            align: "center",
+                            showDisabled: true,
+                            limit: 5,
+                            data: _vm.tours,
+                          },
+                          on: { "pagination-change-page": _vm.getSearchTours },
+                        },
+                        [
+                          _c(
+                            "span",
+                            {
+                              staticClass: "w-auto",
+                              attrs: { slot: "prev-nav" },
+                              slot: "prev-nav",
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-angle-left",
+                                attrs: { "aria-hidden": "true" },
+                              }),
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { attrs: { slot: "next-nav" }, slot: "next-nav" },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-angle-right",
+                                attrs: { "aria-hidden": "true" },
+                              }),
+                            ]
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+        ]),
       ]),
     ],
     1
   )
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-primary" }, [
+      _c("i", { staticClass: "fa fa-filter" }),
+      _vm._v("\n                            filter\n                        "),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "module-pop clearfix" }, [
+      _c("h3", [_vm._v("popular Hotels")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item clearfix" }, [
+        _c("div", { staticClass: "image" }, [
+          _c("a", { attrs: { href: "tour-detail.html" } }, [
+            _c("img", {
+              staticClass: "img-responsive",
+              attrs: {
+                src: "https://demo.wpthemego.com/html/sw_portkey/image/catalog/demo/product/travel/p1.jpg",
+                alt: "Bougainvilleas on Lombard Street",
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "content" }, [
+          _c("h4", [
+            _c("a", { attrs: { href: "tour-detail.html" } }, [
+              _vm._v("7-Day Great Britain Tour Packag..."),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("from $250")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item clearfix" }, [
+        _c("div", { staticClass: "image" }, [
+          _c("a", { attrs: { href: "tour-detail.html" } }, [
+            _c("img", {
+              staticClass: "img-responsive",
+              attrs: {
+                src: "image/catalog/demo/product/travel/p2.jpg",
+                alt: "Bougainvilleas on Lombard Street",
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "content" }, [
+          _c("h4", [
+            _c("a", { attrs: { href: "tour-detail.html" } }, [
+              _vm._v("7-Day Great Britain Tour Packag..."),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("from $250")]),
+        ]),
+      ]),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -56127,8 +57361,6 @@ var render = function () {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "detail-content" }, [
-              _vm._m(1),
-              _vm._v(" "),
               _c("div", { staticClass: "sticky-content" }, [
                 _c("h1", [_vm._v(_vm._s(_vm.tour.title_api))]),
                 _vm._v(" "),
@@ -56149,50 +57381,687 @@ var render = function () {
                     ],
                     1
                   ),
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "content-tabs" }, [
+                _c(
+                  "div",
+                  { staticClass: "tab-content m-0", attrs: { id: "gallery" } },
+                  [
+                    _c("h3", [_vm._v("Gallery")]),
+                    _vm._v(" "),
+                    _vm.tour.gallery && _vm.tour.gallery.length > 0
+                      ? _c("Gallery", { attrs: { images: _vm.tour.gallery } })
+                      : _vm._e(),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "tab-content m-0",
+                    attrs: { id: "tour_content" },
+                  },
+                  [
+                    _c("h3", [_vm._v("Content")]),
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(_vm.tour.content_api) +
+                        "\n                            "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "tab-content" }, [
+                  _c("p", { attrs: { id: "home" } }),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "location-wee clearfix" }, [
+                    _c("li", [
+                      _c("label", [_vm._v("address")]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "item" }, [
+                        _vm._v(_vm._s(_vm.tour.address_api)),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _c("label", [_vm._v("min people")]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "item" }, [
+                        _vm._v(_vm._s(_vm.tour.min_people) + " person"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _c("label", [_vm._v("max people")]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "item" }, [
+                        _vm._v(_vm._s(_vm.tour.max_people) + " person"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _c("label", [_vm._v("min day befor booking")]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "item" }, [
+                        _vm._v(_vm._s(_vm.tour.min_day_befor_booking) + " day"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _c("label", [_vm._v("Prices")]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "item" }, [
+                        _c("div", { staticClass: "info" }, [
+                          _c("i", {
+                            staticClass: "fa fa-user",
+                            attrs: { "aria-hidden": "true" },
+                          }),
+                          _vm._v(
+                            "\n                                                " +
+                              _vm._s(
+                                _vm.tour.price ? _vm.tour.price.price : ""
+                              ) +
+                              "/person\n                                            "
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "info" }, [
+                          _c("i", {
+                            staticClass: "fa fa-child",
+                            attrs: { "aria-hidden": "true" },
+                          }),
+                          _vm._v(
+                            "\n                                                " +
+                              _vm._s(
+                                _vm.tour.price ? _vm.tour.price.ch_price : ""
+                              ) +
+                              "/child\n                                            "
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                  ]),
                   _vm._v(" "),
                   _vm._m(2),
                   _vm._v(" "),
                   _vm._m(3),
                   _vm._v(" "),
                   _vm._m(4),
+                  _vm._v(" "),
+                  _vm._m(5),
                 ]),
-                _vm._v(" "),
-                _vm._m(5),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "content-tabs" }, [
-                _c(
-                  "div",
-                  { staticClass: "tab-content" },
-                  [
-                    _vm.tour.gallery && _vm.tour.gallery.length > 0
-                      ? _c("Gallery", { attrs: { images: _vm.tour.gallery } })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("p", { attrs: { id: "home" } }, [
-                      _vm._v(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(6),
-                    _vm._v(" "),
-                    _vm._m(7),
-                    _vm._v(" "),
-                    _vm._m(8),
-                    _vm._v(" "),
-                    _vm._m(9),
-                    _vm._v(" "),
-                    _vm._m(10),
-                  ],
-                  1
-                ),
               ]),
             ]),
           ]
         ),
         _vm._v(" "),
-        _vm._m(11),
+        _c(
+          "aside",
+          {
+            staticClass:
+              "col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas",
+          },
+          [
+            _c("span", {
+              staticClass: "fa fa-times",
+              attrs: { id: "close-sidebar" },
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "module-search2 clearfix" }, [
+              _c("h3", { staticClass: "modtitle" }, [
+                _c("label", [
+                  _vm._v(_vm._s(_vm.tour.price ? _vm.tour.price.price : "")),
+                ]),
+                _c("span", [_vm._v("person")]),
+                _vm._v(" "),
+                _c("label", [
+                  _vm._v(_vm._s(_vm.tour.price ? _vm.tour.price.ch_price : "")),
+                ]),
+                _c("span", [_vm._v("child")]),
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  staticClass: "search-pr",
+                  on: {
+                    submit: function ($event) {
+                      $event.preventDefault()
+                    },
+                  },
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [
+                      _vm._v("date from\n                                    "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.bookingHotelForm.date_from,
+                            expression: "bookingHotelForm.date_from",
+                          },
+                        ],
+                        class: {
+                          "is-invalid":
+                            _vm.bookingHotelForm.errors.has("date_from"),
+                        },
+                        attrs: { type: "date", placeholder: "date from" },
+                        domProps: { value: _vm.bookingHotelForm.date_from },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.bookingHotelForm,
+                              "date_from",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _vm.bookingHotelForm.errors.has("date_from")
+                      ? _c("span", {
+                          staticClass: "text-danger",
+                          domProps: {
+                            innerHTML: _vm._s(
+                              _vm.bookingHotelForm.errors.get("date_from")
+                            ),
+                          },
+                        })
+                      : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [
+                      _vm._v("date to\n                                    "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.bookingHotelForm.date_to,
+                            expression: "bookingHotelForm.date_to",
+                          },
+                        ],
+                        class: {
+                          "is-invalid":
+                            _vm.bookingHotelForm.errors.has("date_to"),
+                        },
+                        attrs: { type: "date", placeholder: "date to" },
+                        domProps: { value: _vm.bookingHotelForm.date_to },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.bookingHotelForm,
+                              "date_to",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _vm.bookingHotelForm.errors.has("date_to")
+                      ? _c("span", {
+                          staticClass: "text-danger",
+                          domProps: {
+                            innerHTML: _vm._s(
+                              _vm.bookingHotelForm.errors.get("date_to")
+                            ),
+                          },
+                        })
+                      : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex justify-content-between align-items-center",
+                      },
+                      [
+                        _c("div", [
+                          _c("label", [
+                            _vm._v(
+                              "adults\n                                            "
+                            ),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.bookingHotelForm.adult,
+                                  expression: "bookingHotelForm.adult",
+                                },
+                              ],
+                              class: {
+                                "is-invalid":
+                                  _vm.bookingHotelForm.errors.has("adult"),
+                              },
+                              attrs: { type: "number", placeholder: "adults" },
+                              domProps: { value: _vm.bookingHotelForm.adult },
+                              on: {
+                                input: function ($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.bookingHotelForm,
+                                    "adult",
+                                    $event.target.value
+                                  )
+                                },
+                              },
+                            }),
+                          ]),
+                          _vm._v(" "),
+                          _vm.bookingHotelForm.errors.has("adult")
+                            ? _c("span", {
+                                staticClass: "text-danger",
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    _vm.bookingHotelForm.errors.get("adult")
+                                  ),
+                                },
+                              })
+                            : _vm._e(),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mx-2" }),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("label", [
+                            _vm._v(
+                              "children\n                                            "
+                            ),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.bookingHotelForm.children,
+                                  expression: "bookingHotelForm.children",
+                                },
+                              ],
+                              class: {
+                                "is-invalid":
+                                  _vm.bookingHotelForm.errors.has("children"),
+                              },
+                              attrs: {
+                                min: "0",
+                                type: "number",
+                                placeholder: "children",
+                              },
+                              domProps: {
+                                value: _vm.bookingHotelForm.children,
+                              },
+                              on: {
+                                input: function ($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.bookingHotelForm,
+                                    "children",
+                                    $event.target.value
+                                  )
+                                },
+                              },
+                            }),
+                          ]),
+                          _vm._v(" "),
+                          _vm.bookingHotelForm.errors.has("children")
+                            ? _c("span", {
+                                staticClass: "text-danger",
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    _vm.bookingHotelForm.errors.get("children")
+                                  ),
+                                },
+                              })
+                            : _vm._e(),
+                        ]),
+                      ]
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _vm.bookingHotelForm.rooms &&
+                  _vm.bookingHotelForm.rooms.length === 0
+                    ? _c("div", [_c("h4", [_vm._v("Choose Rooms To checkin")])])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.bookingHotelForm.rooms &&
+                  _vm.bookingHotelForm.rooms.length > 0
+                    ? _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("h4", [_vm._v("Rooms")]),
+                          _vm._v(" "),
+                          _vm._l(
+                            _vm.bookingHotelForm.rooms,
+                            function (room, index) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "media mb-3 border-bottom align-items-center justify-content-between",
+                                  class: index === 0 ? "border-top" : "",
+                                },
+                                [
+                                  _c("div", { staticClass: "media-body" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "media-heading" },
+                                      [
+                                        _c(
+                                          "h4",
+                                          { staticClass: "mt-2 text-center" },
+                                          [_vm._v(_vm._s(room.title_api))]
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "form-group" }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "row justify-content-between align-items-center",
+                                        },
+                                        [
+                                          _c("div", { staticClass: "col-6" }, [
+                                            _c("strong", [
+                                              _vm._v(
+                                                "Adults: " + _vm._s(room.adult)
+                                              ),
+                                            ]),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "col-6" }, [
+                                            _c("strong", [
+                                              _vm._v(
+                                                "Children: " +
+                                                  _vm._s(room.child)
+                                              ),
+                                            ]),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "col-6" }, [
+                                            _c("label", [
+                                              _vm._v(
+                                                "number\n                                                        "
+                                              ),
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: room.number,
+                                                    expression: "room.number",
+                                                  },
+                                                ],
+                                                class: {
+                                                  "is-invalid":
+                                                    _vm.bookingHotelForm.errors.has(
+                                                      "adult"
+                                                    ),
+                                                },
+                                                attrs: {
+                                                  type: "number",
+                                                  min: "1",
+                                                  max: room.maxNumber,
+                                                  placeholder: "number",
+                                                },
+                                                domProps: {
+                                                  value: room.number,
+                                                },
+                                                on: {
+                                                  input: function ($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      room,
+                                                      "number",
+                                                      $event.target.value
+                                                    )
+                                                  },
+                                                },
+                                              }),
+                                            ]),
+                                            _vm._v(" "),
+                                            _vm.bookingHotelForm.errors.has(
+                                              "adult"
+                                            )
+                                              ? _c("span", {
+                                                  staticClass: "text-danger",
+                                                  domProps: {
+                                                    innerHTML: _vm._s(
+                                                      _vm.bookingHotelForm.errors.get(
+                                                        "adult"
+                                                      )
+                                                    ),
+                                                  },
+                                                })
+                                              : _vm._e(),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "col-6" }, [
+                                            _c("label", [
+                                              _vm._v(
+                                                "price\n                                                        "
+                                              ),
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      room.price + "/Night",
+                                                    expression:
+                                                      "room.price + '/Night'",
+                                                  },
+                                                ],
+                                                class: {
+                                                  "is-invalid":
+                                                    _vm.bookingHotelForm.errors.has(
+                                                      "adult"
+                                                    ),
+                                                },
+                                                attrs: {
+                                                  disabled: "",
+                                                  type: "text",
+                                                  placeholder: "total",
+                                                },
+                                                domProps: {
+                                                  value: room.price + "/Night",
+                                                },
+                                                on: {
+                                                  input: function ($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      room,
+                                                      "price + '/Night'",
+                                                      $event.target.value
+                                                    )
+                                                  },
+                                                },
+                                              }),
+                                            ]),
+                                            _vm._v(" "),
+                                            _vm.bookingHotelForm.errors.has(
+                                              "adult"
+                                            )
+                                              ? _c("span", {
+                                                  staticClass: "text-danger",
+                                                  domProps: {
+                                                    innerHTML: _vm._s(
+                                                      _vm.bookingHotelForm.errors.get(
+                                                        "adult"
+                                                      )
+                                                    ),
+                                                  },
+                                                })
+                                              : _vm._e(),
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "col-12 d-flex justify-content-between",
+                                            },
+                                            [
+                                              _c("strong", [
+                                                _vm._v(
+                                                  "Days: " +
+                                                    _vm._s(
+                                                      _vm.diffDate(
+                                                        _vm.bookingHotelForm
+                                                          .date_from,
+                                                        _vm.bookingHotelForm
+                                                          .date_to
+                                                      )
+                                                    )
+                                                ),
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("strong", [
+                                                _vm._v(
+                                                  "price: " +
+                                                    _vm._s(
+                                                      room.price *
+                                                        _vm.diffDate(
+                                                          _vm.bookingHotelForm
+                                                            .date_from,
+                                                          _vm.bookingHotelForm
+                                                            .date_to
+                                                        ) *
+                                                        room.number
+                                                    ) +
+                                                    "$"
+                                                ),
+                                              ]),
+                                            ]
+                                          ),
+                                        ]
+                                      ),
+                                    ]),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "media-right" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.removeRoomFromBookingHotelForm(
+                                              index
+                                            )
+                                          },
+                                        },
+                                      },
+                                      [_c("i", { staticClass: "fa fa-times" })]
+                                    ),
+                                  ]),
+                                ]
+                              )
+                            }
+                          ),
+                        ],
+                        2
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.bookingHotelForm.rooms &&
+                  _vm.bookingHotelForm.rooms.length > 0
+                    ? _c("div", [
+                        _c("h4", [_vm._v("Rooms: " + _vm._s(_vm.total_rooms))]),
+                        _vm._v(" "),
+                        _c("h4", [
+                          _vm._v(
+                            "Days: " +
+                              _vm._s(
+                                _vm.diffDate(
+                                  _vm.bookingHotelForm.date_from,
+                                  _vm.bookingHotelForm.date_to
+                                )
+                              )
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("h4", [
+                          _vm._v("Total: " + _vm._s(_vm.total_price) + "$"),
+                        ]),
+                        _vm._v(" "),
+                        _c("hr"),
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.bookingHotelForm.rooms &&
+                  _vm.bookingHotelForm.rooms.length > 0
+                    ? _c("div", { staticClass: "text-center" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "submit" },
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    book now\n                                    "
+                            ),
+                            _vm.bookingHotelForm.busy
+                              ? _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm",
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.bookingHotelForm.busy
+                              ? _c("i", {
+                                  staticClass: "fa fa-check",
+                                  attrs: { "aria-hidden": "true" },
+                                })
+                              : _vm._e(),
+                          ]
+                        ),
+                      ])
+                    : _vm._e(),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _vm._m(6),
+            _vm._v(" "),
+            _vm._m(7),
+            _vm._v(" "),
+            _vm._m(8),
+          ]
+        ),
       ]),
     ]),
   ])
@@ -56215,181 +58084,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "view-top" }, [
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", {
-          staticClass: "fa fa-camera-retro",
-          attrs: { "aria-hidden": "true" },
-        }),
-        _vm._v("View photo"),
-      ]),
-      _vm._v(" "),
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", {
-          staticClass: "fa fa-play",
-          attrs: { "aria-hidden": "true" },
-        }),
-        _vm._v("View preview"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("i", {
-        staticClass: "fa fa-clock-o",
-        attrs: { "aria-hidden": "true" },
-      }),
-      _vm._v("3 day 2 nights"),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("i", { staticClass: "fa fa-male", attrs: { "aria-hidden": "true" } }),
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Holiday")]),
-      _vm._v(", "),
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Adventure")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("i", { staticClass: "fa fa-users", attrs: { "aria-hidden": "true" } }),
-      _vm._v("16 persion"),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "top-tab", attrs: { id: "nav" } }, [
       _c("ul", { staticClass: "nav nav-tabs" }, [
-        _c("li", [_c("a", { attrs: { href: "#home" } }, [_vm._v("Overview")])]),
+        _c("li", [
+          _c("a", { attrs: { href: "#gallery" } }, [_vm._v("gallery")]),
+        ]),
         _vm._v(" "),
         _c("li", [
-          _c("a", { attrs: { href: "#menu1" } }, [_vm._v("Tour Plans")]),
-        ]),
-        _vm._v(" "),
-        _c("li", [_c("a", { attrs: { href: "#menu2" } }, [_vm._v("Map")])]),
-        _vm._v(" "),
-        _c("li", [
-          _c("a", { attrs: { href: "#menu3" } }, [_vm._v("Amenities")]),
-        ]),
-        _vm._v(" "),
-        _c("li", [_c("a", { attrs: { href: "#menu4" } }, [_vm._v("Review")])]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "location-wee clearfix" }, [
-      _c("li", [
-        _c("label", [_vm._v("Location")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "item" }, [
-          _vm._v("Turoa, Ruapehu, "),
-          _c("a", { attrs: { href: "#" } }, [_vm._v("New Zealand")]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("label", [_vm._v("Wearing")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "item" }, [
-          _vm._v(
-            "Comfortable athletic clothing, hiking boots, hat, jacket and sunscreen"
-          ),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("label", [_vm._v("Departure Time")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "item" }, [
-          _vm._v("3 Hours Before Flight Time"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("label", [_vm._v("Return Time")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "item" }, [_vm._v("Approximately 08:00 PM")]),
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("label", [_vm._v("Price Included")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "item" }, [
-          _c("div", { staticClass: "info" }, [
-            _c("i", {
-              staticClass: "fa fa-check",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v("Air fares"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "info" }, [
-            _c("i", {
-              staticClass: "fa fa-check",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v("All transportation in destination location"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "info" }, [
-            _c("i", {
-              staticClass: "fa fa-check",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v("2 Nights tour Aaccomodation"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "info" }, [
-            _c("i", {
-              staticClass: "fa fa-check",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v("Tour guide"),
-          ]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("label", [_vm._v("Price Excludes")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "item" }, [
-          _c("div", { staticClass: "info2" }, [
-            _c("i", {
-              staticClass: "fa fa-times",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v("Any private expenses"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "info2" }, [
-            _c("i", {
-              staticClass: "fa fa-times",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v("Room service fees"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "info2" }, [
-            _c("i", {
-              staticClass: "fa fa-times",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v("Souvenir"),
-          ]),
+          _c("a", { attrs: { href: "#tour_content" } }, [_vm._v("content")]),
         ]),
       ]),
     ])
@@ -56797,210 +58499,131 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "aside",
-      {
-        staticClass:
-          "col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas",
-      },
-      [
-        _c("span", {
-          staticClass: "fa fa-times",
-          attrs: { id: "close-sidebar" },
-        }),
+    return _c("div", { staticClass: "module-why clearfix" }, [
+      _c("h3", [_vm._v("Why should travel with us?")]),
+      _vm._v(" "),
+      _c("ul", [
+        _c("li", [
+          _c("i", {
+            staticClass: "fa fa-usd",
+            attrs: { "aria-hidden": "true" },
+          }),
+          _vm._v("No-hassle best price guarantee"),
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "module-search2 clearfix" }, [
-          _c("h3", { staticClass: "modtitle" }, [
-            _c("label", [_vm._v("$267.00")]),
-            _c("span", [_vm._v("person")]),
-          ]),
-          _vm._v(" "),
-          _c("form", { staticClass: "search-pr", attrs: { method: "get" } }, [
-            _c("div", { staticClass: "search-item date" }, [
-              _c("input", {
-                staticClass: "tour-search-input datepicker hasDatepicker",
-                attrs: {
-                  type: "text",
-                  id: "date_from",
-                  placeholder: "10/07/2019",
-                },
-              }),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "item-avai" }, [
-              _vm._v("Ticket Available: "),
-              _c("span", [_vm._v("4")]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "search-item item-select" }, [
-              _c("select", { attrs: { name: "adult" } }, [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("Adult")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [_vm._v("2 people")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [_vm._v("3 people")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "4" } }, [_vm._v("4 people")]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "search-item item-select" }, [
-              _c("select", { attrs: { name: "children" } }, [
-                _c("option", { attrs: { value: "1" } }, [
-                  _vm._v("Children < 12 (-50%)"),
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [
-                  _vm._v("Children < 10 (-70%)"),
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("Children < 5 (-100%)"),
-                ]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("ul", [
-              _c("li", [
-                _c("span", [_vm._v("Tax (+10%):")]),
-                _c("label", [_vm._v("$26.00")]),
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("span", [_vm._v("Discount (0%):")]),
-                _c("label", [_vm._v("$0.00")]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "button-submit" }, [
-              _c(
-                "button",
-                { staticClass: "button", attrs: { type: "submit" } },
-                [_vm._v("book now")]
-              ),
-            ]),
+        _c("li", [
+          _c("i", {
+            staticClass: "fa fa-star",
+            attrs: { "aria-hidden": "true" },
+          }),
+          _vm._v("Hand-picked Tours & Activities"),
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("i", {
+            staticClass: "fa fa-volume-control-phone",
+            attrs: { "aria-hidden": "true" },
+          }),
+          _vm._v("Passenger service 24/7"),
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("i", {
+            staticClass: "fa fa-user",
+            attrs: { "aria-hidden": "true" },
+          }),
+          _vm._v("Professional tour guide"),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "module-ques clearfix" }, [
+      _c("h3", [_vm._v("get a questions")]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium."
+        ),
+      ]),
+      _vm._v(" "),
+      _c("ul", [
+        _c("li", [
+          _c("i", {
+            staticClass: "fa fa-phone",
+            attrs: { "aria-hidden": "true" },
+          }),
+          _vm._v("+1 2618 181 612"),
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("i", {
+            staticClass: "fa fa-envelope",
+            attrs: { "aria-hidden": "true" },
+          }),
+          _vm._v("travelsp@gmail.com"),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "module-pop clearfix" }, [
+      _c("h3", [_vm._v("popular tours")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item clearfix" }, [
+        _c("div", { staticClass: "image" }, [
+          _c("a", { attrs: { href: "tour-detail.html" } }, [
+            _c("img", {
+              staticClass: "img-responsive",
+              attrs: {
+                src: "image/catalog/demo/product/travel/p1.jpg",
+                alt: "Bougainvilleas on Lombard Street",
+              },
+            }),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "module-why clearfix" }, [
-          _c("h3", [_vm._v("Why should travel with us?")]),
+        _c("div", { staticClass: "content" }, [
+          _c("h4", [
+            _c("a", { attrs: { href: "tour-detail.html" } }, [
+              _vm._v("7-Day Great Britain Tour Packag..."),
+            ]),
+          ]),
           _vm._v(" "),
-          _c("ul", [
-            _c("li", [
-              _c("i", {
-                staticClass: "fa fa-usd",
-                attrs: { "aria-hidden": "true" },
-              }),
-              _vm._v("No-hassle best price guarantee"),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("i", {
-                staticClass: "fa fa-star",
-                attrs: { "aria-hidden": "true" },
-              }),
-              _vm._v("Hand-picked Tours & Activities"),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("i", {
-                staticClass: "fa fa-volume-control-phone",
-                attrs: { "aria-hidden": "true" },
-              }),
-              _vm._v("Passenger service 24/7"),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("i", {
-                staticClass: "fa fa-user",
-                attrs: { "aria-hidden": "true" },
-              }),
-              _vm._v("Professional tour guide"),
-            ]),
+          _c("p", [_vm._v("from $250")]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "item clearfix" }, [
+        _c("div", { staticClass: "image" }, [
+          _c("a", { attrs: { href: "tour-detail.html" } }, [
+            _c("img", {
+              staticClass: "img-responsive",
+              attrs: {
+                src: "image/catalog/demo/product/travel/p2.jpg",
+                alt: "Bougainvilleas on Lombard Street",
+              },
+            }),
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "module-ques clearfix" }, [
-          _c("h3", [_vm._v("get a questions")]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium."
-            ),
-          ]),
-          _vm._v(" "),
-          _c("ul", [
-            _c("li", [
-              _c("i", {
-                staticClass: "fa fa-phone",
-                attrs: { "aria-hidden": "true" },
-              }),
-              _vm._v("+1 2618 181 612"),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("i", {
-                staticClass: "fa fa-envelope",
-                attrs: { "aria-hidden": "true" },
-              }),
-              _vm._v("travelsp@gmail.com"),
+        _c("div", { staticClass: "content" }, [
+          _c("h4", [
+            _c("a", { attrs: { href: "tour-detail.html" } }, [
+              _vm._v("7-Day Great Britain Tour Packag..."),
             ]),
           ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("from $250")]),
         ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "module-pop clearfix" }, [
-          _c("h3", [_vm._v("popular tours")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "item clearfix" }, [
-            _c("div", { staticClass: "image" }, [
-              _c("a", { attrs: { href: "tour-detail.html" } }, [
-                _c("img", {
-                  staticClass: "img-responsive",
-                  attrs: {
-                    src: "image/catalog/demo/product/travel/p1.jpg",
-                    alt: "Bougainvilleas on Lombard Street",
-                  },
-                }),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "content" }, [
-              _c("h4", [
-                _c("a", { attrs: { href: "tour-detail.html" } }, [
-                  _vm._v("7-Day Great Britain Tour Packag..."),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v("from $250")]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "item clearfix" }, [
-            _c("div", { staticClass: "image" }, [
-              _c("a", { attrs: { href: "tour-detail.html" } }, [
-                _c("img", {
-                  staticClass: "img-responsive",
-                  attrs: {
-                    src: "image/catalog/demo/product/travel/p2.jpg",
-                    alt: "Bougainvilleas on Lombard Street",
-                  },
-                }),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "content" }, [
-              _c("h4", [
-                _c("a", { attrs: { href: "tour-detail.html" } }, [
-                  _vm._v("7-Day Great Britain Tour Packag..."),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v("from $250")]),
-            ]),
-          ]),
-        ]),
-      ]
-    )
+      ]),
+    ])
   },
 ]
 render._withStripped = true
@@ -106620,6 +108243,7 @@ var routes = [{
   path: '/tours',
   component: __webpack_require__(/*! ./components/Tours.vue */ "./resources/js/components/Tours.vue")["default"],
   name: "Tours",
+  props: true,
   meta: {
     auth: false
   }
@@ -106671,6 +108295,14 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     if (searchHotels) {
       var formData = JSON.parse(searchHotels);
       this.$store.commit('setSearchHotelsForm', formData);
+    }
+
+    var searchTours = localStorage.getItem('searchTours');
+
+    if (searchTours) {
+      var _formData = JSON.parse(searchTours);
+
+      this.$store.commit('setSearchToursForm', _formData);
     } // axios.interceptors.response.use(
     //     response => response,
     //     error => {
@@ -108060,6 +109692,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var state = {
   searchHotels: null,
+  searchTours: null,
   sidebarShow: 'responsive',
   sidebarMinimize: false,
   user: null
@@ -108089,6 +109722,10 @@ var mutations = {
     state.searchHotels = formData;
     localStorage.setItem('searchHotels', JSON.stringify(formData));
   },
+  setSearchToursForm: function setSearchToursForm(state, formData) {
+    state.searchTours = formData;
+    localStorage.setItem('searchTours', JSON.stringify(formData));
+  },
   clearSearchHotelsForm: function clearSearchHotelsForm() {
     state.searchHotels = null;
     localStorage.removeItem('searchHotels');
@@ -108110,12 +109747,16 @@ var actions = {
     var commit = _ref5.commit;
     return commit('setSearchHotelsForm', formData);
   },
-  clearSearchHotels: function clearSearchHotels(_ref6) {
+  searchTours: function searchTours(_ref6, formData) {
     var commit = _ref6.commit;
+    return commit('setSearchToursForm', formData);
+  },
+  clearSearchHotels: function clearSearchHotels(_ref7) {
+    var commit = _ref7.commit;
     return commit('clearSearchHotelsForm');
   },
-  logout: function logout(_ref7) {
-    var commit = _ref7.commit;
+  logout: function logout(_ref8) {
+    var commit = _ref8.commit;
     commit('clearUserData');
   }
 };
@@ -108128,6 +109769,9 @@ var getters = {
   },
   searchHotels: function searchHotels(state) {
     return state.searchHotels;
+  },
+  searchTours: function searchTours(state) {
+    return state.searchTours;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({

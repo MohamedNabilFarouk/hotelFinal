@@ -157,8 +157,8 @@ if($request->type == 'hotel'){
 
 
 }else{
-
-    $booking= Booking::create($request);
+    $data = $request->all();
+    $booking= Booking::create($data);
 
 }
 
