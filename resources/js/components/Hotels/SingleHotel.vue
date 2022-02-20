@@ -79,7 +79,15 @@
 
                                                     <span v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))"
                                                           class="text-danger">
-                                                        Please select date From and date to From Checkin
+                                                        Please check date From and date to From Checkin.
+                                                        <br>
+                                                        <span v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="text-danger">
+                                                            {{checkAvailabilityForm.errors.get('from')}}
+                                                        </span>
+                                                        <br>
+                                                        <span v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="text-danger">
+                                                            {{checkAvailabilityForm.errors.get('to')}}
+                                                        </span>
                                                     </span>
 
                                                     <span v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')"
@@ -264,33 +272,11 @@
                                         <div class="form-group">
                                             <div class="row justify-content-between align-items-center">
                                                 <div class="col-6">
-                                                    <label>adults
-                                                        <input
-                                                            :class="{
-                                                                'is-invalid': bookingHotelForm.errors.has('adult')
-                                                            }"
-                                                            type="number" min="1" :max="room.maxAdult" v-model="room.adult" placeholder="adults" />
-                                                    </label>
-                                                    <span class="text-danger"
-                                                          v-if="bookingHotelForm.errors.has('adult')"
-                                                          v-html="bookingHotelForm.errors.get('adult')">
-                                                    </span>
+                                                    <strong>Adults: {{room.adult}}</strong>
                                                 </div>
-
                                                 <div class="col-6">
-                                                    <label>children
-                                                        <input
-                                                            :class="{
-                                                                'is-invalid': bookingHotelForm.errors.has('children')
-                                                            }"
-                                                            min="0" type="number" :max="room.maxChild" v-model="room.child" placeholder="children" />
-                                                    </label>
-                                                    <span class="text-danger"
-                                                          v-if="bookingHotelForm.errors.has('children')"
-                                                          v-html="bookingHotelForm.errors.get('children')">
-                                                    </span>
+                                                    <strong>Children: {{room.child}}</strong>
                                                 </div>
-
                                                 <div class="col-6">
                                                     <label>number
                                                         <input
@@ -411,7 +397,7 @@ export default {
         starRating, Gallery, CheckinModal
     },
     computed: {
-        ...mapGetters(['searchHotels']),
+        ...mapGetters(['searchHotels', 'user']),
         total_price(){return this.bookingHotelForm.rooms.reduce( (Sum, room) => parseFloat(room.price * room.number * this.diffDate(this.bookingHotelForm.date_from, this.bookingHotelForm.date_to)) + parseFloat(Sum),0);},
         total_rooms(){return this.bookingHotelForm.rooms.reduce( (Sum, room) => parseFloat(room.number) + parseFloat(Sum),0);},
     },
@@ -421,13 +407,32 @@ export default {
             hotel: {},
             cities: [],
             bookingHotelForm: new Form({
+                name: "",
+                email: "",
+                phone: "",
+                e164Phone: "",
+                country: "",
+                vendor_id: "",
+                type: "hotel", // hotel , tour
+                hotel: {},
+                customer_id: "", //from auth
+                object_id: this.$route.params.id, // hotel id
+                from: "", // date from
+                to: "", // date to
+                adult: "",
+                child: "",
+                total: "", // price * no. of rooms*nights if hotel // if tour person no * person price
+                deposit: 0, // دفع جزئي (x%) (total*x/100)
+                note: "",
+                is_paid: 0,
+                partial_payment: 0, //
+                paid: "",
+                rooms: [],
                 city: '',
                 sCity: '',
                 date_from: '',
                 date_to: '',
-                adult: 2,
                 children: 0,
-                rooms: []
             }),
             checkAvailabilityForm: new Form({
                 from: '',
@@ -442,8 +447,36 @@ export default {
         // this.getCities();
         this.fillBookingHotelForm(this.searchHotels);
     },
+    watch:{
+        user: function () {
+            if (this.user){
+                this.bookingHotelForm.name = this.user.name;
+                this.bookingHotelForm.email = this.user.email;
+                this.bookingHotelForm.phone = this.user.phone;
+                this.bookingHotelForm.e164Phone = this.user.phone;
+                this.bookingHotelForm.country = this.user.country;
+                this.bookingHotelForm.customer_id = this.user.id;
+            }
+        }
+    },
     methods: {
         showCheckinModal(){
+            if (this.user){
+                this.bookingHotelForm.name = this.user.name;
+                this.bookingHotelForm.email = this.user.email;
+                this.bookingHotelForm.phone = this.user.phone;
+                this.bookingHotelForm.e164Phone = this.user.phone;
+                this.bookingHotelForm.country = this.user.country;
+                this.bookingHotelForm.customer_id = this.user.id;
+            }
+            this.bookingHotelForm.hotel = this.hotel;
+            this.bookingHotelForm.child = this.bookingHotelForm.children;
+            this.bookingHotelForm.from = this.bookingHotelForm.date_from;
+            this.bookingHotelForm.to = this.bookingHotelForm.date_to;
+            this.bookingHotelForm.total = this.total_price;
+            this.bookingHotelForm.paid = this.total_price;
+            this.bookingHotelForm.deposit = 0;
+            this.bookingHotelForm.vendor_id = this.hotel.vendor_id;
             this.$modal.show('bookingModal');
         },
         getCities(){
@@ -480,10 +513,11 @@ export default {
                 if (res.data.success === 'true') {
                     this.bookingHotelForm.rooms.push({
                         id: room.id,
+                        room_id: room.id,
                         price: room.price,
-                        adult: room.adult <= this.bookingHotelForm.adult ? room.adult : this.bookingHotelForm.adult,
+                        adult: room.adult,
                         maxAdult: room.adult,
-                        child: room.child <= this.bookingHotelForm.child ? room.child : this.bookingHotelForm.child,
+                        child: room.child,
                         maxChild: room.child,
                         number: this.checkAvailabilityForm.number,
                         maxNumber: res.data.number,

@@ -34,6 +34,10 @@ const mutations = {
         state.searchHotels = formData;
         localStorage.setItem('searchHotels', JSON.stringify(formData));
     },
+    clearSearchHotelsForm(){
+        state.searchHotels = null;
+        localStorage.removeItem('searchHotels');
+    },
     clearUserData () {
         state.user = null;
         localStorage.removeItem('user');
@@ -49,6 +53,9 @@ const actions = {
     },
     searchHotels ({ commit }, formData){
         return  commit('setSearchHotelsForm', formData)
+    },
+    clearSearchHotels ({ commit }){
+        return  commit('clearSearchHotelsForm')
     },
     logout ({ commit }) {
         commit('clearUserData')
