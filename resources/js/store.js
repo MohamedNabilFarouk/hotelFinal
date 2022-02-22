@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 const state = {
     searchHotels: null,
+    searchTours: null,
     sidebarShow: 'responsive',
     sidebarMinimize: false,
     user: null
@@ -26,13 +27,17 @@ const mutations = {
     setUserData (state, userData) {
         state.user = userData;
         localStorage.setItem('user', JSON.stringify(userData));
-        axios.defaults.headers.common["user_id"] = userData.id;
+        axios.defaults.headers.common["id"] = userData.id;
 
-        // axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`
+        axios.defaults.headers.common.Authorization = `${userData.token}`
     },
     setSearchHotelsForm(state, formData){
         state.searchHotels = formData;
         localStorage.setItem('searchHotels', JSON.stringify(formData));
+    },
+    setSearchToursForm(state, formData){
+        state.searchTours = formData;
+        localStorage.setItem('searchTours', JSON.stringify(formData));
     },
     clearSearchHotelsForm(){
         state.searchHotels = null;
@@ -54,6 +59,9 @@ const actions = {
     searchHotels ({ commit }, formData){
         return  commit('setSearchHotelsForm', formData)
     },
+    searchTours ({ commit }, formData){
+        return  commit('setSearchToursForm', formData)
+    },
     clearSearchHotels ({ commit }){
         return  commit('clearSearchHotelsForm')
     },
@@ -68,6 +76,9 @@ const getters = {
     },
     searchHotels(state){
         return state.searchHotels;
+    },
+    searchTours(state){
+        return state.searchTours;
     }
 };
 

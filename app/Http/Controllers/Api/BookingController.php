@@ -75,6 +75,8 @@ class BookingController extends Controller
 
 
 public function booking(Request $request){
+    $country = $request->header('country') ? $request->header('country') : 'EG';
+    config()->set('app.country', $country);
 
     $validator = Validator::make($request->all(), [
            'name' => 'required|string|max:100',
@@ -83,7 +85,7 @@ public function booking(Request $request){
            'type' => 'string|required',
            'from' => 'date|required',
            'to' => 'date|required',
-           'adult' => 'string|required',
+           'adult' => 'numeric|required',
            'child' => 'numeric|required',
            'total' => 'numeric|required',
            'deposit' => 'numeric',
@@ -161,8 +163,15 @@ if($request->type == 'hotel'){
 
 
 }else{
+
 $data = $request->all();
     $booking= Booking::create($data);
+
+//    $data = $request->all();
+    $book = $request->only('name', 'phone', 'email', 'type', 'vendor_id', 'customer_id', 'object_id', 'from', 'to', 'adult', 'child', 'total', 'deposit', 'note', 'is_paid', 'partial_payment', 'paid');
+//    return $book;
+    $booking= Booking::create($book);
+
 
 }
 
@@ -250,6 +259,7 @@ $data = $request->all();
 
 // not used NOW
 public function checkRoomInDate($room,$date){
+
                 $no_rooms_booked=  HotelBooking::where([['room_id',$room],['from', $date]])->sum('number');
                 $hotel_room = Room::find($room);
                 $no_rooms_available = ($hotel_room->number)-$no_rooms_booked;
@@ -258,6 +268,8 @@ public function checkRoomInDate($room,$date){
 
 
 public function checkAvailability(Request $request){
+    $country = $request->header('country') ? $request->header('country') : 'EG';
+    config()->set('app.country', $country);
 
     // dd($request);
 

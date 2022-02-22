@@ -67,7 +67,9 @@
                                 <div class="d-flex flex-column">
                                     {{-- <a href="{{ route('resturants.edit', $c->id) }}" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{$c->name_en}}</a> --}}
                                     <span class="text-muted fw-bold text-muted d-block fs-7">
+
                                         {{$c->service ? $c->service->title : $c->id}}    {{$c->type }}
+
                                     </span>
                                 </div>
                             </div>

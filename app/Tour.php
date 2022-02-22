@@ -13,7 +13,7 @@ class Tour extends Model
     // protected $fillable=['title','content','address','vendor_id','image',]
     protected $guarded = [];
     protected $appends = [
-        'title_api', 'address_api', 'content_api'
+        'title_api', 'address_api', 'content_api', 'price_api'
     ];
 
     public function getTitleApiAttribute()
@@ -79,7 +79,22 @@ class Tour extends Model
 
     public function getImageAttribute()
     {
-        return $this->gallery[0] ? $this->gallery[0]->image : "";
+        return isset($this->gallery[0]) ? $this->gallery[0]->image : "";
+    } // end of get image attribute
+
+    public function getPriceApiAttribute()
+    {
+        if ($this->attributes['type'] == 'special'){
+            // need to check country to get price
+            return isset($this->prices[0]) ? $this->prices[0] : "";
+
+        }else{
+            return [
+                // need to check country to get world price
+                'price' => $this->attributes['price'],
+                'ch_price' => $this->attributes['child_price']
+            ];
+        }
     } // end of get image attribute
 
     public function vendor(){
@@ -89,9 +104,11 @@ class Tour extends Model
     public function country(){
         return $this->belongsTo(Country::class,'country_id','id');
     }
+
     public function gallery(){
         return $this->hasMany(TourGallery::class,'tour_id','id');
     }
+
     public function prices(){
         return $this->hasMany(TourPrices::class,'tour_id','id');
     }

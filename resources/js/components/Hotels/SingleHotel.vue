@@ -70,7 +70,7 @@
                                             <div class="col-md-3 col-4 text-center">
                                                 <div class="price">
                                                     <h4>price</h4>
-                                                    <label>{{room.price}}/Night</label>
+                                                    <label>{{room.main_price}}/Night</label>
                                                     <span>{{room.adult}} adult | {{room.child}} child</span>
                                                 </div>
 

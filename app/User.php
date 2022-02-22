@@ -11,7 +11,7 @@ class User extends Authenticatable
 {
     use LaratrustUserTrait;
     use Notifiable;
-  
+
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','code','phone','country','tax_card','commercial_record','bank_account','bank_name','balance','status'
+        'name', 'email', 'password','code','phone','country','tax_card','commercial_record','bank_account','bank_name','balance','status', 'company_name'
     ];
 
     /**
@@ -39,4 +39,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function books(){
+        return $this->hasMany(Booking::class,'customer_id','id')
+            ->with('serviceApi');
+    }
 }

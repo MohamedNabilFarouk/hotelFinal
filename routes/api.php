@@ -33,12 +33,15 @@ Route::namespace("Api")->group(function () {
     Route::get('hotels', 'HotelsController@hotels')->name('hotels');
     Route::post('hotel', 'HotelsController@singleHotel')->name('hotel');
     Route::get('searchHotel', 'HotelsController@searchHotel')->name('search.hotel');
-    Route::get('filterHotels', 'HotelsController@filterHotels')->name('filterHotels.hotel');
-    Route::post('hotelRoomsMinMaxPrice', 'HotelsController@hotelRoomsMinMaxPrice')->name('hotelRoomsMinMaxPrice.hotel');
+    Route::get('filterHotels', 'HotelsController@filterHotels')->name('filter.hotel');
+    Route::post('hotelRoomsMinMaxPrice', 'HotelsController@hotelRoomsMinMaxPrice')->name('roomsMinMaxPrice.hotel');
 
     // return all tours
     Route::get('tours', 'ToursController@tours')->name('tours');
     Route::post('tour', 'ToursController@singleTour')->name('tour');
+    Route::get('searchTour', 'ToursController@searchTour')->name('search.tour');
+    Route::get('filterTours', 'ToursController@filterTours')->name('filter.hotel');
+
     //get special tours
     Route::get('tours/special', 'SiteController@SpecialTours')->name('tours.special');
 
