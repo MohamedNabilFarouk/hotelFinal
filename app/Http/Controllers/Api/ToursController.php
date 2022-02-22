@@ -12,6 +12,8 @@ class ToursController extends Controller
     public function tours(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
 
         $tours = Tour::where([['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
@@ -22,6 +24,8 @@ class ToursController extends Controller
     public function singleTour(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $validator = Validator::make($request->all(), [
             'id' => 'required|numeric|exists:tours,id',
@@ -38,6 +42,8 @@ class ToursController extends Controller
     public function searchTour(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $validator = Validator::make($request->all(), [
             'city' => 'required|numeric|exists:governorates,id',
@@ -48,18 +54,27 @@ class ToursController extends Controller
             return response()->json(['success'=>'false', 'data'=> $validator->messages()]);
         }
 
-        $tours = Tour::where([
-            ['gov_id',$request->city],
-            ['status','1']
-        ])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
+        if ($request->type == 'special'){
+            $tours = Tour::where([
+                ['type','special'],
+                ['gov_id',$request->city],
+                ['status','1']
+            ])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
+        }else{
+            $tours = Tour::where([
+                ['gov_id',$request->city],
+                ['status','1']
+            ])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
+        }
 
         return response()->json(['success'=>'true','data'=> ['tours'=>$tours]]);
-
     }
 
     public function filterTours(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $country = $request->header('country') ? $request->header('country') : 'EG';
 
@@ -67,13 +82,27 @@ class ToursController extends Controller
         $gov_id = array_map(function($value) { return (int)$value; }, $request->gov_id);
         $star_rate = array_map(function($value) { return (int)$value; }, $request->star_rate);
 
-        $tours = Tour::where([['status', '=', '1']])->whereHas('prices', function($q) use($price, $country) {
+        if ($request->type == 'special'){
+
+            $tours = Tour::where([['type','special'],['status', '=', '1']])
+                ->whereHas('prices', function($q) use($price, $country) {
 
                 $q->where('ip', '=', $country)->whereBetween('price', $price);
 
-        })->where(function ($query) use ($star_rate, $gov_id) {
-            $query->whereIn('gov_id', $gov_id)->whereIn('star_rate', $star_rate);
-        })->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate(8);
+            })->where(function ($query) use ($star_rate, $gov_id) {
+                $query->whereIn('gov_id', $gov_id)->whereIn('star_rate', $star_rate);
+            })->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate(8);
+
+        }else{
+            $tours = Tour::where([['status', '=', '1']])
+                ->whereHas('prices', function($q) use($price, $country) {
+
+                $q->where('ip', '=', $country)->whereBetween('price', $price);
+
+            })->where(function ($query) use ($star_rate, $gov_id) {
+                $query->whereIn('gov_id', $gov_id)->whereIn('star_rate', $star_rate);
+            })->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate(8);
+        }
 
         return response()->json(['success'=>'true','data'=> ['tours'=>$tours]]);
     }

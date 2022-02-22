@@ -11,10 +11,19 @@ class Booking extends Model
 
     public function service(){
         if($this->type == 'hotel'){
-        return $this->belongsTo(Hotel::class,'object_id','id');
+            return $this->belongsTo(Hotel::class,'object_id','id');
         }elseif($this->type == 'tour'){
             return $this->belongsTo(Tour::class,'object_id','id');
+        }
+    }
 
+    public function serviceApi(){
+        if($this->type == 'hotel'){
+            return $this->belongsTo(Hotel::class,'object_id','id');
+        }elseif($this->type == 'tour'){
+            return $this->belongsTo(Tour::class,'object_id','id');
+        }else{
+            return $this->belongsTo(Tour::class, 'object_id', 'id');
         }
     }
 

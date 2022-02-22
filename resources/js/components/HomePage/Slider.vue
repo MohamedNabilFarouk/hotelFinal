@@ -1,5 +1,5 @@
 <template>
-    <div class="container sliders-main">
+    <div class="container pt-2 sliders-main">
         <div class="row">
             <div class="col-lg-6 col-12">
                 <div class="mb-4 tours-slider">
@@ -28,7 +28,7 @@
                                     {{tour.address_api}}
                                 </div>
                                 <starRating
-                                    :star-size="12"
+                                    :star-size="14"
                                     :rating="3.5"
                                     :show-rating="false"
                                     :read-only="true">
@@ -57,22 +57,28 @@
                         :dots="false">
                         <!--  item  -->
                         <div v-for="hotel in hotels">
-                            <div class="slide-img">
-                                <img :src="hotel.image"  :alt="hotel.title_api"/>
-                            </div>
-                            <div class=slider-content>
-                                <h4 class="title">{{hotel.title_api}}</h4>
-                                <div class="location">
-                                    <i class="fa fa-map-marker"></i>
-                                    {{hotel.address_api}}
+                            <router-link :to="'/hotel/'+hotel.id" >
+                                <div class="slide-img">
+                                    <img :src="hotel.image"  :alt="hotel.title_api"/>
                                 </div>
-                                <starRating
-                                    :star-size="12"
-                                    :rating="3.5"
-                                    :show-rating="false"
-                                    :read-only="true">
-                                </starRating>
-                            </div>
+                                <span class="price">
+                                        From: {{hotel.min_price}}/Night
+                                </span>
+                                <div class=slider-content>
+                                    <h4 class="title">{{hotel.title_api}}</h4>
+                                    <div class="location">
+                                        <i class="fa fa-map-marker"></i>
+                                        {{hotel.address_api}}
+                                    </div>
+                                    <starRating
+                                        :star-size="14"
+                                        :rating="3.5"
+                                        :show-rating="false"
+                                        :read-only="true">
+                                    </starRating>
+
+                                </div>
+                            </router-link>
                         </div>
                     </VueSlickCarousel>
                 </div>

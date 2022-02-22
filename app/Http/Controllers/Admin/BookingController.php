@@ -22,10 +22,10 @@ class BookingController extends Controller
     public function index(){
 
         if(Auth::user()->roles[0]->name == 'vendor'){
-        $bookings = Booking::where('vendor_id',Auth::user()->id)->paginate(10);
+            $bookings = Booking::where('vendor_id',Auth::user()->id)->paginate(10);
 
         }elseif(Auth::user()->roles[0]->name == 'admin'){
-        $bookings = Booking::paginate(10);
+            $bookings = Booking::paginate(10);
         }
 // dd($bookings->where('type','tour')->all());
         return view('admin.booking.index',compact('bookings'));

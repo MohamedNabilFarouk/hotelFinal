@@ -19,8 +19,14 @@ class SiteController extends Controller
     public function SpecialTours(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
-        $tours = Tour::where([['status','1'],['type','special']])->orderBy('id','desc')->get();
-        return response()->json(['success'=>'true','data'=> $tours]);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
+
+        $tours = Tour::where([['type','special'], ['status','1']])
+            ->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
+
+//        return response()->json(['success'=>'true','data'=> $tours]);
+        return response()->json(['success'=>'true','data'=> ['tours'=>$tours]]);
     }
 
 

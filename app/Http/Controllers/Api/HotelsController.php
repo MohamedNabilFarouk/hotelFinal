@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Hotel;
 use App\Http\Controllers\Controller;
+use App\Room;
 use App\RoomPrices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,8 @@ class HotelsController extends Controller
     public function hotels(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $hotels = Hotel::where([['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
 
@@ -22,6 +25,8 @@ class HotelsController extends Controller
     public function singleHotel(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $validator = Validator::make($request->all(), [
             'id' => 'required|numeric|exists:hotels,id',
@@ -32,12 +37,15 @@ class HotelsController extends Controller
         }
 
         $hotel = Hotel::find($request->id);
+
         return response()->json(['success'=>'true','data'=> ['hotel'=>$hotel]]);
     }
 
     public function searchHotel(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $validator = Validator::make($request->all(), [
             'city' => 'required|numeric|exists:governorates,id',
@@ -51,6 +59,7 @@ class HotelsController extends Controller
             return response()->json(['success'=>'false', 'data'=> $validator->messages()]);
         }
 
+
         $hotels = Hotel::where([
             ['status','1'],
             ['gov_id',$request->city]
@@ -62,8 +71,8 @@ class HotelsController extends Controller
     public function filterHotels(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
-
         $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $price = array_map(function($value) { return (int)$value; }, $request->price);
         $gov_id = array_map(function($value) { return (int)$value; }, $request->gov_id);
@@ -71,9 +80,9 @@ class HotelsController extends Controller
 
         $hotels = Hotel::where([['status', '=', '1']])->whereHas('rooms', function($q) use($price, $country) {
 
-                $q->whereHas('prices', function($q) use($price, $country) {
-                    $q->where('ip', '=', $country)->whereBetween('price', $price);
-                });
+//                $q->whereHas('prices', function($q) use($price, $country) {
+//                    $q->where('ip', '=', $country)->whereBetween('price', $price);
+//                });
 
         })->where(function ($query) use ($star_rate, $gov_id) {
                 $query->whereIn('gov_id', $gov_id)
@@ -86,17 +95,19 @@ class HotelsController extends Controller
     public function hotelRoomsMinMaxPrice(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $country = $request->header('country') ? $request->header('country') : 'EG';
 
-        $min_price = RoomPrices::where('ip','=', $country)->select('price as min_price')->orderBy('price','asc')->first();
-        $max_price = RoomPrices::where('ip','=', $country)->select('price as max_price')->orderBy('price','desc')->first();
+//        $min_price = RoomPrices::where('ip','=', $country)->select('price as min_price')->orderBy('price','asc')->first();
+//        $max_price = RoomPrices::where('ip','=', $country)->select('price as max_price')->orderBy('price','desc')->first();
 
-        $min_price = $min_price->min_price;
-        $max_price = $max_price->max_price;
+//        $min_price = $min_price->min_price ? $min_price->min_price : 0;
+//        $max_price = $max_price->max_price ? $max_price->max_price : 5000;
         return response()->json(['success'=>'true', 'data'=> [
-           'min_price' => $min_price,
-            'max_price' => $max_price]
+           'min_price' => 0,
+            'max_price' => 50000]
         ]);
     }
 }

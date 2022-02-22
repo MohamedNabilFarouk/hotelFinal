@@ -12,6 +12,8 @@ class CitiesController extends Controller
     public function cities(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         $cities = Governorate::all();
 

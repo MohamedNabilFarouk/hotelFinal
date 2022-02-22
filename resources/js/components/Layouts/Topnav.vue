@@ -2,17 +2,23 @@
     <div class="header-bonus">
         <div class="container">
             <div class="row justify-content-between">
-                <div class="col-md-6">
+                <div class="col-6 d-flex">
                     <div class="bonus-login pull-left">
                         <button v-if="user" class="btn-link dropdown-toggle" data-toggle="dropdown">
                             {{user.name}}
                             <span class="hidden-xs hidden-sm hidden-md"></span> <i class="fa fa-angle-down"></i>
                         </button>
+
                         <ul v-if="user" class="dropdown-menu">
                             <li>
-                                <button @click="logout()" class="btn-block language-select" type="button">
+                                <router-link to="/profile" class="btn-block language-select" type="button">
+                                    profile
+                                </router-link>
+                            </li>
+                            <li>
+                                <a href="#" @click.prevent="logout()" class="btn-block language-select" type="button">
                                     {{$t('logout')}}
-                                </button>
+                                </a>
                             </li>
                         </ul>
 
@@ -47,16 +53,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6 d-flex justify-content-end">
+                    <div class="bonus-mail pull-right">
+                        <a target="_blank" href="mailto:info@hoteelsegypt.com">info@hoteelsegypt.com</a>
+                    </div>
                     <ul class="bonus-social pull-right">
                         <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                     </ul>
-                    <div class="bonus-mail pull-right">
-                        <a target="_blank" href="mailto:info@hoteelsegypt.com">info@hoteelsegypt.com</a>
-                    </div>
                 </div>
             </div>
 
@@ -280,7 +286,7 @@ name: 'Topnav',
         registrationFun() {
             this.authForm.phone = this.authForm.e164Phone;
             this.authForm.post("user/store").then((res) => {
-                if (res.data.success === 'true') {
+                if (res.data.status === 'success') {
                     this.closeModal();
                     this.$store.dispatch('login', this.authForm);
                 } else {

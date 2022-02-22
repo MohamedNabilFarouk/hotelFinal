@@ -49,15 +49,15 @@
                                                             </router-link>
                                                         </li>
                                                         <li class="hover">
-                                                            <router-link to="tours/special" class="clearfix">
+                                                            <router-link to="/tours/special" class="clearfix">
                                                                 {{$t('special tours')}}
                                                             </router-link>
                                                         </li>
-                                                        <li class="hover">
-                                                            <router-link to="/FlightBooking" class="clearfix">
-                                                                {{$t('flight booking')}}
-                                                            </router-link>
-                                                        </li>
+<!--                                                        <li class="hover">-->
+<!--                                                            <router-link to="/FlightBooking" class="clearfix">-->
+<!--                                                                {{$t('flight booking')}}-->
+<!--                                                            </router-link>-->
+<!--                                                        </li>-->
                                                         <li class="hover">
                                                             <router-link to="/become-a-vendor" class="clearfix">
                                                                 {{$t('become a vendor')}}

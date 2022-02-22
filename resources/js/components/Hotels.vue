@@ -261,7 +261,7 @@
                                             <div class="des">{{hotel.content_api}}</div>
                                             <div class="item-bot clearfix">
                                                 <div class="price pull-left">
-                                                    from <label>$230</label><span>person</span>
+                                                    from <label>{{hotel.min_price}}</label><span>Night</span>
                                                 </div>
                                                 <router-link :to="'hotel/'+hotel.id" class="book-now btn-quickview quickview quickview_handler pull-right" title="Quick View" data-title="Quick View" data-fancybox-type="iframe">Book now</router-link>
                                             </div>
