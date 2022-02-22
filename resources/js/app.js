@@ -17,10 +17,18 @@ Vue.component("v-select", vSelect);
 Vue.use(Router);
 Vue.use(VModal,  { componentName: 'modal' });
 
+
 const lang = localStorage.getItem("lang") || "en";
 axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.common["lang"] = lang;
 Vue.config.productionTip = false;
+axios.defaults.headers.common["country"] = "US";
+fetch("https://ipinfo.io/json?token=eff8d09c8a179d").then((response) => response.json())
+    .then((jsonResponse) => {
+        localStorage.setItem("country", jsonResponse.country);
+        axios.defaults.headers.common["country"] = "US";//localStorage.getItem("country") || jsonResponse.country;
+    }
+);
 
 Vue.filter('date', function(date){
     return moment(date).format('YYYY-MMM-Do dddd, h:mm a');
@@ -37,6 +45,14 @@ let routes = [
 
     { path: '/tours', component: require("./components/Tours.vue").default, name: "Tours", props: true, meta: {auth: false} },
     { path: '/tour/:id', component: require("./components/Tours/SingleTour.vue").default, name: "Tour", meta: {auth: false} },
+    { path: '/tours/special', component: require("./components/SpecialTours.vue").default, name: "SpecialTours", props: true, meta: {auth: false} },
+
+    { path: '/become-a-vendor', component: require("./components/BecomeVendor.vue").default, name: "BecomeVendor", meta: {auth: false} },
+    { path: '/vendor-terms-and-conditions', component: require("./components/BecomeVendorConditions.vue").default, name: "BecomeVendorConditions", meta: {auth: false} },
+
+    { path: '/profile', component: require("./components/Profile.vue").default, name: "Profile", meta: {auth: false} },
+
+
 ];
 
 const router = new Router({
@@ -58,13 +74,6 @@ const router = new Router({
 //     }
 //     next();
 // });
-
-
-// fetch("https://ipinfo.io/json?token=eff8d09c8a179d").then(
-//     (response) => response.json()
-// ).then(
-//     (jsonResponse) => console.log(jsonResponse)
-// );
 
 new Vue({
     router,

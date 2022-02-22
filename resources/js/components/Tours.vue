@@ -9,7 +9,7 @@
                     <span id="close-sidebar" class="fa fa-times"></span>
 
                     <div class="module-rate clearfix">
-                        <h3 class="modtitle">Tour searching</h3>
+                        <h3 class="modtitle">Tours searching</h3>
                         <form @submit.prevent="searchTour()"
                               class="row px-4 justify-content-between align-items-center">
 
@@ -119,11 +119,9 @@
                                     </label>
                                 </li>
                             </ul>
-                            {{filterToursForm.star_rate}}
                         </div>
                         <div class="module-rate clearfix">
                             <h3>Cities</h3>
-                            {{filterToursForm.gov_id}}
                             <ul>
                                 <li v-for="city in filterToursForm.cities">
                                     <label class="d-flex align-items-center">
@@ -291,6 +289,8 @@ export default {
                 sCity: '',
                 date: ''
             }),
+            min_price: 0,
+            max_price: 5000,
             filterToursForm: new Form({
                 price: [0, 5000],
                 star_rate: [],
@@ -307,15 +307,15 @@ export default {
         if (this.searchToursForm.city){
             this.filterToursForm.gov_id.push(parseInt(this.searchToursForm.city));
         }
-        axios.post('toursRoomsMinMaxPrice').then((res)=>{
-            if (res.data.success === 'true'){
-                this.min_price = res.data.data && res.data.data.min_price ? res.data.data.min_price : 0;
-                this.max_price = res.data.data && res.data.data.max_price ? res.data.data.max_price : 1;
-                this.filterToursForm.price[0] = this.min_price;
-                this.filterToursForm.price[1] = this.max_price;
-                this.loading = false;
-            }
-        }).catch();
+        // axios.post('toursRoomsMinMaxPrice').then((res)=>{
+        //     if (res.data.success === 'true'){
+        //         this.min_price = res.data.data && res.data.data.min_price ? res.data.data.min_price : 0;
+        //         this.max_price = res.data.data && res.data.data.max_price ? res.data.data.max_price : 1;
+        //         this.filterToursForm.price[0] = this.min_price;
+        //         this.filterToursForm.price[1] = this.max_price;
+        //         this.loading = false;
+        //     }
+        // }).catch();
     },
     methods: {
         getCities(){

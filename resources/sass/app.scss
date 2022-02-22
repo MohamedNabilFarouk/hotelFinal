@@ -269,6 +269,16 @@ header.typeheader-1 .header-top{
     font-size: 0;
     cursor: pointer;
 }
+.popular-rooms-slider .slick-slide{
+    height: 200px !important;
+    cursor: pointer;
+    //padding: 0 5px;
+}
+.popular-rooms-slider img.img-responsive{
+    height: 200px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
 .travel-search-content .travl-search-advanced{
     margin: 0;
 }
@@ -478,10 +488,10 @@ header .dropdown-menu > li .btn-block {
     padding: 0;
     margin: 0;
 }
-textarea, input, select{
+textarea, input, select,
+.contact-bot .form-contact .form-group input{
     border-radius: 3px;
     background-color: #fff;
-    border: none;
     color: #3d3d3d;
     padding: 9px;
     font-size: 1.2rem;
@@ -489,6 +499,7 @@ textarea, input, select{
     transition: all 0.3s ease;
     display: block;
     width: 100%;
+    border: 1px solid #ccc;
 }
 .btn {
     display: inline-block;
@@ -636,6 +647,36 @@ input[type=radio], input[type=checkbox]{
 .simple-range-slider-bar{
     width: 100% !important;
 }
+.contact-bot .form-contact .form-group input {
+    height: auto;
+    line-height: normal;
+}
+.slick-slide.slick-active {
+    padding: 0 5px;
+    overflow: hidden;
+}
+.module-travel ul li a{
+    font-weight: bold;
+}
+.module-travel ul li a.active{
+    color: #2db2ff;
+}
+.hotels-slider .price{
+    //font-size: 18px;
+    color: #2db2ff;
+    //font-weight: 700;
+    background: #fff;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    height: 30px;
+    line-height: 31px;
+    padding: 0 15px;
+    border-radius: 16px;
+    z-index: 1;
+}
+
+
 body{
     font-size: 1.2rem;
 }

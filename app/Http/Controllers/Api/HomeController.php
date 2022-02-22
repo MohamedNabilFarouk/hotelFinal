@@ -20,13 +20,16 @@ class HomeController extends Controller
     public function home(Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
+
         $hotels = Hotel::where([['home','1'],['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->get();
         $tours = Tour::where([['home','1'],['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->get();
         $spaces = Room::where([['home','1'],['status','1'],['type','space']])->get();
 
         $slider_tours = Tour::where([['home','1'],['status','1']])->inRandomOrder()->limit(5)->get();
         $slider_hotels = Hotel::where([['home','1'],['status','1']])->inRandomOrder()->limit(5)->get();
-        $slider_governorates = Governorate::select('id', 'image','name_'.$lang.' as name')->inRandomOrder()->limit(10)->get();
+        $slider_governorates = Governorate::inRandomOrder()->limit(10)->get();
 
         return response()->json(['success'=>'true','data'=> [
             'slider_governorates' => $slider_governorates,

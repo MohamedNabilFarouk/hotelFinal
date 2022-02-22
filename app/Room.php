@@ -14,7 +14,7 @@ class Room extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'title_api', 'address_api', 'content_api'
+        'title_api', 'address_api', 'content_api', 'main_price'
     ];
 
     public function getTitleApiAttribute()
@@ -90,8 +90,26 @@ class Room extends Model
     public function gallery(){
         return $this->hasMany(RoomGallery::class,'room_id','id');
     }
+
     public function prices(){
         return $this->hasMany(RoomPrices::class,'room_id','id');
+    }
+
+    public function getMainPriceAttribute(){
+        if (config()->get('app.country') == 'EG'){
+            if ($this->on_sale == 1){
+                return $this->sale_price;
+            }else{
+                return $this->price;
+            }
+        }else{
+            $room_price = RoomPrices::where([
+                ['ip', '=', config()->get('app.country')],
+                ['room_id', '=', $this->id]
+            ])->select('price')->first();
+            $price = isset($room_price) ? $room_price->price : $this->price;
+            return $price;
+        }
     }
 
 

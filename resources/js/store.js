@@ -27,9 +27,9 @@ const mutations = {
     setUserData (state, userData) {
         state.user = userData;
         localStorage.setItem('user', JSON.stringify(userData));
-        axios.defaults.headers.common["user_id"] = userData.id;
+        axios.defaults.headers.common["id"] = userData.id;
 
-        // axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`
+        axios.defaults.headers.common.Authorization = `${userData.token}`
     },
     setSearchHotelsForm(state, formData){
         state.searchHotels = formData;

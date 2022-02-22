@@ -15,7 +15,7 @@ class Hotel extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'title_api', 'address_api', 'content_api', 'data'
+        'title_api', 'address_api', 'content_api', 'min_price', 'data'
     ];
 
     public function getTitleApiAttribute()
@@ -51,6 +51,29 @@ class Hotel extends Model
 
     } // end of content api app lang
 
+    public function getMinPriceAttribute()
+    {
+        $room = Room::where([['hotel_id', '=', $this->id]])
+            ->orderBy('sale_price','asc')->orderBy('price', 'asc')->first();
+
+        if ($room){
+            if (config()->get('app.country') == 'EG'){
+                if ($room->on_sale == '1'){
+                    return $room->sale_price;
+                }else{
+                    return $room->price;
+                }
+            }else{
+                $room_price = RoomPrices::where([
+                    ['ip', '=', config()->get('app.country')],
+                    ['room_id', '=', $room->id]
+                ])->select('price')->first();
+                $price = isset($room_price) ? $room_price->price : null;
+                return $price;
+            }
+        }
+    }
+
     public function setTitleAttribute($value){
         $this->attributes['title'] = $value;
     // $this->attributes['slug'] = Str::slug($value);
@@ -64,11 +87,12 @@ class Hotel extends Model
 
     }
 
+
     public function getDataAttribute(){
         return [
-            'gallery' => $this->gallery,
-            'country' => $this->country,
-            'gov' => $this->gov,
+//            'gallery' => $this->gallery,
+//            'country' => $this->country,
+//            'gov' => $this->gov,
             'rooms' => $this->rooms
         ];
     }
@@ -108,8 +132,8 @@ class Hotel extends Model
             ->with('prices');
     }
 
-
     public function gallery(){
         return $this->hasMany(HotelGallery::class,'hotel_id','id');
     }
+
 }
