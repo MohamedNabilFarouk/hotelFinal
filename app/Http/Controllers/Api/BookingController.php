@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Booking;
 use App\HotelBooking;
 use App\Room;
+use App\User;
+use App\VendorTransaction;
+use Carbon\Carbon;
 use DB;
 use DateTime;
+use Illuminate\Support\Facades\Session;
 use Validator;
 
 class BookingController extends Controller
@@ -157,12 +161,84 @@ if($request->type == 'hotel'){
 
 
 }else{
-
-    $booking= Booking::create($request);
+$data = $request->all();
+    $booking= Booking::create($data);
 
 }
 
-    //   payment here
+    // //   payment here
+
+
+    //         $country = "EG";
+    //         $reference    =  $booking->id;
+    //         Session::put('booking_id', $booking->id);
+
+    //         $amount= [
+    //             "total"=> $request->total * 100, //$request->total
+    //             "currency"=> 'EGP',
+    //         ];
+    //         $product= [
+    //             "name"=> 'New Booking',
+    //             "description"=> 'xxxxxxxxxxxxxxxxx',
+    //         ];
+    //         $userInfo= [
+    //             "userEmail"=>$booking->email,
+    //             "userId"=>'',
+    //             "userMobile"=>$booking->phone,
+    //             "userName"=>$booking->first_name . $booking->last_name
+    //         ];
+    //         $returnUrl  = 'https://hoteelsegypt.com/';
+    //         // $callbackUrl  = 'http://opayapi-001-site1.itempurl.com/api/payloads/OpayCallback';
+
+    //         $cancelUrl  = 'https://hoteelsegypt.com/';
+    //         // $userClientIP = '1.1.1.1';
+    //         $expireAt = 30;
+    //         $httpClient = new \GuzzleHttp\Client();
+    //         // https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create  //test mode
+    //         // https://api.opaycheckout.com/api/v1/international/cashier/create  //live mode
+    //         $response = $httpClient->request('POST', 'https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create', [
+    //                     'headers' => [
+    //                         'Content-Type' => 'application/json',
+    //                         'Accept'       => 'application/json',
+    //                         'Authorization' => 'Bearer OPAYPUB16419035640800.28463034883201754', //test
+    //                         //'Authorization' => 'Bearer OPAYPUB16419847297280.928306246565266', //live
+    //                         'MerchantId' => '281822011132508' //test
+    //                         //"MerchantId"=> "281822011276020", //live
+
+    //                     ],
+    //                     'body' => json_encode( [
+    //                                     'country' => $country,
+    //                                     'reference' => $reference,
+    //                                     'amount' => $amount,
+    //                                     // 'payMethod'=> 'BankCard',
+    //                                     'product' => $product,
+    //                                     'userInfo' => $userInfo,
+    //                                     'returnUrl' => 'https://hoteelsegypt.com/',
+    //                                     'callbackUrl'=> 'https://hoteelsegypt.com/OpayCallback',
+    //                                     'cancelUrl' => $cancelUrl,
+    //                                     // 'userClientIP' => $userClientIP,
+    //                                     'expireAt' => $expireAt,
+    //                                 ] , true)
+    //         ]);
+    //         // dd($response);
+    //         $response = json_decode($response->getBody()->getContents(), true);
+    //         //  return $response;
+    //         if($response['data']){
+    //             $paymentStatus = $response['data']; // get response values
+    //             $url=$paymentStatus['cashierUrl'];
+
+    //             return redirect($paymentStatus['cashierUrl']);
+
+
+    //         }else{
+    //             return $response['message'];
+    //         }
+
+
+
+    // // end payment
+
+
 
 
        return response()->json(['success'=>'true','message'=>'added successfully']);
@@ -230,6 +306,67 @@ public function checkAvailability(Request $request){
     return  ['number'=>$no_rooms_available, 'success'=>'true'];
 }
 }
+
+
+
+
+
+public function Opaycallback(Request $request)
+ {
+     // dd($request);
+ //    if($request->json){
+ //        dd('done');
+ //    }
+     if($request['payload']['status'] == 'SUCCESS'){
+
+     // updata is_paid and return to success page or Home Page
+     $booking= Booking::where('id',$request['payload']['reference'])->first();
+    //  $booking->status = 'completed';
+     $booking->is_paid = 1;
+     $booking->save();
+
+
+//      // extra cal
+
+//         //  $booking->sendNewBookingEmails();
+
+
+//         //      // calculate balance
+//              $vendor_id = $booking->vendor_id;
+//              $trans = VendorTransaction::where('vendor_id',$vendor_id)->orderBy('updated_at', 'desc')->first();
+//              if(isset($trans)){
+//                      $withdrow_date= $trans->updated_at;
+//         //              $booked_packages_total = RoomPackageBooking::where([['vendor_id',$vendor_id],['is_paid','1'],['updated_at','>',$withdrow_date]])->pluck('total')->sum();
+//                      $booked_hotel_total = Booking::where([['vendor_id',$vendor_id],['is_paid','1'],['updated_at','>',$withdrow_date]])->pluck('total')->sum();
+
+//              }else{
+//         //          // dd('here');
+//                  $withdrow_date = Carbon::now();
+//         //          $booked_packages_total = RoomPackageBooking::where([['vendor_id',$vendor_id],['is_paid','1']])->pluck('total')->sum();
+//                  $booked_hotel_total = Booking::where([['vendor_id',$vendor_id],['is_paid','1']])->pluck('total')->sum();
+//              }
+
+//              $balance_before =   $booked_hotel_total;
+//              $balance_after = $balance_before - ($balance_before * .1);
+//                          $vendor= User::where('id',$vendor_id)->first();
+//                          if(isset($vendor)){
+//                              $vendor->balance = $balance_after;
+//                              $vendor->save();
+//                          }
+//              // end calculate balance
+
+//  // end extra cal
+
+
+      return 'success';
+ }else{
+     return 'Error';
+ }
+
+
+
+        }
+
 
 
 }

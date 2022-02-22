@@ -173,10 +173,12 @@ class TourController extends Controller
             //         $prices->save();
             //     }
             // }
-
+// dd($request->all());
             if(isset($request->arr)){
-                TourPrices::where('tour_id',$id)->delete();
+// dd($request->arr);
+                 TourPrices::where('tour_id',$id)->delete();
                 foreach($request->arr as $p){
+                    //    dd($p['country']);
                     foreach($p['country'] as $i){
                     $prices = new TourPrices();
                     $prices->tour_id = $tour->id;

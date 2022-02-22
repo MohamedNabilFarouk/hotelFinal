@@ -55,16 +55,20 @@
                 <!--end::Table head-->
                 <!--begin::Table body-->
                 <tbody>
+
                 @foreach($bookings as $c)
+
                     <tr class="text-center border-3 m-auto">
                          <td class="px-3">
                             <div class="d-flex align-items-center">
                                 <div class="symbol symbol-50px me-5">
-                                    <img src="{{ $c->service->image }}" class="" alt="" />
+                                    <img src="{{$c->service ? $c->service->image : ''}}" class="" alt="" />
                                 </div>
                                 <div class="d-flex flex-column">
                                     {{-- <a href="{{ route('resturants.edit', $c->id) }}" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{$c->name_en}}</a> --}}
-                                    <span class="text-muted fw-bold text-muted d-block fs-7">{{$c->service->title}}</span>
+                                    <span class="text-muted fw-bold text-muted d-block fs-7">
+                                        {{$c->service ? $c->service->title : $c->id}}    {{$c->type }}
+                                    </span>
                                 </div>
                             </div>
                         </td>
@@ -98,13 +102,13 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </a>
-                            <form action="{{ route('bookings.destroy', $c->id) }}" method="post" id='delform' style="display: inline-block">
+                            {{-- <form action="{{ route('bookings.destroy', $c->id) }}" method="post" id='delform' style="display: inline-block">
                                 @csrf
                                 @method('delete')
 
 
                                 <button type="submit" class="btn btn-defult btn-xs delete" style='width:20px'><i class="fa fa-trash"></i> </button>
-                            </form>
+                            </form> --}}
                         </td>
                     </tr>
                     @endforeach

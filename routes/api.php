@@ -54,5 +54,8 @@ Route::namespace("Api")->group(function () {
     //get all Cities
     Route::get('cities', 'CitiesController@cities')->name('cities');
 
+
+
+
 //});
 });
