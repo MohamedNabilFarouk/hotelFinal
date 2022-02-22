@@ -15,7 +15,7 @@ use Auth;
 use Validator;
 use App\Traits\imagesTrait;
 use Str;
-
+use App\Http\Resources\BookingResource;
 class UsersController extends Controller
 {
     use imagesTrait;
@@ -193,6 +193,7 @@ class UsersController extends Controller
             return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
         }
 
+
         //User check
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
         $user = Auth::user();
@@ -218,10 +219,11 @@ class UsersController extends Controller
     }
 
 
+
     public function historyBooking($id){
 
-        $booking_history= Booking::where('customer_id',$id)->get();
-        return response()->json(['status'=>'success','data'=>$booking_history]);
+          $booking_history= Booking::where('customer_id',$id)->get();
+                return response()->json(['status'=>'success','data'=>BookingResource::collection($booking_history)]);
 
     }
 

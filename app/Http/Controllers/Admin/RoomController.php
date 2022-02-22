@@ -179,12 +179,14 @@ class RoomController extends Controller
             //         $prices->save();
             //     }
             // }
+//   dd($request->arr);
 
             if(isset($request->arr)){
-
+                RoomPrices::where('room_id',$id)->delete();
                 foreach($request->arr as $p){
+//   dd($p['country']);
                     foreach($p['country'] as $i){
-
+//  dd($i);
                     $prices = new RoomPrices();
                     $prices->room_id = $room->id;
                     $prices->ip = $i;

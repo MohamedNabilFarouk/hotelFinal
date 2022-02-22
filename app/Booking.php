@@ -26,7 +26,13 @@ class Booking extends Model
             return $this->belongsTo(Tour::class, 'object_id', 'id');
         }
     }
+        public function hotel(){
+            return $this->belongsTo(Hotel::class,'object_id','id');
+        }
+        public function tour(){
+            return $this->belongsTo(Tour::class,'object_id','id');
 
+        }
     public function customer(){
         return $this->belongsTo(User::class,'customer_id','id');
     }
