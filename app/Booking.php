@@ -40,4 +40,8 @@ class Booking extends Model
     public function vendor(){
         return $this->belongsTo(User::class,'vendor_id','id');
     }
+    public function hotelBooking(){
+        return $this->hasMany(HotelBooking::class,'booking_id','id');
+    }
+
 }

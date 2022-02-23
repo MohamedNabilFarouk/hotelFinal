@@ -58,7 +58,9 @@ Route::namespace("Api")->group(function () {
     //get all Cities
     Route::get('cities', 'CitiesController@cities')->name('cities');
 
+//get all currency and lang
 
+Route::get('langcurrency', 'SiteController@lang_currency');
 
 
 //});
