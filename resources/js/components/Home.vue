@@ -1,12 +1,20 @@
 <template>
     <div>
-        <Slider :tours="slider_tours" :hotels="slider_hotels" :cities="slider_governorates" />
+        <div class="main-sliders">
+            <Slider :tours="slider_tours" :hotels="slider_hotels" :cities="slider_governorates" />
+        </div>
+
         <Search />
-        <Hotels :hotels="hotels" />
-        <Tours :tours="tours" />
-        <BannerVideo video="BapSQFJPMM0" backgroundImage="https://d3jmn01ri1fzgl.cloudfront.net/photoadking/webp_thumbnail/6068378361475_json_image_1617442691.webp" />
+
         <Rooms :rooms="rooms" />
+
+        <Hotels :hotels="hotels" />
+
+        <BannerVideo video="BapSQFJPMM0" backgroundImage="https://d3jmn01ri1fzgl.cloudfront.net/photoadking/webp_thumbnail/6068378361475_json_image_1617442691.webp" />
+
         <Spaces :spaces="spaces" />
+
+        <Tours :tours="tours" />
     </div>
 </template>
 

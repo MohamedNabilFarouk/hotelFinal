@@ -1,73 +1,72 @@
 <template>
     <div>
-        <section class="section-style2">
-        <div class="container page-builder-ltr">
-            <div class="row row-style row_a1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_a1c">
-                    <div class="module so-deals-1tr home1_deals so-deals">
-                        <div class="head-title clearfix">
-                            <div class="block-title pull-left">
-                                <h3><span>popular Spaces</span></h3>
+        <section class="section-style4 mb-1">
+            <div class="container page-builder-ltr">
+                <div class="row row-style row_a1">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_a1c">
+                        <div class="module so-deals-1tr home1_deals so-deals">
+                            <div class="head-title clearfix">
+                                <div class="block-title pull-left">
+                                    <h3 class="text-capitalize"><span>{{$t('popular') + ' ' + $t('spaces')}}</span></h3>
+                                </div>
+<!--                                <router-link to="/hotels" class="pull-right">-->
+<!--                                    {{$t('view all')}}-->
+<!--                                    <i class="fa fa-angle-right" aria-hidden="true"></i>-->
+<!--                                </router-link>-->
                             </div>
-                            <router-link to="hotels"
-                               class="pull-right">
-                                view all
-                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                            </router-link>
-                        </div>
 
-                        <div class="modcontent">
-                            <div class="popular-hotels-slider">
-                                <VueSlickCarousel ref="popularHotelsSlider" v-if="spaces.length > 0" v-bind="settings">
-                                    <!--  items  -->
-                                    <div class="item" v-for="space in spaces">
-                                        <div class="transition product-layout">
-                                            <div class="product-item-container ">
-                                                <div class="item-block so-quickview">
-                                                    <div class="image">
-                                                        <img :src="space.image"
-                                                             :alt="space.title_api"
-                                                             class="img-responsive">
-                                                    </div>
-                                                    <div class="item-content">
-                                                        <h3>{{space.title_api}}</h3>
-                                                        <div class="reviews-content mb-3">
-                                                            <starRating
-                                                                :star-size="15"
-                                                                :rating="space.star_rate ? parseInt(space.star_rate) : 0"
-                                                                :show-rating="false"
-                                                                :read-only="true"></starRating>
+                            <div class="modcontent">
+                                <div class="">
+                                    <VueSlickCarousel ref="popularToursSlider" v-if="spaces && spaces.length > 0" v-bind="settings">
+                                        <!--  items  -->
+                                        <div class="item" v-for="space in spaces">
+                                            <div class="item-inner">
+                                                <div class="transition product-layout">
+                                                    <div class="product-item-container ">
+                                                        <div class="item-block so-quickview">
+                                                            <div class="image">
+                                                                <router-link :to="'/hotel/'+space.hotel_id">
+                                                                    <img :src="space.image" :alt="space.title_api" class="img-responsive">
+                                                                </router-link>
+                                                            </div>
+                                                            <div class="item-content clearfix">
+                                                                <h3>{{space.title_api}}</h3>
+                                                                <div class="reviews-content">
+                                                                    <starRating
+                                                                        :star-size="15"
+                                                                        :rating="space.star_rate ? parseInt(space.star_rate) : 0"
+                                                                        :show-rating="false"
+                                                                        :read-only="true"></starRating>
+                                                                </div>
+                                                                <ul>
+                                                                    <li :title="$t('size')"><i class="fa fa-arrows-alt"></i> {{space.size}} {{$t('m')}}<sup>2</sup></li>
+                                                                    <li :title="$t('bed')"><i class="fa fa-bed"></i> {{space.bed}}</li>
+                                                                    <li :title="$t('adults')"><i class="fa fa-user"></i> {{space.adult}}</li>
+                                                                    <li :title="$t('child')"><i class="fa fa-child"></i> {{space.child}}</li>
+                                                                    <li :title="$t('bathroom')"><i class="fa fa-bath"></i> {{space.bathroom}}</li>
+                                                                </ul>
+
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="price text-capitalize">
+                                                                        <label>{{space.main_price}}</label><span>{{$t('night')}}</span>
+                                                                    </div>
+                                                                    <router-link :to="'/hotel/'+space.hotel_id" class="book-now text-capitalize btn-quickview quickview quickview_handler">{{$t('view now')}}</router-link>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <ul>
-                                                            <li><i class="fa fa-map-marker" aria-hidden="true"></i> {{space.address_api}}</li>
-                                                            <li><i class="fa fa-clock-o" aria-hidden="true"></i> 2 Day</li>
-                                                            <li><i class="fa fa-user-circle" aria-hidden="true"></i> 4 Pers</li>
-                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </VueSlickCarousel>
-
-                                <div class="owl2-controls">
-                                    <div class="owl2-nav">
-                                        <div @click="showPrev" class="owl2-prev" style="display: none;">
-                                            <i class="fa fa-angle-left"></i>
-                                        </div>
-                                        <div @click="showNext" class="owl2-next" style="display: none;">
-                                            <i class="fa fa-angle-right"></i>
-                                        </div>
-                                    </div>
-                                    <div style="display: none;" class="owl2-dots"></div>
+                                    </VueSlickCarousel>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
     </div>
 </template>
 <script>
@@ -86,7 +85,7 @@ export default {
     data() {
         return {
             settings:{
-                arrows: false,
+                arrows: true,
                 dots: false,
                 infinite: true,
                 speed: 500,
