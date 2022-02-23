@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 use App\Governorate;
 use App\Http\Controllers\Controller;
+use App\SiteSetting;
+use App\SocialSetting;
 use Illuminate\Http\Request;
 use App\Booking;
 use App\HotelBooking;
@@ -43,6 +45,19 @@ class HomeController extends Controller
     }
 
 
+    public function sittings(Request $request){
+        $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
+
+
+        $sittings = SiteSetting::first();
+        $social = SocialSetting::get();
+
+
+        return response()->json(['success'=>'true','data'=>['sittings'=>$sittings, 'social'=>$social]]);
+    }
 
 
 }

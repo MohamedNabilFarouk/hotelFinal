@@ -8,6 +8,7 @@ import i18n from "./i18n";
 import vSelect from "vue-select";
 import VModal from 'vue-js-modal';
 import moment from 'moment';
+import Notifications from 'vue-notification';
 
 Vue.component('VuePhoneNumberInput', require('vue-phone-number-input'));
 
@@ -16,19 +17,26 @@ Vue.component("v-select", vSelect);
 
 Vue.use(Router);
 Vue.use(VModal,  { componentName: 'modal' });
+Vue.use(Notifications);
 
 
 const lang = localStorage.getItem("lang") || "en";
 axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.common["lang"] = lang;
 Vue.config.productionTip = false;
-axios.defaults.headers.common["country"] = "US";
-fetch("https://ipinfo.io/json?token=eff8d09c8a179d").then((response) => response.json())
-    .then((jsonResponse) => {
-        localStorage.setItem("country", jsonResponse.country);
-        axios.defaults.headers.common["country"] = "US";//localStorage.getItem("country") || jsonResponse.country;
-    }
-);
+
+const country =  localStorage.getItem("country") || null;
+if (country){
+    axios.defaults.headers.common["country"] =  country;
+}else {
+
+    fetch("https://ipinfo.io/json?token=eff8d09c8a179d").then((response) => response.json())
+        .then((jsonResponse) => {
+                localStorage.setItem("country", jsonResponse.country);
+                axios.defaults.headers.common["country"] =  jsonResponse.country;
+            }
+        );
+}
 
 Vue.filter('date', function(date){
     return moment(date).format('YYYY-MMM-Do dddd, h:mm a');
@@ -59,7 +67,10 @@ const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     linkActiveClass: 'active',
-    routes: routes
+    routes: routes,
+    scrollBehavior() {
+        return {x: 0, y: 0}
+    }
 });
 
 // router.beforeEach((to, from, next) => {

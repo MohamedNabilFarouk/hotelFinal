@@ -1,88 +1,84 @@
 <template>
-    <!-- Header Container  -->
-    <header id="header" class="typeheader-1">
+    <div>
         <!-- Header Top -->
         <Topnav/>
-
-        <div class="header-top hidden-compact">
+        <nav class="navbar border-bottom navbar-light">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-xs-3 header-logo pull-left">
-                        <div class="navbar-logo">
-                            <router-link to="/">
-                                <img src="https://hoteelsegypt.com/uploads/0000/1/2021/09/30/hoteels-150.png"
-                                   class="w-auto"  alt="Hoteels Egypt" title="Hoteels Egypt">
-                            </router-link>
-                        </div>
+                <router-link class="navbar-brand" to="/">
+                    <img src="https://hoteelsegypt.com/uploads/0000/1/2021/09/30/hoteels-150.png" class="w-auto"  alt="Hoteels Egypt" title="Hoteels Egypt">
+                </router-link>
+
+                <!-- toggle mobile menu  -->
+                <button @click="toggleCanvas()" class="navbar-toggler d-md-none d-block">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <ul class="nav mr-auto d-md-flex d-none">
+                    <li class="nav-item">
+                        <router-link to="/" class="nav-link">{{$t('home')}}</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/hotels" class="nav-link">{{$t('hotels')}}</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/tours" class="nav-link">{{$t('tours')}}</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/tours/special" class="nav-link">{{$t('special tours')}}</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/become-a-vendor" class="nav-link">{{$t('become a vendor')}}</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/contact" class="nav-link">{{$t('contact')}}</router-link>
+                    </li>
+                </ul>
+
+                <div :class="offcanvas ? 'show' : ''" class="offcanvas offcanvas-start" tabindex="-1" style="visibility: visible;">
+                    <div class="offcanvas-header">
+                        <router-link class="navbar-brand" to="/">
+                            <img src="https://hoteelsegypt.com/uploads/0000/1/2021/09/30/hoteels-150.png" class="w-auto"  alt="Hoteels Egypt" title="Hoteels Egypt">
+                        </router-link>
+                        <button @click="toggleCanvas()" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                    <!-- Menuhome -->
-                    <div class="header-menu pull-right">
-                        <div class="megamenu-style-dev megamenu-dev">
-                            <div class="responsive">
-                                <nav class="navbar-default">
-                                    <div class="container-megamenu horizontal">
-                                        <div class="navbar-header">
-                                            <button type="button" id="show-megamenu" data-toggle="collapse" class="navbar-toggle">
-                                                <span class="icon-bar"></span>
-                                                <span class="icon-bar"></span>
-                                                <span class="icon-bar"></span>
-                                            </button>
-                                        </div>
-                                        <div class="megamenu-wrapper">
-                                            <span id="remove-megamenu" class="fa fa-times"></span>
-                                            <div class="megamenu-pattern">
-                                                <div class="container">
-                                                    <ul class="megamenu" data-transition="slide" data-animationtime="500">
-                                                        <li class="hover">
-                                                            <router-link to="/" class="clearfix">
-                                                                {{$t('home')}}
-                                                            </router-link>
-                                                        </li>
-                                                        <li class="hover">
-                                                            <router-link to="/hotels" class="clearfix">
-                                                                {{$t('hotels')}}
-                                                            </router-link>
-                                                        </li>
-                                                        <li class="hover">
-                                                            <router-link to="/tours" class="clearfix">
-                                                                {{$t('tours')}}
-                                                            </router-link>
-                                                        </li>
-                                                        <li class="hover">
-                                                            <router-link to="/tours/special" class="clearfix">
-                                                                {{$t('special tours')}}
-                                                            </router-link>
-                                                        </li>
-<!--                                                        <li class="hover">-->
-<!--                                                            <router-link to="/FlightBooking" class="clearfix">-->
-<!--                                                                {{$t('flight booking')}}-->
-<!--                                                            </router-link>-->
-<!--                                                        </li>-->
-                                                        <li class="hover">
-                                                            <router-link to="/become-a-vendor" class="clearfix">
-                                                                {{$t('become a vendor')}}
-                                                            </router-link>
-                                                        </li>
-                                                        <li class="hover">
-                                                            <router-link to="/contact" class="clearfix">
-                                                                {{$t('contact')}}
-                                                            </router-link>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <router-link to="/" class="nav-link">{{$t('home')}}</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/hotels" class="nav-link">{{$t('hotels')}}</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/tours" class="nav-link">{{$t('tours')}}</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/tours/special" class="nav-link">{{$t('special tours')}}</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/become-a-vendor" class="nav-link">{{$t('become a vendor')}}</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/contact" class="nav-link">{{$t('contact')}}</router-link>
+                            </li>
+                        </ul>
+
+                        <div class="my-2">
+                            <div class="bonus-mail mb-2">
+                                <a target="_blank" href="mailto:info@hoteelsegypt.com">info@hoteelsegypt.com</a>
                             </div>
+                            <ul class="bonus-social nav">
+                                <li><a class="p-1" href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+                                <li><a class="py-1 px-2" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a class="py-1 px-2" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                <li><a class="py-1 px-2" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- //Header Top -->
-    </header>
-    <!-- //Header Container  -->
+        </nav>
+    </div>
 </template>
 <script>
 import Topnav from "./Topnav";
@@ -94,6 +90,12 @@ export default {
     },
     data() {
         return {
+            offcanvas: false
+        }
+    },
+    methods:{
+        toggleCanvas(){
+            this.offcanvas = this.offcanvas !== true;
         }
     }
 }

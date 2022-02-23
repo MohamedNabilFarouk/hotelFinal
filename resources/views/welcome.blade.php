@@ -8,14 +8,14 @@
 
     <!-- Libs CSS
 		============================================ -->
-    <link rel="stylesheet" href="{{url('/front/css/bootstrap/css/bootstrap.min.css')}}">
+{{--    <link rel="stylesheet" href="{{url('/front/css/bootstrap/css/bootstrap.min.css')}}">--}}
     <link rel="stylesheet" href="{{url('/front/css/font-awesome/css/font-awesome.min.css')}}">
-    <link href="{{url('/front/js/datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet">
-    <link href="{{url('/front/js/owl-carousel/owl.carousel.css')}}" rel="stylesheet">
+{{--    <link href="{{url('/front/js/datetimepicker/bootstrap-datetimepicker.min.css')}}" rel="stylesheet">--}}
+{{--    <link href="{{url('/front/js/owl-carousel/owl.carousel.css')}}" rel="stylesheet">--}}
     <link href="{{url('/front/css/themecss/lib.css')}}" rel="stylesheet">
     <link href="{{url('/front/js/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet">
     <link href="{{url('/front/js/minicolors/miniColors.css')}}" rel="stylesheet">
-    <link href="{{url('/front/js/slick-slider/slick.css')}}" rel="stylesheet">
+{{--    <link href="{{url('/front/js/slick-slider/slick.css')}}" rel="stylesheet">--}}
 
     <!-- Theme CSS
             ============================================ -->
@@ -53,30 +53,30 @@
     <!-- Include Libs & Plugins
     ============================================ -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="{{url('/front/js/jquery-2.2.4.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/themejs/so_megamenu.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/owl-carousel/owl.carousel.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/slick-slider/slick.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/themejs/libs.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/unveil/jquery.unveil.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/countdown/jquery.countdown.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js')}}"></script>
+{{--    <script type="text/javascript" src="{{url('/front/js/jquery-2.2.4.min.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/bootstrap.min.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/themejs/so_megamenu.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/owl-carousel/owl.carousel.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/slick-slider/slick.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/themejs/libs.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/unveil/jquery.unveil.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/countdown/jquery.countdown.min.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js')}}"></script>--}}
     <script type="text/javascript" src="{{url('/front/js/datetimepicker/moment.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/jquery-ui/jquery-ui.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/modernizr/modernizr-2.6.2.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/minicolors/jquery.miniColors.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/jquery.nav.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/quickview/jquery.magnific-popup.min.js')}}"></script>
-    <!-- Theme files
-        ============================================ -->
-    <script type="text/javascript" src="{{url('/front/js/themejs/application.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/themejs/homepage.js')}}"></script>
-    <script type="text/javascript" src="{{url('/front/js/themejs/custom_h1.js')}}"></script>
+{{--    <script type="text/javascript" src="{{url('/front/js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/jquery-ui/jquery-ui.min.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/modernizr/modernizr-2.6.2.min.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/minicolors/jquery.miniColors.min.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/jquery.nav.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/quickview/jquery.magnific-popup.min.js')}}"></script>--}}
+{{--    <!-- Theme files--}}
+{{--        ============================================ -->--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/themejs/application.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/themejs/homepage.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{url('/front/js/themejs/custom_h1.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/noui.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/nouislider.js')}}"></script>--}}
-    <script type="text/javascript" src="{{url('/front/js/themejs/addtostick.js')}}"></script>
+{{--    <script type="text/javascript" src="{{url('/front/js/themejs/addtostick.js')}}"></script>--}}
 
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

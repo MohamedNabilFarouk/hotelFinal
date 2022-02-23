@@ -1,23 +1,23 @@
 <template>
-    <div class="mt-5 travel-search-content">
-        <div class="container page-builder-ltr">
+    <div class="mt-3 travel-search-content">
+        <div class="container">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <button
                         @click="switchFormSearch('hotelSearch')"
                         :class="hotelSearch ? 'active': ''"
-                        class="nav-link">
-                        <i class="fa fa-building-o mr-1"></i>
-                        Hotels
+                        class="nav-link text-capitalize">
+                        <i class="fa fa-building-o"></i>
+                        {{$t('hotels')}}
                     </button>
                 </li>
                 <li class="nav-item">
                     <button
                         @click="switchFormSearch('tourSearch')"
                         :class="tourSearch ? 'active': ''"
-                        class="nav-link">
-                        <i class="fa fa-pagelines mr-1"></i>
-                        tours
+                        class="nav-link text-capitalize">
+                        <i class="fa fa-pagelines"></i>
+                        {{$t('tours')}}
                     </button>
                 </li>
             </ul>
@@ -26,97 +26,73 @@
               class="row py-3 shadow-lg justify-content-between align-items-center">
 
                 <div class="col-lg-3 col-md-3 col-6">
-                    <div class="form-group location-input">
-                        <label>Destinations
-                            <v-select
-                                v-model="searchHotelsForm.sCity"
-                                :class="{
-                                    'is-invalid': searchHotelsForm.errors.has('city')
-                                }"
-                                autocomplete="on"
-                                placeholder="City, region or anywhere"
-                                :get-option-label="(option) => option.name"
-                                :options="cities"></v-select>
-                        </label>
-                        <span class="text-danger"
+                    <div class="mb-3">
+                        <label for="city" class="form-label text-capitalize">{{$t('city')}}</label>
+                        <v-select
+                            v-model="searchHotelsForm.sCity"
+                            :class="{
+                                'is-invalid': searchHotelsForm.errors.has('city')
+                            }"
+                            autocomplete="on"
+                            id="city"
+                            :placeholder="$t('city')"
+                            :get-option-label="(option) => option.name"
+                            :options="cities"></v-select>
+                        <div class="invalid-feedback"
                           v-if="searchHotelsForm.errors.has('city')"
                           v-html="searchHotelsForm.errors.get('city')">
-                        </span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-lg-2 col-md-3 col-6">
-                    <div class="form-group">
-                        <label>date from
-                            <input
-                                :class="{
-                                    'is-invalid': searchHotelsForm.errors.has('date_from')
-                                }"
-                                v-model="searchHotelsForm.date_from"
-                                type="date" placeholder="date from" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="searchHotelsForm.errors.has('date_from')"
-                              v-html="searchHotelsForm.errors.get('date_from')">
-                        </span>
+                    <div class="mb-3">
+                        <label for="date_from" class="form-label text-capitalize">{{$t('date from')}}</label>
+                        <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_from')}" v-model="searchHotelsForm.date_from" class="form-control" id="date_from" :placeholder="$t('date from')">
+                        <div class="invalid-feedback" v-if="searchHotelsForm.errors.has('date_from')" v-html="searchHotelsForm.errors.get('date_from')"></div>
                     </div>
                 </div>
 
                 <div class="col-lg-2 col-md-3 col-6">
-                    <div class="form-group">
-                        <label>date to
-                            <input
-                                :class="{
-                                    'is-invalid': searchHotelsForm.errors.has('date_to')
-                                }"
-                                v-model="searchHotelsForm.date_to" type="date" placeholder="date to" />
-                        </label>
-                        <span class="text-danger"
+                    <div class="mb-3">
+                        <label for="date_to" class="form-label text-capitalize">{{$t('date to')}}</label>
+                        <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_to')}" v-model="searchHotelsForm.date_to" class="form-control" id="date_to" :placeholder="$t('date to')">
+                        <div class="invalid-feedback"
                               v-if="searchHotelsForm.errors.has('date_to')"
                               v-html="searchHotelsForm.errors.get('date_to')">
-                        </span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-md-3 col-6">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <label>adults
-                                    <input
-                                        :class="{
-                                        'is-invalid': searchHotelsForm.errors.has('adult')
-                                        }"
-                                        type="number" v-model="searchHotelsForm.adult" placeholder="adults" />
-                                </label>
-                                <span class="text-danger"
+                                <label for="adult" class="form-label text-capitalize">{{$t('adults')}}</label>
+                                <input type="number" :class="{'is-invalid': searchHotelsForm.errors.has('adult')}" v-model="searchHotelsForm.adult" class="form-control" id="adult" :placeholder="$t('adults')">
+                                <div class="invalid-feedback"
                                       v-if="searchHotelsForm.errors.has('adult')"
                                       v-html="searchHotelsForm.errors.get('adult')">
-                                </span>
+                                </div>
                             </div>
 
                             <div class="mx-2"></div>
 
                             <div>
-                                <label>children
-                                    <input
-                                        :class="{
-                                        'is-invalid': searchHotelsForm.errors.has('children')
-                                        }"
-                                        min="0" type="number" v-model="searchHotelsForm.children" placeholder="children" />
-                                </label>
-                                <span class="text-danger"
+                                <label for="children" class="form-label text-capitalize">{{$t('children')}}</label>
+                                <input type="number" :class="{'is-invalid': searchHotelsForm.errors.has('children')}" v-model="searchHotelsForm.children" class="form-control" id="children" :placeholder="$t('children')">
+                                <div class="invalid-feedback"
                                       v-if="searchHotelsForm.errors.has('children')"
                                       v-html="searchHotelsForm.errors.get('children')">
-                                </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-2 text-center col-md-12 col-12">
-                    <button type="submit" class="btn button btn-primary">
-                        search
+                    <button type="submit" class="btn btn-sm btn-info">
+                        {{$t('search')}}
                         <span v-if="searchHotelsForm.busy" class="spinner-border spinner-border-sm"></span>
                         <i v-if="!searchHotelsForm.busy" aria-hidden="true" class="fa fa-search"></i>
                     </button>
@@ -126,45 +102,31 @@
             <form v-if="tourSearch" @submit.prevent="searchTour()" class="row py-3 shadow-lg justify-content-between align-items-center">
 
                 <div class="col-lg-4 col-md-4 col-6">
-                    <div class="form-group location-input">
-                        <label>Destinations
-                            <v-select
-                                v-model="searchToursForm.sCity"
-                                :class="{
-                                    'is-invalid': searchToursForm.errors.has('city')
-                                }"
-                                autocomplete="on"
-                                placeholder="City, region or anywhere"
-                                :get-option-label="(option) => option.name"
-                                :options="cities"></v-select>
-                        </label>
-                        <span class="text-danger"
-                              v-if="searchToursForm.errors.has('city')"
-                              v-html="searchToursForm.errors.get('city')">
-                        </span>
+                    <div class="mb-3">
+                        <label for="searchToursForm-city" class="form-label text-capitalize">{{$t('city')}}</label>
+                        <v-select v-model="searchToursForm.sCity" :class="{'is-invalid': searchToursForm.errors.has('city')}" autocomplete="on" id="searchToursForm-city"
+                            :placeholder="$t('city')" :get-option-label="(option) => option.name" :options="cities"></v-select>
+                        <div class="invalid-feedback"
+                             v-if="searchToursForm.errors.has('city')"
+                             v-html="searchToursForm.errors.get('city')">
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-6">
-                    <div class="form-group">
-                        <label>date
-                            <input
-                                :class="{
-                                    'is-invalid': searchToursForm.errors.has('date')
-                                }"
-                                v-model="searchToursForm.date"
-                                type="date" placeholder="date" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="searchToursForm.errors.has('date')"
-                              v-html="searchToursForm.errors.get('date')">
-                        </span>
+                    <div class="mb-3">
+                        <label for="date" class="form-label text-capitalize">{{$t('date')}}</label>
+                        <input type="date" :class="{'is-invalid': searchToursForm.errors.has('date')}" v-model="searchToursForm.date" class="form-control" id="date" :placeholder="$t('date')">
+                        <div class="invalid-feedback"
+                             v-if="searchToursForm.errors.has('date')"
+                             v-html="searchToursForm.errors.get('date')">
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4 text-center col-md-12 col-12">
-                    <button type="submit" class="btn button btn-primary">
-                        search
+                    <button type="submit" class="btn btn-sm btn-info text-capitalize">
+                        {{$t('search')}}
                         <span v-if="searchToursForm.busy" class="spinner-border spinner-border-sm"></span>
                         <i v-if="!searchToursForm.busy" aria-hidden="true" class="fa fa-search"></i>
                     </button>

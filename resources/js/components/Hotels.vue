@@ -5,169 +5,135 @@
 
         <div v-if="!loading" class="container product-detail">
             <div class="row">
-                <aside class="col-md-3 col-sm-4 col-xs-12 content-aside left_column sidebar-offcanvas">
-                    <span id="close-sidebar" class="fa fa-times"></span>
+                <aside
+                    :class="aside ? 'active' : ''"
+                    class="col-md-3 col-sm-4 col-xs-12 content-aside left_column sidebar-offcanvas">
+                    <span @click="toggleAside()" id="close-sidebar" class="fa fa-times"></span>
 
-                    <div class="module-rate clearfix">
+                    <div class="module-search clearfix">
                         <h3 class="modtitle">Hotel searching</h3>
                         <form @submit.prevent="searchHotel()"
-                              class="row px-4 justify-content-between align-items-center">
+                              class="row px-1 justify-content-between align-items-center">
 
                             <div class="col-lg-12 col-md-12 col-12">
-                                <div class="form-group location-input">
-                                    <label>Destinations
-                                        <v-select
-                                            v-model="searchHotelsForm.sCity"
-                                            :class="{
-                                                'is-invalid': searchHotelsForm.errors.has('city')
-                                            }"
-                                            autocomplete="on"
-                                            placeholder="City, region or anywhere"
-                                            :get-option-label="(option) => option.name"
-                                            :options="cities"></v-select>
-                                    </label>
-                                    <span class="text-danger"
-                                          v-if="searchHotelsForm.errors.has('city')"
-                                          v-html="searchHotelsForm.errors.get('city')">
-                                    </span>
+                                <div class="mb-3">
+                                    <label for="city" class="form-label text-capitalize">{{$t('city')}}</label>
+                                    <v-select
+                                        v-model="searchHotelsForm.sCity"
+                                        :class="{
+                                            'is-invalid': searchHotelsForm.errors.has('city')
+                                        }"
+                                        autocomplete="on"
+                                        id="city"
+                                        :placeholder="$t('city')"
+                                        :get-option-label="(option) => option.name"
+                                        :options="cities"></v-select>
+                                    <div class="invalid-feedback"
+                                         v-if="searchHotelsForm.errors.has('city')"
+                                         v-html="searchHotelsForm.errors.get('city')">
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12 col-12">
-                                <div class="form-group">
-                                    <label>date from
-                                        <input
-                                            :class="{
-                                                'is-invalid': searchHotelsForm.errors.has('date_from')
-                                            }"
-                                            v-model="searchHotelsForm.date_from"
-                                            type="date" placeholder="date from" />
-                                    </label>
-                                    <span class="text-danger"
-                                          v-if="searchHotelsForm.errors.has('date_from')"
-                                          v-html="searchHotelsForm.errors.get('date_from')">
-                                    </span>
+                                <div class="mb-3">
+                                    <label for="date_from" class="form-label text-capitalize">{{$t('date from')}}</label>
+                                    <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_from')}" v-model="searchHotelsForm.date_from" class="form-control" id="date_from" :placeholder="$t('date from')">
+                                    <div class="invalid-feedback" v-if="searchHotelsForm.errors.has('date_from')" v-html="searchHotelsForm.errors.get('date_from')"></div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12 col-12">
-                                <div class="form-group">
-                                    <label>date to
-                                        <input
-                                            :class="{
-                                                'is-invalid': searchHotelsForm.errors.has('date_to')
-                                            }"
-                                            v-model="searchHotelsForm.date_to" type="date" placeholder="date to" />
-                                    </label>
-                                    <span class="text-danger"
-                                          v-if="searchHotelsForm.errors.has('date_to')"
-                                          v-html="searchHotelsForm.errors.get('date_to')">
-                                    </span>
+                                <div class="mb-3">
+                                    <label for="date_to" class="form-label text-capitalize">{{$t('date to')}}</label>
+                                    <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_to')}" v-model="searchHotelsForm.date_to" class="form-control" id="date_to" :placeholder="$t('date to')">
+                                    <div class="invalid-feedback"
+                                         v-if="searchHotelsForm.errors.has('date_to')"
+                                         v-html="searchHotelsForm.errors.get('date_to')">
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12 col-12">
-                                <div class="form-group">
+                                <div class="mb-3">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <label>adults
-                                                <input
-                                                    :class="{
-                                                        'is-invalid': searchHotelsForm.errors.has('adult')
-                                                    }"
-                                                    type="number" v-model="searchHotelsForm.adult" placeholder="adults" />
-                                            </label>
-                                            <span class="text-danger"
-                                                  v-if="searchHotelsForm.errors.has('adult')"
-                                                  v-html="searchHotelsForm.errors.get('adult')">
-                                             </span>
+                                            <label for="adult" class="form-label text-capitalize">{{$t('adults')}}</label>
+                                            <input type="number" :class="{'is-invalid': searchHotelsForm.errors.has('adult')}" v-model="searchHotelsForm.adult" class="form-control" id="adult" :placeholder="$t('adults')">
+                                            <div class="invalid-feedback"
+                                                 v-if="searchHotelsForm.errors.has('adult')"
+                                                 v-html="searchHotelsForm.errors.get('adult')">
+                                            </div>
                                         </div>
 
                                         <div class="mx-2"></div>
 
                                         <div>
-                                            <label>children
-                                                <input
-                                                    :class="{
-                                                    'is-invalid': searchHotelsForm.errors.has('children')
-                                                    }"
-                                                    min="0" type="number" v-model="searchHotelsForm.children" placeholder="children" />
-                                            </label>
-                                            <span class="text-danger"
-                                                  v-if="searchHotelsForm.errors.has('children')"
-                                                  v-html="searchHotelsForm.errors.get('children')">
-                                            </span>
+                                            <label for="children" class="form-label text-capitalize">{{$t('children')}}</label>
+                                            <input type="number" :class="{'is-invalid': searchHotelsForm.errors.has('children')}" v-model="searchHotelsForm.children" class="form-control" id="children" :placeholder="$t('children')">
+                                            <div class="invalid-feedback"
+                                                 v-if="searchHotelsForm.errors.has('children')"
+                                                 v-html="searchHotelsForm.errors.get('children')">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 text-center col-md-12 col-12">
-                                <button type="submit" class="btn button btn-primary">
-                                    Search
+                                <button type="submit" class="btn btn-sm btn-info">
+                                    {{$t('search')}}
                                     <span v-if="searchHotelsForm.busy" class="spinner-border spinner-border-sm"></span>
                                     <i v-if="!searchHotelsForm.busy" aria-hidden="true" class="fa fa-search"></i>
                                 </button>
 
-                                <button v-if="search" @click="getHotels" type="button" class="btn button btn-danger">
-                                    Cancel
+                                <button v-if="search" @click="getHotels" type="button" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-ban"></i>
+                                    {{$t('cancel')}}
                                 </button>
                             </div>
                         </form>
                     </div>
 
                     <form @submit.prevent="filterHotel()" class="sidefilter-form">
-                        <div style="position: sticky;top: 63px; z-index: 2; background: #f8f8f8;">
-                            <button class="btn btn-primary">
-                                <i class="fa fa-filter"></i>
-                                filter
+                        <div>
+                            <button class="btn btn-sm btn-info">
+                                <span v-if="filterHotelForm.busy" class="spinner-border spinner-border-sm"></span>
+
+                                <i v-if="!filterHotelForm.busy" class="fa fa-filter"></i>
+                                {{$t('filter')}}
+
                             </button>
-                            <button v-if="filter" @click="getHotels" type="button" class="btn button btn-danger">
-                                Cancel
+                            <button v-if="filter" @click="getHotels" type="button" class="btn btn-sm btn-danger">
+                                <i class="fa fa-ban"></i>
+                                {{$t('cancel')}}
                             </button>
                         </div>
 
-                        <div class="module-travel clearfix">
-                            <h3>Price</h3>
-                            <span class="text-danger"
-                                  v-if="filterHotelForm.errors.has('price')"
-                                  v-html="filterHotelForm.errors.get('price')">
-                            </span>
-                            <div class="d-flex justify-content-between">
-                                <div class="form-group mr-1">
-                                    <label>min price
-                                        <input
-                                            :class="{
-                                                'is-invalid': filterHotelForm.errors.has('price')
-                                            }"
-                                            :min="min_price"
-                                            :max="max_price"
-                                            v-model="filterHotelForm.price[0]"
-                                            type="number" placeholder="date from" />
-                                    </label>
+                        <div class="module-rate clearfix">
+                            <h3>{{$t('price')}}</h3>
+                            <div class="d-flex px-3 justify-content-between">
+                                <div class="mb-3">
+                                    <label for="min-price" class="form-label text-capitalize">{{$t('min price')}}</label>
+                                    <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterHotelForm.errors.has('price')}" v-model="filterHotelForm.price[0]" class="form-control" id="min-price" :placeholder="$t('min price')">
                                 </div>
-
-                                <div class="form-group ml-1">
-                                    <label>max price
-                                        <input
-                                            :class="{
-                                                'is-invalid': filterHotelForm.errors.has('price')
-                                            }"
-                                            :min="min_price"
-                                            :max="max_price"
-                                            v-model="filterHotelForm.price[1]"
-                                            type="number" placeholder="date from" />
-                                    </label>
+                                <div class="mb-3">
+                                    <label for="max-price" class="form-label text-capitalize">{{$t('max price')}}</label>
+                                    <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterHotelForm.errors.has('price')}" v-model="filterHotelForm.price[1]" class="form-control" id="max-price" :placeholder="$t('max price')">
                                 </div>
+                            </div>
+                            <div class="invalid-feedback"
+                                 v-if="filterHotelForm.errors.has('price')"
+                                 v-html="filterHotelForm.errors.get('price')">
                             </div>
                         </div>
 
                         <div class="module-rate clearfix">
-                            <h3>star rating</h3>
+                            <h3>{{$t('star rating')}}</h3>
                             <ul>
                                 <li v-for="star in filterHotelForm.stars">
                                     <label class="d-flex align-items-center">
-                                        <input @change="starSelected(star)" v-model="star.selected" type="checkbox">
+                                        <input class="me-2" @change="starSelected(star)" v-model="star.selected" type="checkbox">
                                         <starRating :star-size="18" :rating="star.star" :show-rating="false" :read-only="true"></starRating>
                                     </label>
                                 </li>
@@ -178,9 +144,9 @@
                             <h3>Cities</h3>
                             <ul>
                                 <li v-for="city in filterHotelForm.cities">
-                                    <label class="d-flex align-items-center">
-                                        <input :checked="filterHotelForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
-                                        <strong>{{city.name}}</strong>
+                                    <label class="d-flex align-items-center cites">
+                                        <input class="me-2" :checked="filterHotelForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
+                                        {{city.name}}
                                     </label>
                                 </li>
                             </ul>
@@ -203,29 +169,25 @@
                 </aside>
 
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
-                    <router-link to="" class="open-sidebar hidden-lg hidden-md">
-                        <i class="fa fa-bars"></i>
-                        Sidebar
-                    </router-link>
                     <div class="products-category">
-                        <div class="product-filter hidden-xs filters-panel">
-                            <div class="row">
-                                <div class="col-md-2 col-sm-2 hidden-xs">
-                                    <div class="list-view">
-                                        <button
-                                            @click="gridViewFun('grid')"
-                                            :class="gridView ? 'active': ''"
-                                            class="btn btn-default">
-                                            <i class="fa fa-th-large"></i>
-                                        </button>
-                                        <button
-                                            :class="gridView ? '': 'active'"
-                                            @click="gridViewFun('list')"
-                                            class="btn btn-default">
-                                            <i class="fa fa-th-list"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                        <div class="border-bottom product-filter hidden-xs filters-panel">
+                            <div class="list-view">
+                                <button @click="toggleAside()" class="btn d-block d-md-none btn-default text-capitalize">
+                                    <i class="fa fa-bars"></i>
+                                    {{$t('menu')}}
+                                </button>
+                                <button
+                                    @click="gridViewFun('grid')"
+                                    :class="gridView ? 'active': ''"
+                                    class="btn btn-default">
+                                    <i class="fa fa-th-large"></i>
+                                </button>
+                                <button
+                                    :class="gridView ? '': 'active'"
+                                    @click="gridViewFun('list')"
+                                    class="btn btn-default">
+                                    <i class="fa fa-th-list"></i>
+                                </button>
                             </div>
                         </div>
 
@@ -236,8 +198,8 @@
 
                             <div v-for="hotel in hotels.data"
                                 :class="gridView ? 'col-lg-6 col-md-6 col-sm-6 col-xs-6': 'col-lg-12 col-md-12 col-sm-12 col-xs-12'"
-                                class="product-layout ">
-                                <div class="product-item-container item">
+                                class="product-layout">
+                                <div class="product-item-container item p-0 mb-3">
                                     <div class="item-block so-quickview">
                                         <div class="image">
                                             <router-link :to="'hotel/'+hotel.id" target="_self">
@@ -332,6 +294,7 @@ export default {
     },
     data(){
         return{
+            aside: false,
             loading: true,
             hotels: this.$route.params.hotels ? this.$route.params.hotels : [],
             search: this.$route.params.search ? this.$route.params.search : false,
@@ -375,6 +338,9 @@ export default {
         }).catch();
     },
     methods: {
+        toggleAside(){
+            this.aside = this.aside === false;
+        },
         getCities(){
             axios.get('cities')
                 .then((res)=>{

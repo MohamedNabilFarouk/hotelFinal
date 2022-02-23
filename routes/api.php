@@ -28,6 +28,7 @@ Route::namespace("Api")->group(function () {
 
     // return all home page
     Route::get('home', 'HomeController@home')->name('home');
+    Route::get('sittings', 'HomeController@sittings')->name('sittings');
 
     // return all hotels
     Route::get('hotels', 'HotelsController@hotels')->name('hotels');

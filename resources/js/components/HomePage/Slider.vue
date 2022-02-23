@@ -3,25 +3,14 @@
         <div class="row">
             <div class="col-lg-6 col-12">
                 <div class="mb-4 tours-slider">
-                    <VueSlickCarousel
-                        v-if="tours.length > 0"
-                        :slidesToShow="1"
-                        :slidesToScroll="1"
-                        :swipeToSlide="true"
-                        :speed="500"
-                        :infinite="true"
-                        :arrows="false"
-                        :autoplay="true"
-                        :autoplaySpeed="5000"
-                        :pauseOnFocus="true"
-                        :pauseOnHover="true"
-                        :dots="false">
+                    <VueSlickCarousel v-if="tours.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="500" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
                         <!--  item  -->
                         <div v-for="tour in tours">
-                            <div class="slide-img">
-                                <img :src="tour.image"  :alt="tour.title_api"/>
-                            </div>
-                            <div class=slider-content>
+                            <router-link :to="'tour/'+tour.id">
+                                <div class="slide-img">
+                                    <img :src="tour.image"  :alt="tour.title_api"/>
+                                </div>
+                                <div class=slider-content>
                                 <h4 class="title">{{tour.title_api}}</h4>
                                 <div class="location">
                                     <i class="fa fa-map-marker"></i>
@@ -34,36 +23,21 @@
                                     :read-only="true">
                                 </starRating>
                             </div>
+                            </router-link>
                         </div>
-
                     </VueSlickCarousel>
                 </div>
             </div>
 
             <div class="col-lg-3 col-6">
                 <div class="hotels-slider">
-                    <VueSlickCarousel
-                        v-if="hotels.length > 0"
-                        :slidesToShow="1"
-                        :slidesToScroll="1"
-                        :swipeToSlide="true"
-                        :speed="1000"
-                        :infinite="true"
-                        :arrows="false"
-                        :autoplay="true"
-                        :autoplaySpeed="5000"
-                        :pauseOnFocus="true"
-                        :pauseOnHover="true"
-                        :dots="false">
+                    <VueSlickCarousel v-if="hotels.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="1000" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
                         <!--  item  -->
                         <div v-for="hotel in hotels">
                             <router-link :to="'/hotel/'+hotel.id" >
                                 <div class="slide-img">
                                     <img :src="hotel.image"  :alt="hotel.title_api"/>
                                 </div>
-                                <span class="price">
-                                        From: {{hotel.min_price}}/Night
-                                </span>
                                 <div class=slider-content>
                                     <h4 class="title">{{hotel.title_api}}</h4>
                                     <div class="location">
@@ -76,7 +50,9 @@
                                         :show-rating="false"
                                         :read-only="true">
                                     </starRating>
-
+                                    <span class="price">
+                                        From: {{hotel.min_price}}/Night
+                                    </span>
                                 </div>
                             </router-link>
                         </div>
@@ -85,20 +61,8 @@
             </div>
 
             <div class="col-lg-3 d-flex justify-space-between flex-column col-6">
-                <div style="margin-bottom: 16px" class="cities-slider">
-                    <VueSlickCarousel
-                        v-if="cities.length > 0"
-                        :slidesToShow="1"
-                        :slidesToScroll="1"
-                        :swipeToSlide="true"
-                        :speed="1500"
-                        :infinite="true"
-                        :arrows="false"
-                        :autoplay="true"
-                        :autoplaySpeed="5000"
-                        :pauseOnFocus="true"
-                        :pauseOnHover="true"
-                        :dots="false">
+                <div style="margin-bottom: 20px" class="cities-slider">
+                    <VueSlickCarousel v-if="cities.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="1200" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
                         <!--  item  -->
                         <div v-for="city in cities.slice(0, 5)">
                             <div class="slide-img">
@@ -112,19 +76,7 @@
                     </VueSlickCarousel>
                 </div>
                 <div class="cities-slider">
-                    <VueSlickCarousel
-                        v-if="cities.length > 0"
-                        :slidesToShow="1"
-                        :slidesToScroll="1"
-                        :swipeToSlide="true"
-                        :speed="1500"
-                        :infinite="true"
-                        :arrows="false"
-                        :autoplay="true"
-                        :autoplaySpeed="5000"
-                        :pauseOnFocus="true"
-                        :pauseOnHover="true"
-                        :dots="false">
+                    <VueSlickCarousel v-if="cities.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="1500" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
                         <!--  item  -->
                         <div v-for="city in cities.slice(5, 10)">
                             <div class="slide-img">

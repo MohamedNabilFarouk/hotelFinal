@@ -32,7 +32,11 @@ class UsersController extends Controller
 
 
 
-    public function create(){
+    public function create(Request $request){
+        $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
         $countries = Country::all();
         $roles= Role::all();
         return response()->json(['success'=>'true','data'=>['countries'=>$countries,'roles'=>$roles]]);
@@ -40,6 +44,10 @@ class UsersController extends Controller
 
     protected function store(Request $request) //register
     {
+        $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
 
         //  dd($request->all());
         $validator = Validator::make($request->all(), [
@@ -136,7 +144,12 @@ class UsersController extends Controller
 
 
 
-    public function edit($id){
+    public function edit($id, Request $request){
+        $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
+
          $user = User::with('books', 'roles')->where('id', '=', $id)->first();
 
         $roles= Role::all();
@@ -145,6 +158,10 @@ class UsersController extends Controller
     }
 
     public function update(Request $request,$id){    //update profile
+        $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
         $validator = Validator::make($request->all(), [
             'name' => ['string', 'max:255'],
             'email' => [ 'string', 'email', 'max:255', 'unique:users,email,'.$id],
@@ -183,6 +200,10 @@ class UsersController extends Controller
     }
 
     public function login(Request $request){
+        $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
             'password' => 'required|string',
@@ -220,8 +241,11 @@ class UsersController extends Controller
 
 
 
-    public function historyBooking($id){
-
+    public function historyBooking($id,Request $request){
+        $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
           $booking_history= Booking::where('customer_id',$id)->get();
                 return response()->json(['status'=>'success','data'=>BookingResource::collection($booking_history)]);
 
