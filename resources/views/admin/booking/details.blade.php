@@ -30,7 +30,7 @@
      <!--begin::Header-->
     <div class="card-header rounded border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">{{__('Booking')}}</span>
+            <span class="card-label fw-bolder fs-3 mb-1">{{__('Booking details')}}</span>
         </h3>
 
     </div>
@@ -44,31 +44,31 @@
                 <!--begin::Table head-->
                 <thead>
                     <tr class="text-center border-3 fw-bolder text-muted bg-light">
-                        <th class="ps-4 min-w-325px rounded-start">{{__('Service')}}</th>
-                        <th class="min-w-125px">{{__('Customer')}}</th>
-                        <th class="min-w-125px">{{__('Payment Info')}}</th>
-                        <th class="min-w-125px">{{__('Status')}}</th>
+                        <th class="ps-4 min-w-325px rounded-start">{{__('room')}}</th>
+                        <th class="min-w-125px">{{__('number')}}</th>
+                        <th class="min-w-125px">{{__('from')}}</th>
+                        <th class="min-w-125px">{{__('to')}}</th>
                         <th class="min-w-125px">{{__("Created At")}}</th>
-                        <th class="min-w-200px rounded-end">{{__("Action")}}</th>
+                        {{-- <th class="min-w-200px rounded-end">{{__("Action")}}</th> --}}
                     </tr>
                 </thead>
                 <!--end::Table head-->
                 <!--begin::Table body-->
                 <tbody>
 
-                @foreach($bookings as $c)
+                @foreach($details as $c)
 
                     <tr class="text-center border-3 m-auto">
                          <td class="px-3">
                             <div class="d-flex align-items-center">
                                 <div class="symbol symbol-50px me-5">
-                                    <img src="{{$c->service ? $c->service->image : ''}}" class="" alt="" />
+                                    <img src="{{$c->room->image ? $c->room->image : ''}}" class="" alt="" />
                                 </div>
                                 <div class="d-flex flex-column">
                                     {{-- <a href="{{ route('resturants.edit', $c->id) }}" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{$c->name_en}}</a> --}}
                                     <span class="text-muted fw-bold text-muted d-block fs-7">
-                                        <i @if($c->type=='hotel') class="fa fa-hotel mr-1" @else class="fa fa-plane mr-1" @endif></i>
-                                        {{$c->service ? $c->service->title : $c->id}}
+
+                                        {{ $c->room->title}}
 
                                     </span>
                                 </div>
@@ -76,34 +76,18 @@
                         </td>
 
                         <td class="px-3">
-                            <ul>
-                                <li>{{$c->name}}</li>
-                                <li>{{$c->email}}</li>
-                                <li>{{$c->phone}}</li>
-                            </ul>
+                            {{$c->number}}
                         </td>
                         <td class="px-3">
-                            <ul>
-                                <li>{{__('Total')}} : {{$c->total}}</li>
-                                <li>{{__('Deposit')}}: {{$c->deposit}}</li>
-                                <li>{{__('Paid')}}: {{$c->paid}}</li>
-                            </ul>
+                            {{$c->from}}
                         </td>
-                        <td class="px-3">@if($c->is_paid == 1){{__('Paid')}}@else{{__('Unpaid')}}@endif</td>
+                        <td class="px-3">
+                            {{$c->to}}
+                        </td>
+
                         <td class="px-3">{{$c->updated_at}}</td>
 
-                         <td class="border text-center">
-                            @if($c->type=='hotel')
-                              <a href='{{route('booking.details', $c->id)}}'> <i class="fa fa-eye"></i></a>
-                            @endif
-                            {{-- <form action="{{ route('bookings.destroy', $c->id) }}" method="post" id='delform' style="display: inline-block">
-                                @csrf
-                                @method('delete')
 
-
-                                <button type="submit" class="btn btn-defult btn-xs delete" style='width:20px'><i class="fa fa-trash"></i> </button>
-                            </form> --}}
-                        </td>
                     </tr>
                     @endforeach
 
@@ -117,7 +101,7 @@
     <!--begin::Body-->
 </div>
 <!--end::Tables Widget 11-->
-{!! $bookings->render() !!}
+
 @endsection
 
 

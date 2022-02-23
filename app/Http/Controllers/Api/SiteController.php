@@ -9,9 +9,11 @@ use App\HotelBooking;
 use App\Room;
 use App\Hotel;
 use App\Tour;
+use App\Currency;
 use DB;
 use DateTime;
 use Illuminate\Support\Facades\App;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class SiteController extends Controller
 {
@@ -27,6 +29,14 @@ class SiteController extends Controller
 
 //        return response()->json(['success'=>'true','data'=> $tours]);
         return response()->json(['success'=>'true','data'=> ['tours'=>$tours]]);
+    }
+
+    public function lang_currency(){
+$currencies = Currency::all();
+$langs= LaravelLocalization::getSupportedLocales();
+// $langs= LaravelLocalization::getSupportedLocales();
+// dd($langs);
+return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
     }
 
 

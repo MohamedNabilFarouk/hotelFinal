@@ -117,4 +117,8 @@ class Room extends Model
     // {
     //     return asset('images/rooms/' . $value);
     // } // end of get image attribute
+
+    public function hotelBooking(){
+        return $this->hasMany(HotelBooking::class,'room_id','id');
+    }
 }

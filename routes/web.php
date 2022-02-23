@@ -28,7 +28,7 @@ Route::group(['prefix'=>'dashboard','namespace' => 'Admin','middleware' => ['rol
     Route::resource('/bookings','BookingController');
     Route::put('/RoomEditPrice\{id}','Admin\RoomController@editPrice')->name('room.updatePrice');
 
-
+    Route::get('details/{booking_id}','BookingController@details')->name('booking.details');
 
     Route::resource('/permissions','PermissionController');
 
@@ -82,7 +82,9 @@ Route::post('OpayCallback','paymentController@Opaycallback');
 
 Route::post('fawryPayment','paymentController@generate')->name('payment');
 Route::get('Callback','paymentController@callback');
+
 //
+
 
 
 Route::any('/{any}', function () {

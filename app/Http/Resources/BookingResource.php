@@ -48,6 +48,7 @@ class BookingResource extends JsonResource
             "paid"=> $this->paid,
             "note"=> $this->note,
             "is_paid"=> $this->is_paid,
+            "details"=>$this->hotelBooking,
 
 
 
