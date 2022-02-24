@@ -90,9 +90,9 @@ class Hotel extends Model
 
     public function getDataAttribute(){
         return [
-//            'gallery' => $this->gallery,
-//            'country' => $this->country,
-//            'gov' => $this->gov,
+            'gallery' => $this->gallery,
+            'country' => $this->country,
+            'gov' => $this->gov,
             'rooms' => $this->rooms
         ];
     }

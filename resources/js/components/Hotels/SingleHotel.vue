@@ -8,10 +8,6 @@
             <div class="row">
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
 
-                    <a href="" class="open-sidebar hidden-lg hidden-md">
-                        <i class="fa fa-bars"></i>Sidebar
-                    </a>
-
                     <div class="detail-content">
                         <div class="sticky-content">
                             <h1>{{hotel.title_api}}</h1>
@@ -26,27 +22,27 @@
                             </ul>
                             <div class="top-tab" id="nav">
                                 <ul class="nav nav-tabs">
-                                    <li><a href="#gallery">Gallery</a></li>
-                                    <li><a href="#hotel_content">Content</a></li>
-                                    <li><a href="#rooms">Rooms</a></li>
-                                    <li><a href="#Map">Map</a></li>
-                                    <li><a href="#review">Review</a></li>
+                                    <li><a @click.prevent="scrollToSection('gallery')" href="#gallery">{{$t('gallery')}}</a></li>
+                                    <li><a @click.prevent="scrollToSection('hotel_content')" href="#hotel_content">{{$t('content')}}</a></li>
+                                    <li><a @click.prevent="scrollToSection('rooms')" href="#rooms">{{$t('rooms')}}</a></li>
+                                    <li><a @click.prevent="scrollToSection('maps')" href="#maps">{{$t('map')}}</a></li>
+<!--                                    <li><a @click.prevent="" href="#review">Review</a></li>-->
                                 </ul>
                             </div>
                         </div>
                         <div class="content-tabs">
-                            <div class="tab-content m-0" id="gallery">
-                                <h3>Gallery</h3>
+                            <div class="tab-content m-0" id="gallery" ref="gallery">
+                                <h3>{{$t('gallery')}}</h3>
                                 <Gallery v-if="hotel.gallery && hotel.gallery.length > 0" :images="hotel.gallery" />
                             </div>
 
-                            <div class="tab-content m-0" id="hotel_content">
-                                <h3>Content</h3>
+                            <div class="tab-content m-0" id="hotel_content" ref="hotel_content">
+                                <h3>{{$t('content')}}</h3>
                                 {{hotel.content_api}}
                             </div>
 
-                            <div class="tab-content m-0 products-category" id="rooms">
-                                <h3>Rooms</h3>
+                            <div class="tab-content m-0 products-category" ref="rooms" id="rooms">
+                                <h3>{{$t('rooms')}}</h3>
                                 <div v-if="hotel.rooms">
                                     <div v-for="room in hotel.rooms" class="hotel-rooms shadow mb-3 rounded border pr-1">
                                         <div class="row justify-content-between align-items-center">
@@ -58,47 +54,42 @@
                                                 <h3>{{room.title_api}}</h3>
 
                                                 <ul class="d-inline-flex">
-                                                    <li title="size"><i aria-hidden="true" class="fa fa-arrows-alt"></i> {{room.size}} m<sup>2</sup></li>
-                                                    <li title="bed"><i aria-hidden="true" class="fa fa-bed"></i> {{room.bed}}</li>
-                                                    <li title="adult"><i aria-hidden="true" class="fa fa-user"></i> {{room.adult}}</li>
-                                                    <li title="child"><i aria-hidden="true" class="fa fa-child"></i> {{room.child}}</li>
-                                                    <li title="bathroom"><i aria-hidden="true" class="fa fa-bath"></i> {{room.bathroom}}</li>
+                                                    <li :title="$t('size')"><i class="fa fa-arrows-alt"></i> {{room.size}} {{$t('m')}}<sup>2</sup></li>
+                                                    <li :title="$t('bed')"><i class="fa fa-bed"></i> {{room.bed}}</li>
+                                                    <li :title="$t('adults')"><i class="fa fa-user"></i> {{room.adult}}</li>
+                                                    <li :title="$t('child')"><i class="fa fa-child"></i> {{room.child}}</li>
+                                                    <li :title="$t('bathroom')"><i class="fa fa-bath"></i> {{room.bathroom}}</li>
                                                 </ul>
                                                 <div class="des">{{room.content_api}}</div>
                                             </div>
 
                                             <div class="col-md-3 col-4 text-center">
                                                 <div class="price">
-                                                    <h4>price</h4>
-                                                    <label>{{room.main_price}}/Night</label>
-                                                    <span>{{room.adult}} adult | {{room.child}} child</span>
+                                                    <h3>{{room.main_price}}/{{$t('night')}}</h3>
+                                                    <strong>{{room.adult}} {{$t('adult')}}</strong> | <strong>{{room.child}} {{$t('child')}}</strong>
                                                 </div>
 
                                                 <form v-if="!bookingHotelForm.rooms.some(r => r.id === room.id)"
                                                       @submit.prevent="addRoomToBookingHotelForm(room)">
 
-                                                    <span v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))"
-                                                          class="text-danger">
-                                                        Please check date From and date to From Checkin.
+                                                    <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
+                                                        {{$t('please check date from and date to from checkin')}}.
                                                         <br>
-                                                        <span v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="text-danger">
+                                                        <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
                                                             {{checkAvailabilityForm.errors.get('from')}}
-                                                        </span>
+                                                        </div>
                                                         <br>
-                                                        <span v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="text-danger">
+                                                        <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
                                                             {{checkAvailabilityForm.errors.get('to')}}
-                                                        </span>
-                                                    </span>
+                                                        </div>
+                                                    </div>
 
-                                                    <span v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')"
-                                                          class="text-danger">
-                                                        this room only available: {{checkAvailabilityForm.errors.get('number')}}.
-                                                    </span>
-                                                    <span v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('diffDate')"
-                                                          class="text-danger">
-                                                        dirty date
-                                                    </span>
-
+                                                    <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')" class="invalid-feedback">
+                                                        {{$t('this room only available')}}: {{checkAvailabilityForm.errors.get('number')}}.
+                                                    </div>
+                                                    <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('diffDate')" class="invalid-feedback">
+                                                        {{$t('please check date from and date to from checkin')}}.
+                                                    </div>
 
                                                     <div class="input-group">
                                                         <input
@@ -108,9 +99,9 @@
                                                             min="1" type="number"
                                                             class="form-control" placeholder="Room number">
                                                         <div class="input-group-append">
-                                                            <button class="btn btn-primary" type="submit">
+                                                            <button class="btn btn-sm btn-info" type="submit">
                                                                 <i class="fa fa-plus-circle"></i>
-                                                                checkin
+                                                                {{$t('checkin')}}
                                                             </button>
                                                         </div>
                                                     </div>
@@ -121,14 +112,15 @@
                                 </div>
                             </div>
 
-                            <div class="tab-content m-0" id="Map">
+                            <div class="tab-content m-0" ref="maps" id="maps">
                                 <div class="tour-map">
-                                    <h3>Map Located</h3>
-<!--                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.281234622878!2d-74.009579709455!3d40.71146597631483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2zVGjDoG5oIHBo4buRIE5ldyBZb3JrLCBUaeG7g3UgYmFuZyBOZXcgWW9yaywgSG9hIEvhu7M!5e0!3m2!1svi!2s!4v1572333240599!5m2!1svi!2s" width="900" height="500" frameborder="0" style="border:0;" allowfullscreen=""></iframe>-->
+                                    <h3>{{$t('Map Located')}}</h3>
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.281234622878!2d-74.009579709455!3d40.71146597631483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2zVGjDoG5oIHBo4buRIE5ldyBZb3JrLCBUaeG7g3UgYmFuZyBOZXcgWW9yaywgSG9hIEvhu7M!5e0!3m2!1svi!2s!4v1572333240599!5m2!1svi!2s" width="900" height="500" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                                 </div>
                             </div>
 
-                            <div class="tab-content m-0" id="review">
+                            <!--
+                            <div class="tab-content m-0" ref="review" id="review">
                                 <div class="tour-review">
                                     <h3>Review</h3>
                                     <form method="post" class="clearfix">
@@ -181,157 +173,117 @@
                                     </div>
                                 </div>
                             </div>
+                            -->
                         </div>
                     </div>
                 </div>
 
                 <aside class="col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas">
                     <span id="close-sidebar" class="fa fa-times"></span>
-                    <div class="module-search2 clearfix">
+                    <div class="module-search mt-2 clearfix">
                         <h3 class="modtitle">Checkin</h3>
                         <form @submit.prevent="showCheckinModal()" class="search-pr">
 
-                            <div class="form-group">
-                                <label>date from
-                                    <input
-                                        :class="{
-                                        'is-invalid': bookingHotelForm.errors.has('date_from')
-                                    }"
-                                        v-model="bookingHotelForm.date_from"
-                                        type="date" placeholder="date from" />
-                                </label>
-                                <span class="text-danger"
-                                      v-if="bookingHotelForm.errors.has('date_from')"
-                                      v-html="bookingHotelForm.errors.get('date_from')">
-                                </span>
+                            <div class="mb-3">
+                                <label for="date_from" class="form-label text-capitalize">{{$t('date from')}}</label>
+                                <input type="date" :class="{'is-invalid': bookingHotelForm.errors.has('date_from')}" v-model="bookingHotelForm.date_from" class="form-control" id="date_from" :placeholder="$t('date from')">
+                                <div class="invalid-feedback"
+                                     v-if="bookingHotelForm.errors.has('date_from')"
+                                     v-html="bookingHotelForm.errors.get('date_from')">
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label>date to
-                                    <input
-                                        :class="{
-                                        'is-invalid': bookingHotelForm.errors.has('date_to')
-                                    }"
-                                        v-model="bookingHotelForm.date_to" type="date" placeholder="date to" />
-                                </label>
-                                <span class="text-danger"
-                                      v-if="bookingHotelForm.errors.has('date_to')"
-                                      v-html="bookingHotelForm.errors.get('date_to')">
-                                </span>
+                            <div class="mb-3">
+                                <label for="date_to" class="form-label text-capitalize">{{$t('date to')}}</label>
+                                <input type="date" :class="{'is-invalid': bookingHotelForm.errors.has('date_to')}" v-model="bookingHotelForm.date_to" class="form-control" id="date_to" :placeholder="$t('date to')">
+                                <div class="invalid-feedback"
+                                     v-if="bookingHotelForm.errors.has('date_to')"
+                                     v-html="bookingHotelForm.errors.get('date_to')">
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <label>adults
-                                            <input
-                                                :class="{
-                                                'is-invalid': bookingHotelForm.errors.has('adult')
-                                            }"
-                                                type="number" v-model="bookingHotelForm.adult" placeholder="adults" />
-                                        </label>
-                                        <span class="text-danger"
-                                              v-if="bookingHotelForm.errors.has('adult')"
-                                              v-html="bookingHotelForm.errors.get('adult')">
-                                     </span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mb-3">
+                                    <label for="adults" class="form-label text-capitalize">{{$t('adults')}}</label>
+                                    <input type="number" :class="{'is-invalid': bookingHotelForm.errors.has('adult')}" v-model="bookingHotelForm.adult" class="form-control" id="adults" :placeholder="$t('adults')">
+                                    <div class="invalid-feedback"
+                                         v-if="bookingHotelForm.errors.has('adult')"
+                                         v-html="bookingHotelForm.errors.get('adult')">
                                     </div>
+                                </div>
 
-                                    <div class="mx-2"></div>
+                                <div class="mx-2"></div>
 
-                                    <div>
-                                        <label>children
-                                            <input
-                                                :class="{
-                                            'is-invalid': bookingHotelForm.errors.has('children')
-                                            }"
-                                                min="0" type="number" v-model="bookingHotelForm.children" placeholder="children" />
-                                        </label>
-                                        <span class="text-danger"
-                                              v-if="bookingHotelForm.errors.has('children')"
-                                              v-html="bookingHotelForm.errors.get('children')">
-                                    </span>
+                                <div class="mb-3">
+                                    <label for="children" class="form-label text-capitalize">{{$t('children')}}</label>
+                                    <input type="number" :class="{'is-invalid': bookingHotelForm.errors.has('children')}" v-model="bookingHotelForm.children" class="form-control" id="children" :placeholder="$t('children')">
+                                    <div class="invalid-feedback"
+                                         v-if="bookingHotelForm.errors.has('children')"
+                                         v-html="bookingHotelForm.errors.get('children')">
                                     </div>
                                 </div>
                             </div>
 
                             <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length === 0">
-                                <h4>Choose Rooms To checkin</h4>
+                                <strong>{{$t('choose rooms to checkin')}}</strong>
                             </div>
 
                             <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0" class="form-group">
-                                <h4>Rooms</h4>
+                                <h3 class="mb-1 py-1 border-bottom border-top">{{$t('rooms')}}</h3>
 
-                                <div
-                                    v-for="(room, index) in bookingHotelForm.rooms"
-                                    :class="index === 0 ? 'border-top': ''"
+                                <div v-for="(room, index) in bookingHotelForm.rooms"
                                     class="media mb-3 border-bottom align-items-center justify-content-between">
                                     <div class="media-body">
                                         <div class="media-heading">
-                                            <h4 class="mt-2 text-center">{{room.title_api}}</h4>
+                                            <strong class="mt-2 text-center">{{room.title_api}}</strong>
                                         </div>
                                         <div class="form-group">
                                             <div class="row justify-content-between align-items-center">
                                                 <div class="col-6">
-                                                    <strong>Adults: {{room.adult}}</strong>
+                                                    <strong>{{$t('adults')}}: {{room.adult}}</strong>
                                                 </div>
                                                 <div class="col-6">
-                                                    <strong>Children: {{room.child}}</strong>
+                                                    <strong>{{$t('children')}}: {{room.child}}</strong>
                                                 </div>
                                                 <div class="col-6">
-                                                    <label>number
-                                                        <input
-                                                            :class="{
-                                                                'is-invalid': bookingHotelForm.errors.has('adult')
-                                                            }"
-                                                            type="number" min="1" :max="room.maxNumber" v-model="room.number" placeholder="number" />
-                                                    </label>
-                                                    <span class="text-danger"
-                                                          v-if="bookingHotelForm.errors.has('adult')"
-                                                          v-html="bookingHotelForm.errors.get('adult')">
-                                                    </span>
+                                                    <div class="mb-1">
+                                                        <label for="room_number" class="form-label text-capitalize">{{$t('room number')}}</label>
+                                                        <input type="number" min="1" :max="room.maxNumber" v-model="room.number" class="form-control" id="room_number" :placeholder="$t('room number')">
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-6">
-                                                    <label>price
-                                                        <input
-                                                            disabled
-                                                            :class="{
-                                                                'is-invalid': bookingHotelForm.errors.has('adult')
-                                                            }"
-                                                            type="text"
-                                                            v-model="room.price + '/Night'" placeholder="total" />
-                                                    </label>
-                                                    <span class="text-danger"
-                                                          v-if="bookingHotelForm.errors.has('adult')"
-                                                          v-html="bookingHotelForm.errors.get('adult')">
-                                                    </span>
+                                                    <div class="mb-1">
+                                                        <label for="room_price" class="form-label text-capitalize">{{$t('room price')}}</label>
+                                                        <input type="text" min="1" :max="room.maxNumber" v-model="room.price + '/Night'" class="form-control" id="room_price" :placeholder="$t('room price')" disabled />
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-12 d-flex justify-content-between">
-                                                    <strong>Days: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</strong>
-                                                    <strong>price: {{room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number}}$</strong>
+                                                    <strong>{{$t('days')}}: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</strong>
+                                                    <strong>{{$t('price')}}: {{room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number}}</strong>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="media-right">
-                                        <button type="button" @click="removeRoomFromBookingHotelForm(index)" class="btn btn-sm btn-danger">
+                                        <span type="button" @click="removeRoomFromBookingHotelForm(index)" class="remove-room">
                                             <i class="fa fa-times"></i>
-                                        </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
 
                             <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0">
-                                <h4>Rooms: {{total_rooms}}</h4>
-                                <h4>Days: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</h4>
-                                <h4>Total: {{total_price}}$</h4>
+                                <strong>{{$t('total_rooms')}}: {{total_rooms}}</strong><br>
+                                <strong>{{$t('nights')}}: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</strong><br>
+                                <strong>{{$t('total_price')}}: {{total_price}}</strong>
                                 <hr />
                             </div>
 
                             <div class="text-center" v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0">
-                                <button type="submit" class="btn btn-primary">
-                                    book now
+                                <button type="submit" class="btn btn-sm btn-info">
+                                    {{$t('book now')}}
                                     <span v-if="bookingHotelForm.busy" class="spinner-border spinner-border-sm"></span>
                                     <i v-if="!bookingHotelForm.busy" aria-hidden="true" class="fa fa-check"></i>
                                 </button>
@@ -340,40 +292,70 @@
                     </div>
 
                     <div class="module-why clearfix">
-                        <h3>Why should travel with us?</h3>
+                        <h3>{{$t('Why should travel with us?')}}</h3>
                         <ul>
-                            <li><i class="fa fa-usd" aria-hidden="true"></i>No-hassle best price guarantee</li>
-                            <li><i class="fa fa-star" aria-hidden="true"></i>Hand-picked Tours & Activities</li>
+                            <li><i class="fa fa-usd"></i>No-hassle best price guarantee</li>
+                            <li><i class="fa fa-star"></i>Hand-picked Tours & Activities</li>
                             <li><i class="fa fa-volume-control-phone" aria-hidden="true"></i>Passenger service 24/7</li>
-                            <li><i class="fa fa-user" aria-hidden="true"></i>Professional tour guide</li>
+                            <li><i class="fa fa-user"></i>Professional tour guide</li>
                         </ul>
                     </div>
                     <div class="module-ques clearfix">
-                        <h3>get a questions</h3>
+                        <h3>{{$t('get a questions')}}</h3>
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium.</p>
                         <ul>
                             <li><i class="fa fa-phone" aria-hidden="true"></i>+1 2618 181 612</li>
                             <li><i class="fa fa-envelope" aria-hidden="true"></i>travelsp@gmail.com</li>
                         </ul>
                     </div>
-                    <div class="module-pop clearfix">
-                        <h3>popular tours</h3>
-                        <div class="item clearfix">
+                    <div class="module-pop clearfix" v-if="hotel.rooms && hotel.rooms.length > 0">
+                        <h3>{{$t('popular rooms')}}</h3>
+                        <div v-for="room in hotel.rooms.slice(0, 2)" class="item clearfix">
                             <div class="image">
-                                <a href="tour-detail.html"><img src="image/catalog/demo/product/travel/p1.jpg" alt="Bougainvilleas on Lombard Street" class="img-responsive"></a>
+                                <img :src="room.image" :alt="room.title_api" class="img-responsive">
                             </div>
                             <div class="content">
-                                <h4><a href="tour-detail.html">7-Day Great Britain Tour Packag...</a></h4>
-                                <p>from $250</p>
-                            </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="image">
-                                <a href="tour-detail.html"><img src="image/catalog/demo/product/travel/p2.jpg" alt="Bougainvilleas on Lombard Street" class="img-responsive"></a>
-                            </div>
-                            <div class="content">
-                                <h4><a href="tour-detail.html">7-Day Great Britain Tour Packag...</a></h4>
-                                <p>from $250</p>
+                                <h4>{{room.title_api}}</h4>
+                                <p>{{room.adult}} {{$t('adult')}} | {{room.child}} {{$t('child')}}</p>
+                                <p>{{room.main_price}}/{{$t('night')}}</p>
+                                <form v-if="!bookingHotelForm.rooms.some(r => r.id === room.id)"
+                                      @submit.prevent="addRoomToBookingHotelForm(room)">
+
+                                    <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
+                                        {{$t('please check date from and date to from checkin')}}.
+                                        <br>
+                                        <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
+                                            {{checkAvailabilityForm.errors.get('from')}}
+                                        </div>
+                                        <br>
+                                        <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
+                                            {{checkAvailabilityForm.errors.get('to')}}
+                                        </div>
+                                    </div>
+
+                                    <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')" class="invalid-feedback">
+                                        {{$t('this room only available')}}: {{checkAvailabilityForm.errors.get('number')}}.
+                                    </div>
+                                    <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('diffDate')" class="invalid-feedback">
+                                        {{$t('please check date from and date to from checkin')}}.
+                                    </div>
+
+
+                                    <div class="input-group">
+                                        <input
+                                            @change="changeRoomNumber($event)"
+                                            value="1"
+                                            style="height: 31px;"
+                                            min="1" type="number"
+                                            class="form-control" placeholder="Room number">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-sm btn-info" type="submit">
+                                                <i class="fa fa-plus-circle"></i>
+                                                {{$t('checkin')}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -460,6 +442,16 @@ export default {
         }
     },
     methods: {
+        scrollToSection(section){
+          const sec = document.getElementById(section).offsetTop;
+          const number = section === 'hotel_content' ? 190 : 160;
+            if (sec){
+                window.scrollTo({
+                    top: sec - number,
+                    behavior: "smooth"
+                });
+            }
+        },
         showCheckinModal(){
             if (this.user){
                 this.bookingHotelForm.name = this.user.name;
@@ -514,7 +506,7 @@ export default {
                     this.bookingHotelForm.rooms.push({
                         id: room.id,
                         room_id: room.id,
-                        price: room.price,
+                        price: room.main_price,
                         adult: room.adult,
                         maxAdult: room.adult,
                         child: room.child,

@@ -175,77 +175,79 @@ $data = $request->all();
 
 }
 
-    // //   payment here
+     //   payment here
 
 
-    //         $country = "EG";
-    //         $reference    =  $booking->id;
-    //         Session::put('booking_id', $booking->id);
+             $country = "EG";
+             $reference    =  $booking->id;
+             Session::put('booking_id', $booking->id);
 
-    //         $amount= [
-    //             "total"=> $request->total * 100, //$request->total
-    //             "currency"=> 'EGP',
-    //         ];
-    //         $product= [
-    //             "name"=> 'New Booking',
-    //             "description"=> 'xxxxxxxxxxxxxxxxx',
-    //         ];
-    //         $userInfo= [
-    //             "userEmail"=>$booking->email,
-    //             "userId"=>'',
-    //             "userMobile"=>$booking->phone,
-    //             "userName"=>$booking->first_name . $booking->last_name
-    //         ];
-    //         $returnUrl  = 'https://hoteelsegypt.com/';
-    //         // $callbackUrl  = 'http://opayapi-001-site1.itempurl.com/api/payloads/OpayCallback';
+             $amount= [
+                 "total"=> $request->total * 100, //$request->total
+                 "currency"=> 'EGP',
+             ];
+             $product= [
+                 "name"=> 'New Booking',
+                 "description"=> 'xxxxxxxxxxxxxxxxx',
+             ];
+             $userInfo= [
+                 "userEmail"=>$booking->email,
+                 "userId"=>'',
+                 "userMobile"=>$booking->phone,
+                 "userName"=>$booking->first_name . $booking->last_name
+             ];
+             $returnUrl  = 'https://hoteelsegypt.com/';
+             // $callbackUrl  = 'http://opayapi-001-site1.itempurl.com/api/payloads/OpayCallback';
 
-    //         $cancelUrl  = 'https://hoteelsegypt.com/';
-    //         // $userClientIP = '1.1.1.1';
-    //         $expireAt = 30;
-    //         $httpClient = new \GuzzleHttp\Client();
-    //         // https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create  //test mode
-    //         // https://api.opaycheckout.com/api/v1/international/cashier/create  //live mode
-    //         $response = $httpClient->request('POST', 'https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create', [
-    //                     'headers' => [
-    //                         'Content-Type' => 'application/json',
-    //                         'Accept'       => 'application/json',
-    //                         'Authorization' => 'Bearer OPAYPUB16419035640800.28463034883201754', //test
-    //                         //'Authorization' => 'Bearer OPAYPUB16419847297280.928306246565266', //live
-    //                         'MerchantId' => '281822011132508' //test
-    //                         //"MerchantId"=> "281822011276020", //live
+             $cancelUrl  = 'https://hoteelsegypt.com/';
+             // $userClientIP = '1.1.1.1';
+             $expireAt = 30;
+             $httpClient = new \GuzzleHttp\Client();
+             // https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create  //test mode
+             // https://api.opaycheckout.com/api/v1/international/cashier/create  //live mode
+             $response = $httpClient->request('POST', 'https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create', [
+                         'headers' => [
+                             'Content-Type' => 'application/json',
+                             'Accept'       => 'application/json',
+                             'Authorization' => 'Bearer OPAYPUB16419035640800.28463034883201754', //test
+                             //'Authorization' => 'Bearer OPAYPUB16419847297280.928306246565266', //live
+                             'MerchantId' => '281822011132508' //test
+                             //"MerchantId"=> "281822011276020", //live
 
-    //                     ],
-    //                     'body' => json_encode( [
-    //                                     'country' => $country,
-    //                                     'reference' => $reference,
-    //                                     'amount' => $amount,
-    //                                     // 'payMethod'=> 'BankCard',
-    //                                     'product' => $product,
-    //                                     'userInfo' => $userInfo,
-    //                                     'returnUrl' => 'https://hoteelsegypt.com/',
-    //                                     'callbackUrl'=> 'https://hoteelsegypt.com/OpayCallback',
-    //                                     'cancelUrl' => $cancelUrl,
-    //                                     // 'userClientIP' => $userClientIP,
-    //                                     'expireAt' => $expireAt,
-    //                                 ] , true)
-    //         ]);
-    //         // dd($response);
-    //         $response = json_decode($response->getBody()->getContents(), true);
-    //         //  return $response;
-    //         if($response['data']){
-    //             $paymentStatus = $response['data']; // get response values
-    //             $url=$paymentStatus['cashierUrl'];
+                         ],
+                         'body' => json_encode( [
+                                         'country' => $country,
+                                         'reference' => $reference,
+                                         'amount' => $amount,
+                                         // 'payMethod'=> 'BankCard',
+                                         'product' => $product,
+                                         'userInfo' => $userInfo,
+                                         'returnUrl' => 'http://localhost:8000/profile',
+                                         'callbackUrl'=> 'http://localhost:8000/api/OpayCallback',
+                                         'cancelUrl' => $cancelUrl,
+                                         // 'userClientIP' => $userClientIP,
+                                         'expireAt' => $expireAt,
+                                     ] , true)
+             ]);
+             // dd($response);
+             $response = json_decode($response->getBody()->getContents(), true);
+//               return $response;
+             if($response['data']){
+                 $paymentStatus = $response['data']; // get response values
+                 $url= $paymentStatus['cashierUrl'];
+//                    $html = '<iframe src="'.$paymentStatus['cashierUrl'].'"></iframe>';
+//                 return redirect();
+                    return response()->json(['success'=>'true','frame'=>$paymentStatus['cashierUrl']]);
+//                    return $html;
 
-    //             return redirect($paymentStatus['cashierUrl']);
-
-
-    //         }else{
-    //             return $response['message'];
-    //         }
+             }else{
+                 return response()->json(['success'=>'true','message'=>$response['message']]);
+//                 return $response['message'];
+             }
 
 
 
-    // // end payment
+     // end payment
 
 
 
@@ -329,13 +331,15 @@ public function Opaycallback(Request $request)
  //    if($request->json){
  //        dd('done');
  //    }
+//      $request['payload']['reference'];
+//     return$booking= Booking::where('id','=',$request['payload']['reference'])->first();
      if($request['payload']['status'] == 'SUCCESS'){
 
-     // updata is_paid and return to success page or Home Page
-     $booking= Booking::where('id',$request['payload']['reference'])->first();
-    //  $booking->status = 'completed';
-     $booking->is_paid = 1;
-     $booking->save();
+         // updata is_paid and return to success page or Home Page
+         $booking= Booking::where('id','=',$request['payload']['reference'])->first();
+        //  $booking->status = 'completed';
+         $booking->is_paid = 1;
+         $booking->save();
 
 
 //      // extra cal

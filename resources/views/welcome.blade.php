@@ -29,7 +29,7 @@
     <link href="{{url('/front/css/footer/footer1.css')}}" rel="stylesheet">
     <link href="{{url('/front/css/header/header1.css')}}" rel="stylesheet">
     <link id="color_scheme" href="{{url('/front/css/theme.css')}}" rel="stylesheet">
-    <link href="{{url('/front/css/responsive.css')}}" rel="stylesheet">
+{{--    <link href="{{url('/front/css/responsive.css')}}" rel="stylesheet">--}}
     <link href="{{url('/front/css/quickview/quickview.css')}}" rel="stylesheet">
     <!-- Google web fonts
         ============================================ -->
@@ -53,14 +53,14 @@
     <!-- Include Libs & Plugins
     ============================================ -->
     <!-- Placed at the end of the document so the pages load faster -->
-{{--    <script type="text/javascript" src="{{url('/front/js/jquery-2.2.4.min.js')}}"></script>--}}
+    <script type="text/javascript" src="{{url('/front/js/jquery-2.2.4.min.js')}}"></script>
 {{--    <script type="text/javascript" src="{{url('/front/js/bootstrap.min.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/so_megamenu.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/owl-carousel/owl.carousel.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/slick-slider/slick.js')}}"></script>--}}
-{{--    <script type="text/javascript" src="{{url('/front/js/themejs/libs.js')}}"></script>--}}
+    <script type="text/javascript" src="{{url('/front/js/themejs/libs.js')}}"></script>
 {{--    <script type="text/javascript" src="{{url('/front/js/unveil/jquery.unveil.js')}}"></script>--}}
-{{--    <script type="text/javascript" src="{{url('/front/js/countdown/jquery.countdown.min.js')}}"></script>--}}
+    <script type="text/javascript" src="{{url('/front/js/countdown/jquery.countdown.min.js')}}"></script>
 {{--    <script type="text/javascript" src="{{url('/front/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js')}}"></script>--}}
     <script type="text/javascript" src="{{url('/front/js/datetimepicker/moment.js')}}"></script>
 {{--    <script type="text/javascript" src="{{url('/front/js/datetimepicker/bootstrap-datetimepicker.min.js')}}"></script>--}}
@@ -76,7 +76,7 @@
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/custom_h1.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/noui.js')}}"></script>--}}
 {{--    <script type="text/javascript" src="{{url('/front/js/themejs/nouislider.js')}}"></script>--}}
-{{--    <script type="text/javascript" src="{{url('/front/js/themejs/addtostick.js')}}"></script>--}}
+    <script type="text/javascript" src="{{url('/front/js/themejs/addtostick.js')}}"></script>
 
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

@@ -39,86 +39,55 @@
                 </ul>
                 <form v-if="registration" @submit.prevent="registrationFun()" class="p-3 border">
 
-                    <div class="form-group">
-                        <label>name
-                            <input
-                            :class="{
-                                'is-invalid': authForm.errors.has('name')
-                            }"
-                            v-model="authForm.name"
-                            type="text" placeholder="name" />
-                        </label>
-                        <span class="text-danger"
-                          v-if="authForm.errors.has('name')"
-                          v-html="authForm.errors.get('name')">
-                        </span>
+                    <div class="mb-3">
+                        <label for="name" class="form-label text-capitalize">{{$t('name')}}</label>
+                        <input type="text" :class="{'is-invalid': authForm.errors.has('name')}" v-model="authForm.name" class="form-control" id="name" :placeholder="$t('name')">
+                        <div class="invalid-feedback"
+                             v-if="authForm.errors.has('name')"
+                             v-html="authForm.errors.get('name')">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>email
-                            <input
-                                :class="{
-                                'is-invalid': authForm.errors.has('email')
-                            }"
-                                v-model="authForm.email"
-                                type="email" placeholder="email" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="authForm.errors.has('email')"
-                              v-html="authForm.errors.get('email')">
-                    </span>
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-capitalize">{{$t('email')}}</label>
+                        <input type="email" autocomplete="off" :class="{'is-invalid': authForm.errors.has('email')}" v-model="authForm.email" class="form-control" id="email" :placeholder="$t('email')">
+                        <div class="invalid-feedback"
+                             v-if="authForm.errors.has('email')"
+                             v-html="authForm.errors.get('email')">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>phone
-                            <VuePhoneNumberInput
-                                :show-code-on-list="true"
-                                default-country-code="EG"
-                                @update="updatedddd($event)"
-                                :class="{
-                                'is-invalid': authForm.errors.has('phone')
-                            }"
-                                v-model="authForm.phone"
-                                placeholder="phone" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="authForm.errors.has('phone')"
-                              v-html="authForm.errors.get('phone')">
-                    </span>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label text-capitalize">{{$t('phone')}}</label>
+                        <VuePhoneNumberInput id="phone" :default-country-code="'EG'" :show-code-on-list="true" @update="updatedddd($event)"
+                                             :placeholder="$t('phone')" v-model="authForm.phone" :class="{'is-invalid': authForm.errors.has('phone')}"
+                        />
+                        <div class="invalid-feedback"
+                             v-if="authForm.errors.has('phone')"
+                             v-html="authForm.errors.get('phone')">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>password
-                            <input
-                                :class="{
-                                'is-invalid': authForm.errors.has('password')
-                            }"
-                                v-model="authForm.password"
-                                type="password" placeholder="password" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="authForm.errors.has('password')"
-                              v-html="authForm.errors.get('password')">
-                    </span>
+                    <div class="mb-3">
+                        <label for="password" class="form-label text-capitalize">{{$t('password')}}</label>
+                        <input type="password" autocomplete="new-password" :class="{'is-invalid': authForm.errors.has('password')}" v-model="authForm.password" class="form-control" id="password" :placeholder="$t('password')">
+                        <div class="invalid-feedback"
+                             v-if="authForm.errors.has('password')"
+                             v-html="authForm.errors.get('password')">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>password confirmation
-                            <input
-                                :class="{
-                                'is-invalid': authForm.errors.has('password_confirmation')
-                            }"
-                                v-model="authForm.password_confirmation"
-                                type="password" placeholder="password confirmation" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="authForm.errors.has('password_confirmation')"
-                              v-html="authForm.errors.get('password_confirmation')">
-                    </span>
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label text-capitalize">{{$t('password_confirmation')}}</label>
+                        <input type="password" :class="{'is-invalid': authForm.errors.has('password_confirmation')}" v-model="authForm.password_confirmation" class="form-control" id="password_confirmation" :placeholder="$t('password_confirmation')">
+                        <div class="invalid-feedback"
+                             v-if="authForm.errors.has('password_confirmation')"
+                             v-html="authForm.errors.get('password_confirmation')">
+                        </div>
                     </div>
 
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn button btn-primary">
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn button btn-info">
                             <span v-if="authForm.busy" class="spinner-border spinner-border-sm"></span>
                             <i v-if="!authForm.busy" class="fa fa-address-card mr-1"></i>
                             {{$t('registration')}}
@@ -128,38 +97,27 @@
 
                 <form v-if="login" @submit.prevent="loginFun()" class="p-3 border">
 
-                    <div class="form-group">
-                        <label>email
-                            <input
-                                :class="{
-                                'is-invalid': authForm.errors.has('email')
-                            }"
-                                v-model="authForm.email"
-                                type="email" placeholder="email" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="authForm.errors.has('email')"
-                              v-html="authForm.errors.get('email')">
-                    </span>
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label text-capitalize">{{$t('email')}}</label>
+                        <input type="email" autocomplete="off" :class="{'is-invalid': authForm.errors.has('email')}" v-model="authForm.email" class="form-control" id="login-email" :placeholder="$t('email')">
+                        <div class="invalid-feedback"
+                             v-if="authForm.errors.has('email')"
+                             v-html="authForm.errors.get('email')">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>password
-                            <input
-                                :class="{
-                                'is-invalid': authForm.errors.has('password')
-                            }"
-                                v-model="authForm.password"
-                                type="password" placeholder="password" />
-                        </label>
-                        <span class="text-danger"
-                              v-if="authForm.errors.has('password')"
-                              v-html="authForm.errors.get('password')">
-                    </span>
+
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label text-capitalize">{{$t('password')}}</label>
+                        <input type="password" autocomplete="new-password" :class="{'is-invalid': authForm.errors.has('password')}" v-model="authForm.password" class="form-control" id="login-password" :placeholder="$t('password')">
+                        <div class="invalid-feedback"
+                             v-if="authForm.errors.has('password')"
+                             v-html="authForm.errors.get('password')">
+                        </div>
                     </div>
 
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn button btn-primary">
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn button btn-info">
                             <span v-if="authForm.busy" class="spinner-border spinner-border-sm"></span>
                             <i v-if="!authForm.busy" class="fa fa-sign-in mr-1"></i>
                             {{$t('login')}}
@@ -172,56 +130,65 @@
                 <form @submit.prevent="checkinHotelRooms()" class="row">
 
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>name
-                                <input
-                                :class="{
-                                    'is-invalid': bookingHotelForm.errors.has('name')
-                                }"
-                                v-model="bookingHotelForm.name"
-                                type="text" placeholder="name" />
-                            </label>
-                            <span class="text-danger"
-                              v-if="bookingHotelForm.errors.has('name')"
-                              v-html="bookingHotelForm.errors.get('name')">
-                            </span>
+                        <div class="mb-3">
+                            <label for="bookingHotelName" class="form-label text-capitalize">{{$t('name')}}</label>
+                            <input type="text" autocomplete="off" :class="{'is-invalid': bookingHotelForm.errors.has('name')}" v-model="bookingHotelForm.name" class="form-control" id="bookingHotelName" :placeholder="$t('name')">
+                            <div class="invalid-feedback"
+                                 v-if="bookingHotelForm.errors.has('name')"
+                                 v-html="bookingHotelForm.errors.get('name')">
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>email
-                                <input
-                                :class="{
-                                    'is-invalid': bookingHotelForm.errors.has('email')
-                                }"
-                                v-model="bookingHotelForm.email"
-                                type="email" placeholder="email" />
-                            </label>
-                            <span class="text-danger"
-                                  v-if="bookingHotelForm.errors.has('email')"
-                                  v-html="bookingHotelForm.errors.get('email')">
-                            </span>
+                        <div class="mb-3">
+                            <label for="bookingHotelEmail" class="form-label text-capitalize">{{$t('email')}}</label>
+                            <input type="email" autocomplete="off" :class="{'is-invalid': bookingHotelForm.errors.has('email')}" v-model="bookingHotelForm.email" class="form-control" id="bookingHotelEmail" :placeholder="$t('email')">
+                            <div class="invalid-feedback"
+                                 v-if="bookingHotelForm.errors.has('email')"
+                                 v-html="bookingHotelForm.errors.get('email')">
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>phone
-                                <VuePhoneNumberInput
-                                    :show-code-on-list="true"
-                                    :default-country-code="user ? user.country : 'EG'"
-                                    @update="updateddd($event)"
-                                    :class="{
-                                        'is-invalid': bookingHotelForm.errors.has('phone')
-                                    }"
-                                    v-model="bookingHotelForm.phone"
-                                    placeholder="phone" />
-                            </label>
-                            <span class="text-danger"
-                              v-if="bookingHotelForm.errors.has('phone')"
-                              v-html="bookingHotelForm.errors.get('phone')">
-                            </span>
+                        <div class="mb-3">
+                            <label for="bookingHotelPhone" class="form-label text-capitalize">{{$t('phone')}}</label>
+
+                            <VuePhoneNumberInput id="bookingHotelPhone" :show-code-on-list="true"
+                                :default-country-code="user ? user.country : 'EG'"
+                                @update="updateddd($event)" :class="{'is-invalid': bookingHotelForm.errors.has('phone')}"
+                                v-model="bookingHotelForm.phone"
+                                :placeholder="$t('phone')" />
+                            <div class="invalid-feedback" v-if="bookingHotelForm.errors.has('phone')" v-html="bookingHotelForm.errors.get('phone')"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-3" v-if="bookingHotelForm.sCity && bookingHotelForm.sCity.name">
+                        <div class="mb-3">
+                            <strong>{{$t('city')}}:</strong> {{ bookingHotelForm.sCity.name }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <strong>{{$t('hotel')}}:</strong> {{ bookingHotelForm.hotel.title_api }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <strong>{{$t('date from')}}:</strong> {{ bookingHotelForm.from }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <strong>{{$t('date to')}}:</strong> {{ bookingHotelForm.to }}
                         </div>
                     </div>
 
@@ -230,96 +197,68 @@
                     </div>
 
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>City:</strong> {{ bookingHotelForm.sCity.name }}
+                        <div class="mb-3">
+                            <strong>{{$t('adults')}}:</strong> {{ bookingHotelForm.adult }}
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>Hotel:</strong> {{ bookingHotelForm.hotel.title_api }}
+                        <div class="mb-3">
+                            <strong>{{$t('children')}}:</strong> {{ bookingHotelForm.children }}
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>date from:</strong> {{ bookingHotelForm.from }}
+                        <div class="mb-3">
+                            <strong>{{$t('rooms')}}:</strong> {{ total_rooms }}
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>date to:</strong> {{ bookingHotelForm.to }}
+                        <div class="mb-3">
+                            <strong>{{$t('days')}}:</strong> {{ diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) }}
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <hr />
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>adult:</strong> {{ bookingHotelForm.adult }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>children:</strong> {{ bookingHotelForm.children }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>Rooms:</strong> {{ total_rooms }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <strong>Days:</strong> {{ diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <hr />
-                            <h4 class="text-center">Rooms</h4>
+                            <h3 class="text-center">{{$t('rooms')}}</h3>
                             <hr />
                             <div class="row" v-for="room in bookingHotelForm.rooms">
                                 <div class="col-md-3">
-                                    <div class="form-group">
-                                        <strong>Room:</strong> {{ room.title_api }}
+                                    <div class="mb-3">
+                                        <strong>{{$t('room')}}:</strong> {{ room.title_api }}
                                     </div>
                                 </div>
 
                                 <div class="col-md-1">
-                                    <div class="form-group">
-                                        <span><strong>Adults:</strong> {{ room.adult }} </span>
+                                    <div class="mb-3">
+                                        <span><strong>{{$t('adults')}}:</strong> {{ room.adult }} </span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-1">
-                                    <div class="form-group">
-                                        <span><strong>Children:</strong> {{ room.child }} </span>
+                                    <div class="mb-3">
+                                        <span><strong>{{$t('children')}}:</strong> {{ room.child }} </span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-2">
-                                    <div class="form-group">
-                                        <span><strong>Price:</strong> {{ room.price }} /Night</span>
+                                    <div class="mb-3">
+                                        <span><strong>{{$t('price')}}:</strong> {{ room.price }} /Night</span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-2">
-                                    <div class="form-group">
-                                        <span><strong>number of rooms:</strong> {{ room.number }} </span>
+                                    <div class="mb-3">
+                                        <span><strong>{{$t('number of rooms')}}:</strong> {{ room.number }} </span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <div class="form-group">
-                                        <span><strong>total price:</strong> {{ room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number }} </span>
+                                    <div class="mb-3">
+                                        <span><strong>{{$t('total price')}}:</strong> {{ room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number }} </span>
                                     </div>
                                 </div>
 
@@ -330,64 +269,52 @@
                         </div>
                     </div>
 
-                    <div class="col-md-7">
-                    </div>
+                    <div class="col-md-7"></div>
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <span><strong>total of rooms:</strong> {{ total_rooms }} </span>
+                        <div class="mb-3">
+                            <span><strong>{{$t('total of rooms')}}:</strong> {{ total_rooms }} </span>
                         </div>
                         <hr />
                     </div>
 
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <span><strong>total price:</strong> {{ total_price }} </span>
+                        <div class="mb-3">
+                            <span><strong>{{$t('total price')}}:</strong> {{ total_price }} </span>
                         </div>
                         <hr />
 
-                        <div class="form-group">
-                            <label>Partial Payment
-                                <input
-                                    @change="depositHotel(bookingHotelForm.total, bookingHotelForm.hotel.deposit_percentage)"
-                                    :class="{
-                                        'is-invalid': bookingHotelForm.errors.has('partial_payment')
-                                    }"
-                                    v-model="bookingHotelForm.partial_payment"
-                                    type="checkbox"
-                                    placeholder="Partial Payment">
-                            </label>
-                            <span class="text-danger"
+                        <div class="mb-3">
+
+                            <label for="partial_payment" class="form-label text-capitalize">{{$t('partial payment')}}</label>
+
+                                <input @change="depositHotel(bookingHotelForm.total, bookingHotelForm.hotel.deposit_percentage)" :class="{'is-invalid': bookingHotelForm.errors.has('partial_payment')}" v-model="bookingHotelForm.partial_payment"
+                                    id="partial_payment" type="checkbox" :placeholder="$t('partial payment')">
+
+                            <div class="invalid-feedback"
                                   v-if="bookingHotelForm.errors.has('partial_payment')"
                                   v-html="bookingHotelForm.errors.get('partial_payment')">
-                            </span>
+                            </div>
                         </div>
 
                         <hr />
 
-                        <div class="form-group d-flex justify-content-between align-items-center">
-                            <label>Paid
-                                <input
-                                    :class="{
-                                        'is-invalid': bookingHotelForm.errors.has('paid')
-                                    }"
-                                    v-model="bookingHotelForm.paid"
-                                    type="number"
-                                    :min="bookingHotelForm.paid"
-                                    step="0.01"
-                                    :max="bookingHotelForm.total"
-                                    placeholder="paid">
-                                <span class="text-danger"
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mb-3">
+                                <label for="paid" class="form-label text-capitalize">{{$t('paid')}}</label>
+                                <input class="form-control" id="paid" :class="{ 'is-invalid': bookingHotelForm.errors.has('paid') }" v-model="bookingHotelForm.paid" type="number" :min="bookingHotelForm.paid" step="0.01" :max="bookingHotelForm.total" :placeholder="$t('paid')">
+                                <div class="invalid-feedback"
                                       v-if="bookingHotelForm.errors.has('partial_payment')"
                                       v-html="bookingHotelForm.errors.get('partial_payment')">
-                                </span>
-                            </label>
-
-                            <div v-if="bookingHotelForm.partial_payment">
-                                <strong>min deposit:</strong>
-                                {{depositHotel(bookingHotelForm.total, bookingHotelForm.hotel.deposit_percentage)}}
-                                <br/>
-                                <strong>percentage:</strong>
-                                {{bookingHotelForm.hotel.deposit_percentage}} %
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div v-if="bookingHotelForm.partial_payment">
+                                    <strong>{{$t('min deposit')}}:</strong>
+                                    {{depositHotel(bookingHotelForm.total, bookingHotelForm.hotel.deposit_percentage)}}
+                                    <br/>
+                                    <strong>{{$t('percentage')}}:</strong>
+                                    {{bookingHotelForm.hotel.deposit_percentage}} %
+                                </div>
                             </div>
                         </div>
 
@@ -395,29 +322,23 @@
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label>note
-                                <textarea
-                                    :class="{
-                                        'is-invalid': bookingHotelForm.errors.has('note')
-                                    }"
-                                    rows="5"
-                                    v-model="bookingHotelForm.note"
-                                    placeholder="note"></textarea>
-                            </label>
-                            <span class="text-danger"
+                        <div class="mb-3">
+                            <label for="notes" class="form-label text-capitalize">{{$t('notes')}}</label>
+                            <textarea id="notes" :class="{ 'is-invalid': bookingHotelForm.errors.has('note') }" rows="5"
+                                v-model="bookingHotelForm.note" class="form-control" :placeholder="$t('notes')"></textarea>
+                            <div class="invalid-feedback"
                                   v-if="bookingHotelForm.errors.has('note')"
                                   v-html="bookingHotelForm.errors.get('note')">
-                            </span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn button btn-primary text-capitalize">
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-sm btn-info text-capitalize">
                                 <span v-if="bookingHotelForm.busy" class="spinner-border spinner-border-sm"></span>
                                 <i v-if="!bookingHotelForm.busy" class="fa fa-check mr-1"></i>
-                                checkin
+                                {{$t('checkin')}}
                             </button>
                         </div>
                     </div>
@@ -521,13 +442,16 @@ export default {
             this.bookingHotelForm.partial_payment ? this.bookingHotelForm.partial_payment = 1 : this.bookingHotelForm.partial_payment = 0;
             this.bookingHotelForm.post("doBooking").then((res) => {
                 if (res.data.success === 'true') {
-                    this.bookingHotelForm.reset();
-                    this.$store.dispatch('clearSearchHotels');
-                    this.closeModal();
+                    if (res.data && res.data.frame){
+                        window.open(res.data.frame, '_blank');
+                        this.bookingHotelForm.reset();
+                        this.$store.dispatch('clearSearchHotels');
+                        this.closeModal();
+                    }
                 } else {
-                    this.bookingHotelForm.errors.set(res.message);
+                    this.bookingHotelForm.errors.set(res.data);
                 }
-                console.log(res);
+                // console.log(res.data);
             }).catch(()=>{});
         },
         diffDate(date1, date2){
