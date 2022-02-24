@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function()
 //{
 Route::namespace("Api")->group(function () {
+    Route::post('OpayCallback','BookingController@Opaycallback');
 
     Route::post('doBooking', 'BookingController@booking')->name('doBooking');
     Route::get('checkAvailability', 'BookingController@checkAvailability')->name('checkAvailability');

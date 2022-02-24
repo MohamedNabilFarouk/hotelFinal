@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Main Container  -->
-        <Breadcrumbs PageTitle="Hotels" PageLink="hotels" backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
+        <Breadcrumbs :PageTitle="$t('hotels')" PageLink="hotels" backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
 
         <div v-if="!loading" class="container product-detail">
             <div class="row">
@@ -11,7 +11,7 @@
                     <span @click="toggleAside()" id="close-sidebar" class="fa fa-times"></span>
 
                     <div class="module-search clearfix">
-                        <h3 class="modtitle">Hotel searching</h3>
+                        <h3 class="modtitle">{{$t('hotel searching')}}</h3>
                         <form @submit.prevent="searchHotel()"
                               class="row px-1 justify-content-between align-items-center">
 
@@ -141,7 +141,7 @@
 
                         </div>
                         <div class="module-rate clearfix">
-                            <h3>Cities</h3>
+                            <h3>{{$t('cities')}}</h3>
                             <ul>
                                 <li v-for="city in filterHotelForm.cities">
                                     <label class="d-flex align-items-center cites">
@@ -314,7 +314,7 @@ export default {
             filterHotelForm: new Form({
                 price: [100, 5000],
                 star_rate: [],
-                stars: [{star: 5, selected: false}, {star: 4, selected: false}, {star: 3, selected: false}, {star: 2, selected: false}, {star: 1, selected: false}, {star: 0, selected: false}],
+                stars: [{star: 5, selected: false}, {star: 4, selected: false}, {star: 3, selected: false}, {star: 2, selected: false}, {star: 1, selected: false}],
                 gov_id: [],
                 cities: [],
             })

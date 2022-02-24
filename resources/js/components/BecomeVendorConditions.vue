@@ -1,7 +1,6 @@
 <template>
     <div>
-        <Breadcrumbs PageTitle="vendor terms and conditions"
-        PageLink="/vendor-terms-and-conditions"
+        <Breadcrumbs :PageTitle="$t('vendor terms and conditions')" PageLink="/vendor-terms-and-conditions"
         backgroundImage="https://d-themes.com/wordpress/wolmart/elements/wp-content/uploads/sites/3/2021/05/banner-1.jpg" />
 
         <div class="page-template-content" style="direction: rtl">

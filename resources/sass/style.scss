@@ -18,6 +18,10 @@ a{
         color: #2db2ff;
     }
 }
+ol, ul{
+    margin: 0;
+    padding: 0
+}
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
     font-family: "Poppins", Helvetica, Arial, sans-serif;
     font-weight: 600;
@@ -43,7 +47,7 @@ h3,.h3{
 }
 .form-control{
     padding: 9px;
-    line-height: 1;
+    line-height: 1.5;
     font-size: 14px;
 }
 .nav-tabs .nav-link{
@@ -454,4 +458,102 @@ footer.typefooter-1 .footer-bottom .social ul li a:hover {
         font-size: 14px;
         font-weight: 500;
     }
+}
+.breadcrumbs{
+    margin-bottom: 35px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.image-top{
+    img{
+        display: block;
+        width: 100%;
+        height: 420px;
+        max-height: 420px;
+        object-fit: cover;
+    }
+}
+.tour-single.sticky .sticky-content, .tour-single.sticky .module-search2{
+    top: 0;
+}
+.detail-content .nav-tabs li a{
+    display: block;
+}
+.detail-content .nav-tabs li:hover a, .detail-content .nav-tabs li.current a{
+    color: #191919;
+    border: none;
+    background: transparent;
+    position: relative;
+    display: block;
+}
+.gallery-slider-main{
+    img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+    }
+    .slick-prev {
+        left: 5px;
+    }
+    .slick-next{
+        right: 5px;
+    }
+}
+.hotel-rooms {
+    padding-right: 10px;
+    img {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    }
+    h3{
+        font-size: 16px;
+        line-height: 24px;
+        margin-top: 0;
+    }
+    ul {
+        li{
+            display: inline-block;
+            vertical-align: middle;
+            color: #666;
+            text-transform: lowercase;
+            margin-right: 5px;
+            font-size: 14px;
+            padding: 0;
+            i{
+                color: #2db2ff;
+            }
+        }
+    }
+}
+.media{
+    position: relative;
+    .remove-room{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: #191919;
+        font-size: 14px;
+    }
+}
+.module-why{
+    padding-top: 1px;
+}
+.module-pop{
+    .item{
+        padding: 10px 5px 10px 5px;
+        img{
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+    }
+}
+.invalid-feedback{
+    display: block;
+}
+.tour-map{
+    padding-top: 0;
+    margin-bottom: 0;
 }

@@ -78,7 +78,6 @@ Route::resource('/order','OrdersController');
 // payment
 
 Route::get('opay','paymentController@oPay');
-Route::post('OpayCallback','paymentController@Opaycallback');
 
 Route::post('fawryPayment','paymentController@generate')->name('payment');
 Route::get('Callback','paymentController@callback');

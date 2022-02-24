@@ -12,6 +12,11 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        '/api/OpayCallback'
     ];
+//    protected $except = [
+//        //
+//        '/gateway_callback/',
+//        'OpayCallback',
+//    ];
 }

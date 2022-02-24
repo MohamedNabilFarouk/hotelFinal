@@ -21,7 +21,7 @@ Vue.use(Notifications);
 
 
 const lang = localStorage.getItem("lang") || "en";
-axios.defaults.baseURL = "http://localhost:8000/api";
+axios.defaults.baseURL = "https://newhotels.hoteelsegypt.com/api";
 axios.defaults.headers.common["lang"] = lang;
 Vue.config.productionTip = false;
 
@@ -57,6 +57,7 @@ let routes = [
 
     { path: '/become-a-vendor', component: require("./components/BecomeVendor.vue").default, name: "BecomeVendor", meta: {auth: false} },
     { path: '/vendor-terms-and-conditions', component: require("./components/BecomeVendorConditions.vue").default, name: "BecomeVendorConditions", meta: {auth: false} },
+    { path: '/terms-and-conditions', component: require("./components/TermsAndConditions.vue").default, name: "TermsAndConditions", meta: {auth: false} },
 
     { path: '/profile', component: require("./components/Profile.vue").default, name: "Profile", meta: {auth: false} },
 
