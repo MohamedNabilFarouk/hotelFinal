@@ -12,7 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/api/OpayCallback'
+        '/api/OpayCallback',
+        '/api/recommendation'
     ];
 //    protected $except = [
 //        //

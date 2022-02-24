@@ -380,9 +380,17 @@ public function Opaycallback(Request $request)
  }
 
 
-
         }
-
-
-
+public function recommendations(Request $request){
+    // $adult_guest >= $children_guest ?  ceil(( $adult_guest / $room_adults)):  ceil(($adult_guest/$room_adults) + ($children_guest - $room_children)/($room_children+$room_adults)),
+$room = Room::find($request->room_id);
+// dd($room->adult);
+if($request->adult_guest >= $request->children_guest ){
+$recomm = $request->adult_guest / $room->adult;
+}else{
+    $recomm =  (($request->adult_guest/$room->adults)+ ($request->children_guest - $room->child)/($room->child+$room->adult));
 }
+return $recomm;
+}
+
+    }

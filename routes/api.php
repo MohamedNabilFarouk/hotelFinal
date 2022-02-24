@@ -63,6 +63,8 @@ Route::namespace("Api")->group(function () {
 
 Route::get('langcurrency', 'SiteController@lang_currency');
 
+//recommendations
+Route::post('recommendation', 'BookingController@recommendations');
 
 //});
 });
