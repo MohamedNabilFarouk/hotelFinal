@@ -21,7 +21,7 @@ Vue.use(Notifications);
 
 
 const lang = localStorage.getItem("lang") || "en";
-axios.defaults.baseURL = "https://newhotels.hoteelsegypt.com/api";
+axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.common["lang"] = lang;
 Vue.config.productionTip = false;
 

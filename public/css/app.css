@@ -12865,10 +12865,6 @@ footer.typefooter-1 .footer-bottom .social ul li a:hover {
   right: 5px;
 }
 
-.hotel-rooms {
-  padding-right: 10px;
-}
-
 .hotel-rooms img {
   height: 150px;
   width: 100%;
@@ -12931,6 +12927,10 @@ footer.typefooter-1 .footer-bottom .social ul li a:hover {
 .tour-map {
   padding-top: 0;
   margin-bottom: 0;
+}
+
+iframe {
+  width: 100%;
 }
 
 .vs__selected {

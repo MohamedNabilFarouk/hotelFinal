@@ -27,6 +27,11 @@
                                     <li><a @click.prevent="scrollToSection('rooms')" href="#rooms">{{$t('rooms')}}</a></li>
                                     <li><a @click.prevent="scrollToSection('maps')" href="#maps">{{$t('map')}}</a></li>
 <!--                                    <li><a @click.prevent="" href="#review">Review</a></li>-->
+                                    <li @click.prevent="toggleSideBar()" class="ms-auto d-block d-md-none">
+                                        <a @click.prevent="" href="#"><i class="fa fa-bars"></i> {{$t('checkin')}}
+                                            <sup class="text-danger p-0">{{total_rooms}}</sup>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -44,32 +49,36 @@
                             <div class="tab-content m-0 products-category" ref="rooms" id="rooms">
                                 <h3>{{$t('rooms')}}</h3>
                                 <div v-if="hotel.rooms">
-                                    <div v-for="room in hotel.rooms" class="hotel-rooms shadow mb-3 rounded border pr-1">
+                                    <div v-for="room in hotel.rooms" class="hotel-rooms shadow mb-3 rounded border">
                                         <div class="row justify-content-between align-items-center">
-                                            <div class="col-md-4 col-4">
+                                            <div class="col-md-4 col-12">
                                                 <img :src="room.image" :alt="room.title_api" class="img-responsive">
                                             </div>
 
-                                            <div class="col-md-5 col-4">
-                                                <h3>{{room.title_api}}</h3>
+                                            <div class="col-md-5 col-12">
+                                                <div class="p-2">
+                                                    <h3>{{room.title_api}}</h3>
 
-                                                <ul class="d-inline-flex">
-                                                    <li :title="$t('size')"><i class="fa fa-arrows-alt"></i> {{room.size}} {{$t('m')}}<sup>2</sup></li>
-                                                    <li :title="$t('bed')"><i class="fa fa-bed"></i> {{room.bed}}</li>
-                                                    <li :title="$t('adults')"><i class="fa fa-user"></i> {{room.adult}}</li>
-                                                    <li :title="$t('child')"><i class="fa fa-child"></i> {{room.child}}</li>
-                                                    <li :title="$t('bathroom')"><i class="fa fa-bath"></i> {{room.bathroom}}</li>
-                                                </ul>
-                                                <div class="des">{{room.content_api}}</div>
+                                                    <ul class="d-inline-flex">
+                                                        <li :title="$t('size')"><i class="fa fa-arrows-alt"></i> {{room.size}} {{$t('m')}}<sup>2</sup></li>
+                                                        <li :title="$t('bed')"><i class="fa fa-bed"></i> {{room.bed}}</li>
+                                                        <li :title="$t('adults')"><i class="fa fa-user"></i> {{room.adult}}</li>
+                                                        <li :title="$t('child')"><i class="fa fa-child"></i> {{room.child}}</li>
+                                                        <li :title="$t('bathroom')"><i class="fa fa-bath"></i> {{room.bathroom}}</li>
+                                                    </ul>
+                                                    <div class="des">{{room.content_api}}</div>
+                                                </div>
                                             </div>
 
-                                            <div class="col-md-3 col-4 text-center">
-                                                <div class="price">
-                                                    <h3>{{room.main_price}}/{{$t('night')}}</h3>
-                                                    <strong>{{room.adult}} {{$t('adult')}}</strong> | <strong>{{room.child}} {{$t('child')}}</strong>
+                                            <div class="col-md-3 col-12 ">
+                                                <div class="text-md-center p-2 text-sm-start">
+                                                    <div class="price">
+                                                        <h3>{{room.main_price}}/{{$t('night')}}</h3>
+                                                        <strong>{{room.adult}} {{$t('adult')}}</strong> | <strong>{{room.child}} {{$t('child')}}</strong>
+                                                    </div>
                                                 </div>
 
-                                                <form v-if="!bookingHotelForm.rooms.some(r => r.id === room.id)"
+                                                <form class="px-2 mb-3" v-if="!bookingHotelForm.rooms.some(r => r.id === room.id)"
                                                       @submit.prevent="addRoomToBookingHotelForm(room)">
 
                                                     <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
@@ -93,11 +102,11 @@
 
                                                     <div class="input-group">
                                                         <input
-                                                            @change="changeRoomNumber($event)"
+                                                            :id="'number'+room.id"
                                                             value="1"
                                                             style="height: 31px;"
                                                             min="1" type="number"
-                                                            class="form-control" placeholder="Room number">
+                                                            class="form-control" :placeholder="$t('room number')">
                                                         <div class="input-group-append">
                                                             <button class="btn btn-sm btn-info" type="submit">
                                                                 <i class="fa fa-plus-circle"></i>
@@ -178,8 +187,8 @@
                     </div>
                 </div>
 
-                <aside class="col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas">
-                    <span id="close-sidebar" class="fa fa-times"></span>
+                <aside :class="sideBar ? 'active' : ''" class="col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas">
+                    <span @click.prevent="toggleSideBar()" id="close-sidebar" class="fa fa-times"></span>
                     <div class="module-search mt-2 clearfix">
                         <h3 class="modtitle">Checkin</h3>
                         <form @submit.prevent="showCheckinModal()" class="search-pr">
@@ -308,7 +317,7 @@
                             <li><i class="fa fa-envelope" aria-hidden="true"></i>travelsp@gmail.com</li>
                         </ul>
                     </div>
-                    <div class="module-pop clearfix" v-if="hotel.rooms && hotel.rooms.length > 0">
+                    <div style="padding-bottom: 100px" class="module-pop clearfix" v-if="hotel.rooms && hotel.rooms.length > 0">
                         <h3>{{$t('popular rooms')}}</h3>
                         <div v-for="room in hotel.rooms.slice(0, 2)" class="item clearfix">
                             <div class="image">
@@ -316,11 +325,12 @@
                             </div>
                             <div class="content">
                                 <h4>{{room.title_api}}</h4>
-                                <p>{{room.adult}} {{$t('adult')}} | {{room.child}} {{$t('child')}}</p>
-                                <p>{{room.main_price}}/{{$t('night')}}</p>
+                                <div class="mb-2">
+                                    <strong>{{room.adult}} {{$t('adult')}} | {{room.child}} {{$t('child')}}</strong><br>
+                                    <strong>{{room.main_price}}/{{$t('night')}}</strong><br>
+                                </div>
                                 <form v-if="!bookingHotelForm.rooms.some(r => r.id === room.id)"
                                       @submit.prevent="addRoomToBookingHotelForm(room)">
-
                                     <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
                                         {{$t('please check date from and date to from checkin')}}.
                                         <br>
@@ -332,22 +342,19 @@
                                             {{checkAvailabilityForm.errors.get('to')}}
                                         </div>
                                     </div>
-
                                     <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')" class="invalid-feedback">
                                         {{$t('this room only available')}}: {{checkAvailabilityForm.errors.get('number')}}.
                                     </div>
                                     <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('diffDate')" class="invalid-feedback">
                                         {{$t('please check date from and date to from checkin')}}.
                                     </div>
-
-
-                                    <div class="input-group">
+                                    <div class="input-group mb-2">
                                         <input
-                                            @change="changeRoomNumber($event)"
+                                            :id="'number'+room.id"
                                             value="1"
                                             style="height: 31px;"
                                             min="1" type="number"
-                                            class="form-control" placeholder="Room number">
+                                            class="form-control" :placeholder="$t('room number')">
                                         <div class="input-group-append">
                                             <button class="btn btn-sm btn-info" type="submit">
                                                 <i class="fa fa-plus-circle"></i>
@@ -359,7 +366,6 @@
                             </div>
                         </div>
                     </div>
-
                 </aside>
             </div>
         </div>
@@ -385,6 +391,7 @@ export default {
     },
     data(){
         return{
+            sideBar: false,
             id: this.$route.params.id,
             hotel: {},
             cities: [],
@@ -442,6 +449,9 @@ export default {
         }
     },
     methods: {
+        toggleSideBar(){
+            this.sideBar = this.sideBar === false;
+        },
         scrollToSection(section){
           const sec = document.getElementById(section).offsetTop;
           const number = section === 'hotel_content' ? 190 : 160;
@@ -469,6 +479,7 @@ export default {
             this.bookingHotelForm.paid = this.total_price;
             this.bookingHotelForm.deposit = 0;
             this.bookingHotelForm.vendor_id = this.hotel.vendor_id;
+            this.sideBar = false;
             this.$modal.show('bookingModal');
         },
         getCities(){
@@ -495,12 +506,12 @@ export default {
             }
         },
         addRoomToBookingHotelForm(room){
+            const number = document.getElementById("number" + room.id).value;
+            this.checkAvailabilityForm.number = number;
             this.checkAvailabilityForm.room_id = room.id;
             this.checkAvailabilityForm.from = this.bookingHotelForm.date_from;
             this.checkAvailabilityForm.to = this.bookingHotelForm.date_to;
-
             return this.diffDate(this.bookingHotelForm.date_from, this.bookingHotelForm.date_to) < 1 ? this.checkAvailabilityForm.errors.set({diffDate: 'dirty date'}) :
-
             this.checkAvailabilityForm.get('checkAvailability').then((res)=>{
                 if (res.data.success === 'true') {
                     this.bookingHotelForm.rooms.push({
@@ -515,13 +526,12 @@ export default {
                         maxNumber: res.data.number,
                         title_api: room.title_api
                     });
+                    this.sideBar = true;
                 } else {
                     this.checkAvailabilityForm.errors.set(res.data.data ? res.data.data : res.data);
                 }
 
             }).catch()
-
-
         },
         removeRoomFromBookingHotelForm(index){
             this.bookingHotelForm.rooms.splice(index, 1);
