@@ -135,5 +135,7 @@ class Hotel extends Model
     public function gallery(){
         return $this->hasMany(HotelGallery::class,'hotel_id','id');
     }
+public function recomm(){
 
+}
 }
