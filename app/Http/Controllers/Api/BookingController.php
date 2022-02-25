@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Booking;
 use App\HotelBooking;
 use App\Room;
+use App\Hotel;
 use App\User;
 use App\VendorTransaction;
 use Carbon\Carbon;
@@ -383,13 +384,28 @@ public function Opaycallback(Request $request)
         }
 public function recommendations(Request $request){
     // $adult_guest >= $children_guest ?  ceil(( $adult_guest / $room_adults)):  ceil(($adult_guest/$room_adults) + ($children_guest - $room_children)/($room_children+$room_adults)),
-$room = Room::find($request->room_id);
-// dd($room->adult);
-if($request->adult_guest >= $request->children_guest ){
-$recomm = $request->adult_guest / $room->adult;
-}else{
-    $recomm =  (($request->adult_guest/$room->adults)+ ($request->children_guest - $room->child)/($room->child+$room->adult));
-}
+// $hotel = Hotel::find($request->hotel_id);
+$hotel = Hotel::where('id',$request->hotel_id)->with('rooms')->first();
+$recomm=array();
+//  return($hotel->rooms);
+ foreach($hotel->rooms as $room){
+    if($request->adult >= $request->child ){
+        // echo ' con 1 <br>';
+        if($room->type == 'space'){
+            $recomm[] =  ['room'=>$room ,'number'=>ceil( ($request->adult + $request->child) / $room->max_guest) ];
+        }else{
+            $recomm[] =  ['room'=>$room ,'number'=>ceil( $request->adult / $room->adult) ];
+        }
+    
+
+    }else{
+        // echo 'con 2 <br>';
+        // $recomm =  (($request->adult/$room->adult)+ ($request->child - $room->child)/($room->child+$room->adult));
+        $recomm[] =  ['room'=>$room ,'number'=> ceil((($request->adult/$room->adult)+ ($request->child - $room->child)/($room->child+$room->adult))) ];
+    }
+ }
+//  die();
+
 return $recomm;
 }
 
