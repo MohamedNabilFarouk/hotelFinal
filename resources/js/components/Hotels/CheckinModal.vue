@@ -439,19 +439,21 @@ export default {
             this.bookingHotelForm.country = event.countryCode;
         },
         checkinHotelRooms(){
+
             this.bookingHotelForm.partial_payment ? this.bookingHotelForm.partial_payment = 1 : this.bookingHotelForm.partial_payment = 0;
             this.bookingHotelForm.post("doBooking").then((res) => {
-                if (res.data.success === 'true') {
+                // if (res.data.success === 'true') {
                     if (res.data && res.data.frame){
-                        window.open(res.data.frame, '_blank');
+                        window.open(res.data.frame, "_blank") || window.location.replace(res.data.frame);
                         this.bookingHotelForm.reset();
                         this.$store.dispatch('clearSearchHotels');
                         this.closeModal();
                     }
-                } else {
+                // }
+                else {
                     this.bookingHotelForm.errors.set(res.data);
                 }
-                // console.log(res.data);
+                console.log(res.data);
             }).catch(()=>{});
         },
         diffDate(date1, date2){

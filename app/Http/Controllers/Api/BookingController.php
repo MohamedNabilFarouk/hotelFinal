@@ -271,6 +271,8 @@ public function checkRoomInDate($room,$date){
 
 
 public function checkAvailability(Request $request){
+    $lang = $request->header('lang') ? $request->header('lang') : 'en';
+    app()->setLocale($lang);
     $country = $request->header('country') ? $request->header('country') : 'EG';
     config()->set('app.country', $country);
 
@@ -278,8 +280,8 @@ public function checkAvailability(Request $request){
 
     $validator = Validator::make($request->all(), [
         'from' => 'required|date|after:yesterday',
-        'number' => 'required|required',
         'to' => 'required|date|after:today',
+        'number' => 'required|required',
         'room_id' => 'required|numeric',
     ]);
 
@@ -288,8 +290,9 @@ public function checkAvailability(Request $request){
     }
 
     // $room_availabilty = HotelBooking::where([['room_id',$request->room_id]])->whereBetween('from', [$request->from, $request->to])->get();
-    $no_rooms_booked = HotelBooking::where([['room_id',$request['room_id']]])->whereBetween('from', [$request['from'], $request['to']])
-                                                                      ->orWhereBetween('to', [$request['from'], $request['from']])->sum('number');
+    $no_rooms_booked = HotelBooking::where([['room_id',$request['room_id']]])
+        ->whereBetween('from', [$request['from'], $request['to']])
+        ->sum('number');
 
 
 // dd($no_rooms_booked);
