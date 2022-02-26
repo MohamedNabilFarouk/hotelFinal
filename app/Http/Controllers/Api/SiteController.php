@@ -10,6 +10,7 @@ use App\Room;
 use App\Hotel;
 use App\Tour;
 use App\Currency;
+use App\SavedSearch;
 use DB;
 use DateTime;
 use Illuminate\Support\Facades\App;
@@ -38,6 +39,10 @@ $langs= LaravelLocalization::getSupportedLocales();
 // dd($langs);
 return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
     }
-
+public function savedSearch($request){
+    $data=$request->all();
+    // dd($data);
+    SavedSearch::create($data);
+}
 
 }

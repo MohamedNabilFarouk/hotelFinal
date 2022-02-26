@@ -12,6 +12,7 @@ use App\VendorTransaction;
 use Carbon\Carbon;
 use DB;
 use DateTime;
+use App\Http\Resources\HotelResource;
 use Illuminate\Support\Facades\Session;
 use Validator;
 
@@ -399,7 +400,7 @@ $recomm=array();
         }else{
             $recomm[] =  ['room'=>$room ,'number'=>ceil( $request->adult / $room->adult) ];
         }
-    
+
 
     }else{
         // echo 'con 2 <br>';
