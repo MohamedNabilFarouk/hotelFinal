@@ -65,6 +65,8 @@ Route::get('langcurrency', 'SiteController@lang_currency');
 
 //recommendations
 Route::post('recommendation', 'BookingController@recommendations');
+//save search
+Route::post('savedSearch', 'SiteController@savedSearch');
 
 //});
 });
