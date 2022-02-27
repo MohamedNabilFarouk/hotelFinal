@@ -65,6 +65,15 @@ class HotelsController extends Controller
             ['gov_id',$request->city]
         ])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
 
+// saved search
+if(isset($request->user_id)){
+$request['type'] = 'hotel';
+app('App\Http\Controllers\Api\SiteController')->savedSearch($request);
+
+// end saved search
+}
+
+
         return response()->json(['success'=>'true','data'=> ['hotels'=>$hotels]]);
     }
 

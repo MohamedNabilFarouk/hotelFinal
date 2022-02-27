@@ -66,5 +66,6 @@ Route::namespace("Api")->group(function () {
     //recommendations
     Route::post('recommendation', 'BookingController@recommendations');
 
-//});
+    Route::post('savedSearch', 'SiteController@savedSearch');
+
 });

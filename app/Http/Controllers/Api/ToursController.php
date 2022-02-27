@@ -66,7 +66,13 @@ class ToursController extends Controller
                 ['status','1']
             ])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
         }
+// saved search
+if(isset($request->user_id)){
+    $request['type'] = 'tour';
+    app('App\Http\Controllers\Api\SiteController')->savedSearch($request);
 
+    // end saved search
+    }
         return response()->json(['success'=>'true','data'=> ['tours'=>$tours]]);
     }
 

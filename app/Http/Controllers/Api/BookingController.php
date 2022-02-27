@@ -12,6 +12,7 @@ use App\VendorTransaction;
 use Carbon\Carbon;
 use DB;
 use DateTime;
+use App\Http\Resources\HotelResource;
 use Illuminate\Support\Facades\Session;
 use Validator;
 
@@ -408,7 +409,6 @@ public function Opaycallback(Request $request)
                 $recomm[] =  ['room'=>$room ,'number'=> ceil((($request->adult/$room->adult)+ ($request->child - $room->child)/($room->child+$room->adult))) ];
             }
         }
-        //  die();
 
         return  $recomm;
     }

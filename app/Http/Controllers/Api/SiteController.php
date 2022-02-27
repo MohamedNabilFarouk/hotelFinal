@@ -10,6 +10,7 @@ use App\Room;
 use App\Hotel;
 use App\Tour;
 use App\Currency;
+use App\SavedSearch;
 use DB;
 use DateTime;
 use Illuminate\Support\Facades\App;
@@ -32,12 +33,21 @@ class SiteController extends Controller
     }
 
     public function lang_currency(){
+      $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
         $currencies = Currency::all();
         $langs= LaravelLocalization::getSupportedLocales();
         // $langs= LaravelLocalization::getSupportedLocales();
         // dd($langs);
         return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
-        }
-
+        
+    }
+    public function savedSearch($request){
+        $data=$request->all();
+        // dd($data);
+        SavedSearch::create($data);
+    }
 
 }
