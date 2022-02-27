@@ -32,12 +32,12 @@ class SiteController extends Controller
     }
 
     public function lang_currency(){
-$currencies = Currency::all();
-$langs= LaravelLocalization::getSupportedLocales();
-// $langs= LaravelLocalization::getSupportedLocales();
-// dd($langs);
-return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
-    }
+        $currencies = Currency::all();
+        $langs= LaravelLocalization::getSupportedLocales();
+        // $langs= LaravelLocalization::getSupportedLocales();
+        // dd($langs);
+        return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
+        }
 
 
 }

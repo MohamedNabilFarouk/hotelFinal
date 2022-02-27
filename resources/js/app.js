@@ -9,12 +9,14 @@ import vSelect from "vue-select";
 import VModal from 'vue-js-modal';
 import moment from 'moment';
 import Notifications from 'vue-notification';
+import vueLoadImage from "vue-load-image";
+import Datepicker from 'vuejs-datepicker';
 
 Vue.component('VuePhoneNumberInput', require('vue-phone-number-input'));
-
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component("v-select", vSelect);
-
+Vue.component("vue-load-image", vueLoadImage);
+Vue.component("vuejs-datepicker", Datepicker);
 Vue.use(Router);
 Vue.use(VModal,  { componentName: 'modal' });
 Vue.use(Notifications);
@@ -46,20 +48,72 @@ Vue.filter('date', function(date){
 });
 
 let routes = [
-    { path: '/', component: require("./components/Home.vue").default, name: "Home", meta: {auth: false} },
+    {
+        path: '/',
+        component: require("./components/Home.vue").default,
+        name: "Home",
+        meta: { auth: false, title: "Hotels Egypt" }
+    },
 
-    { path: '/hotels', component: require("./components/Hotels.vue").default, name: "Hotels", props: true, meta: {auth: false}},
-    { path: '/hotel/:id', component: require("./components/Hotels/SingleHotel.vue").default, name: "Hotel", meta: {auth: false} },
+    {
+        path: '/hotels',
+        component: require("./components/Hotels.vue").default,
+        name: "Hotels",
+        props: true,
+        meta: { auth: false, title: "Hotels" }
+    },
+    {
+        path: '/hotel/:id',
+        component: require("./components/Hotels/SingleHotel.vue").default,
+        name: "Hotel",
+        meta: { auth: false, title: "Hotel" }
+    },
 
-    { path: '/tours', component: require("./components/Tours.vue").default, name: "Tours", props: true, meta: {auth: false} },
-    { path: '/tour/:id', component: require("./components/Tours/SingleTour.vue").default, name: "Tour", meta: {auth: false} },
-    { path: '/tours/special', component: require("./components/SpecialTours.vue").default, name: "SpecialTours", props: true, meta: {auth: false} },
+    {
+        path: '/tours',
+        component: require("./components/Tours.vue").default,
+        name: "Tours", props: true,
+        meta: { auth: false, title: "Tours" }
+    },
+    {
+        path: '/tour/:id',
+        component: require("./components/Tours/SingleTour.vue").default,
+        name: "Tour",
+        meta: { auth: false, title: "Tour" }
+    },
+    {
+        path: '/tours/special',
+        component: require("./components/SpecialTours.vue").default,
+        name: "SpecialTours",
+        props: true,
+        meta: { auth: false, title: "Special Tour" }
+    },
 
-    { path: '/become-a-vendor', component: require("./components/BecomeVendor.vue").default, name: "BecomeVendor", meta: {auth: false} },
-    { path: '/vendor-terms-and-conditions', component: require("./components/BecomeVendorConditions.vue").default, name: "BecomeVendorConditions", meta: {auth: false} },
-    { path: '/terms-and-conditions', component: require("./components/TermsAndConditions.vue").default, name: "TermsAndConditions", meta: {auth: false} },
+    {
+        path: '/become-a-vendor',
+        component: require("./components/BecomeVendor.vue").default,
+        name: "BecomeVendor",
+        meta: { auth: false, title: "Become A Vendor" }
+    },
+    {
+        path: '/vendor-terms-and-conditions',
+        component: require("./components/BecomeVendorConditions.vue").default,
+        name: "BecomeVendorConditions",
+        meta: { auth: false, title: "Vendor Terms And Conditions" }
+    },
+    {
+        path: '/terms-and-conditions',
+        component: require("./components/TermsAndConditions.vue").default,
+        name: "TermsAndConditions",
+        meta: { auth: false, title: "Terms And Conditions" }
+    },
 
-    { path: '/profile', component: require("./components/Profile.vue").default, name: "Profile", meta: {auth: false} },
+    {
+        path: '/profile',
+        component: require("./components/Profile.vue").default,
+        name: "Profile",
+        meta: { auth: false, title: "Profile" }
+    },
 
 
 ];
@@ -74,18 +128,22 @@ const router = new Router({
     }
 });
 
-// router.beforeEach((to, from, next) => {
-//     const loggedIn = localStorage.getItem('user');
-//     if (to.matched.some(record => record.meta.auth) && !loggedIn) {
-//         next('/login');
-//         return
-//     }
-//     if (to.path === '/login' && loggedIn){
-//         next('/');
-//         return
-//     }
-//     next();
-// });
+const DEFAULT_TITLE = 'Hotels Egypt';
+router.beforeEach((to, from, next) => {
+    // const loggedIn = localStorage.getItem('user');
+    // if (to.matched.some(record => record.meta.auth) && !loggedIn) {
+    //     next('/login');
+    //     return
+    // }
+    // if (to.path === '/login' && loggedIn){
+    //     next('/');
+    //     return
+    // }
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
+    next();
+});
 
 new Vue({
     router,
