@@ -7,11 +7,11 @@
                     <div class="module so-deals-1tr home1_deals so-deals">
                         <div class="head-title clearfix">
                             <div class="block-title pull-left">
-                                <h3><span>popular tours</span></h3>
+                                <h3><span>{{ $t('popular') }} {{ $t('tours') }}</span></h3>
                             </div>
                             <router-link to="tours"
                                class="pull-right">
-                                view all
+                                {{ $t('view all') }}
                                 <i class="fa fa-angle-right" aria-hidden="true"></i>
                             </router-link>
                         </div>
@@ -20,13 +20,17 @@
                             <div class="popular-tours-slider">
                                 <VueSlickCarousel ref="popularToursSlider" v-if="tours.length > 0" v-bind="settings">
                                     <!--  items  -->
-                                    <div class="item" v-for="tour in tours">
+                                    <div class="item" v-for="tour in tours" :key="tour.id">
                                         <div class="item-inner">
                                             <div class="transition product-layout">
                                                 <div class="product-item-container ">
                                                     <div class="item-block so-quickview">
                                                         <div class="image">
-                                                            <img :src="tour.image" :alt="tour.title_api" class="img-responsive">
+                                                            <vue-load-image>
+                                                                <img slot="image" :src="tour.image" />
+                                                                <img slot="preloader" src="../../../assets/loading.gif">
+                                                                <img slot="error" src="../../../assets/no_image.png">
+                                                            </vue-load-image>
                                                         </div>
                                                         <div class="item-content clearfix">
                                                             <h3>{{tour.title_api}}</h3>
@@ -44,9 +48,14 @@
                                                             </ul>
                                                             <div class="item-bot clearfix">
                                                                 <div class="price pull-left">
-                                                                    from <label>$230</label><span>person</span>
+                                                                 <label>{{ tour.price_api.price }}</label><span>{{ $t('person') }}</span><br>
+                                                                 <label>{{ tour.price_api.ch_price }}</label><span>{{ $t('child') }}</span>
                                                                 </div>
-                                                                <a href="booking-step.html" class="book-now btn-quickview quickview quickview_handler pull-right" title="Quick View" data-title="Quick View" data-fancybox-type="iframe">Book now</a>
+                                                                <router-link :to="'/tour'+tour.id"
+                                                                    class="book-now btn-quickview quickview quickview_handler pull-right">
+                                                                    {{ $t('book now') }}
+                                                                 </router-link>
+                                                    
                                                             </div>
                                                         </div>
                                                     </div>
@@ -55,18 +64,6 @@
                                         </div>
                                     </div>
                                 </VueSlickCarousel>
-                                <div class="owl2-controls">
-                                    <div class="owl2-nav">
-                                        <div class="owl2-prev" style="display: none;">
-                                            <i class="fa fa-angle-left"></i>
-                                        </div>
-                                        <div class="owl2-next" style="display: none;">
-                                            <i class="fa fa-angle-right"></i>
-                                        </div>
-                                    </div>
-                                    <div style="display: none;" class="owl2-dots">
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

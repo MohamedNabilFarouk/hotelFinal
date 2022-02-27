@@ -9,25 +9,23 @@
                                 <div class="block-title pull-left">
                                     <h3 class="text-capitalize"><span>{{$t('popular rooms')}}</span></h3>
                                 </div>
-<!--                                <router-link to="tours"-->
-<!--                                             class="pull-right">-->
-<!--                                    view all-->
-<!--                                    <i class="fa fa-angle-right" aria-hidden="true"></i>-->
-<!--                                </router-link>-->
                             </div>
 
                             <div class="modcontent">
                                 <div class="d-flex justify-space-between flex-column">
                                     <VueSlickCarousel ref="popularToursSlider" v-if="rooms && rooms.length > 0" v-bind="settings">
-                                        <!--  items  -->
-                                        <div class="item" v-for="room in rooms.slice(0, 5)">
+                                        <div class="item" v-for="room in rooms.slice(0, 5)" :key="room.id">
                                             <div class="item-inner">
                                                 <div class="transition product-layout">
                                                     <div class="product-item-container ">
                                                         <div class="item-block so-quickview">
                                                             <div class="image">
                                                                 <router-link :to="'/hotel/'+room.hotel_id">
-                                                                    <img :src="room.image" :alt="room.title_api" class="img-responsive">
+                                                                    <vue-load-image>
+                                                                        <img slot="image" :src="room.image" />
+                                                                        <img slot="preloader" src="../../../assets/loading.gif">
+                                                                        <img slot="error" src="../../../assets/no_image.png">
+                                                                    </vue-load-image>
                                                                 </router-link>
                                                             </div>
                                                             <div class="item-content clearfix">
@@ -46,10 +44,6 @@
                                                                     <li :title="$t('child')"><i class="fa fa-child"></i> {{room.child}}</li>
                                                                     <li :title="$t('bathroom')"><i class="fa fa-bath"></i> {{room.bathroom}}</li>
                                                                 </ul>
-
-<!--                                                               <div>-->
-<!--                                                                    {{room.content_api}}-->
-<!--                                                               </div>-->
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="price text-capitalize">
                                                                         <label>{{room.main_price}}</label><span>{{$t('night')}}</span>
@@ -64,16 +58,20 @@
                                         </div>
                                     </VueSlickCarousel>
 
-                                    <VueSlickCarousel ref="popularToursSlider" v-if="rooms && rooms.length > 0" v-bind="settings">
+                                    <VueSlickCarousel ref="popularToursSlider" v-if="rooms && rooms.length > 5" v-bind="settings">
                                         <!--  items  -->
-                                        <div class="item" v-for="room in rooms.slice(0, 5)">
+                                        <div class="item" v-for="room in rooms.slice(5, 10)" :key="room.id">
                                             <div class="item-inner">
                                                 <div class="transition product-layout">
                                                     <div class="product-item-container ">
                                                         <div class="item-block so-quickview">
                                                             <div class="image">
                                                                 <router-link :to="'/hotel/'+room.hotel_id">
-                                                                    <img :src="room.image" :alt="room.title_api" class="img-responsive">
+                                                                    <vue-load-image>
+                                                                        <img slot="image" :src="room.image" />
+                                                                        <img slot="preloader" src="../../../assets/loading.gif">
+                                                                        <img slot="error" src="../../../assets/no_image.png">
+                                                                    </vue-load-image>
                                                                 </router-link>
                                                             </div>
                                                             <div class="item-content clearfix">
@@ -93,9 +91,6 @@
                                                                     <li :title="$t('bathroom')"><i class="fa fa-bath"></i> {{room.bathroom}}</li>
                                                                 </ul>
 
-                                                                <!--                                                               <div>-->
-                                                                <!--                                                                    {{room.content_api}}-->
-                                                                <!--                                                               </div>-->
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="price text-capitalize">
                                                                         <label>{{room.main_price}}</label><span>{{$t('night')}}</span>

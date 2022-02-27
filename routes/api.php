@@ -61,12 +61,11 @@ Route::namespace("Api")->group(function () {
 
 //get all currency and lang
 
-Route::get('langcurrency', 'SiteController@lang_currency');
+    Route::get('langcurrency', 'SiteController@lang_currency');
 
-//recommendations
-Route::post('recommendation', 'BookingController@recommendations');
-//save search
-Route::post('savedSearch', 'SiteController@savedSearch');
+    //recommendations
+    Route::post('recommendation', 'BookingController@recommendations');
 
-//});
+    Route::post('savedSearch', 'SiteController@savedSearch');
+
 });

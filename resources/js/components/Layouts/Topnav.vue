@@ -4,21 +4,13 @@
             <div class="row justify-content-between">
                 <div class="col-md-6 d-flex">
                     <div class="bonus-login">
-                        <div v-if="user">
-                            <span class="dropdown-toggle text-capitalize" data-toggle="dropdown">
+                        <div v-if="user" class="dropdown">
+                            <span class="dropdown-toggle text-capitalize" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{user.name}}
                             </span>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <router-link to="/profile" class="dropdown-item text-capitalize">
-                                        {{$t('profile')}}
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <a href="#" @click.prevent="logout()" class="dropdown-item text-capitalize">
-                                        {{$t('logout')}}
-                                    </a>
-                                </li>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><router-link to="/profile" class="dropdown-item text-capitalize">{{$t('profile')}}</router-link></li>
+                                <li><a href="#" @click.prevent="logout()" class="dropdown-item text-capitalize">{{$t('logout')}}</a></li>
                             </ul>
                         </div>
 
@@ -31,23 +23,25 @@
                     </div>
 
                     <div class="bonus-language">
-                        <span class="dropdown-toggle text-capitalize" data-toggle="dropdown">
-                            {{$t('lang')}}
-                        </span>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#" @click.prevent="langChange('ar')" class="dropdown-item text-capitalize">
-                                    <img class="flag" src="https://hoteelsegypt.com/libs/flags/flags/4x3/eg.svg" alt="" title="Ar" />
-                                    {{$t('arabic')}}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" @click.prevent="langChange('en')" class="dropdown-item text-capitalize">
-                                    <img class="flag" src="https://hoteelsegypt.com/libs/flags/flags/4x3/gb.svg" alt="En" title="En" />
-                                    {{$t('english')}}
-                                </a>
-                            </li>
-                        </ul>
+                        <div class="dropdown">
+                            <span class="dropdown-toggle text-capitalize" type="button" id="dropdownMenuLanguage" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{$t('lang')}}
+                            </span>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLanguage">
+                                <li>
+                                    <a href="#" @click.prevent="langChange('ar')" class="dropdown-item text-capitalize">
+                                        <img class="flag" src="https://hoteelsegypt.com/libs/flags/flags/4x3/eg.svg" alt="" title="Ar" />
+                                        {{$t('arabic')}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" @click.prevent="langChange('en')" class="dropdown-item text-capitalize">
+                                        <img class="flag" src="https://hoteelsegypt.com/libs/flags/flags/4x3/gb.svg" alt="En" title="En" />
+                                        {{$t('english')}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

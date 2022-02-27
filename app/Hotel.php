@@ -54,7 +54,7 @@ class Hotel extends Model
     public function getMinPriceAttribute()
     {
         $room = Room::where([['hotel_id', '=', $this->id]])
-            ->orderBy('sale_price','asc')->orderBy('price', 'asc')->first();
+            ->orderBy('price', 'asc')->first();
 
         if ($room){
             if (config()->get('app.country') == 'EG'){

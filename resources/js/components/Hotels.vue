@@ -1,5 +1,14 @@
 <template>
     <div>
+        <div v-if="loading" class="ovely-loading">
+            <div class="image">
+                <vue-load-image>
+                    <img slot="image" src="../../assets/loading.gif" />
+                    <img slot="preloader" src="../../assets/loading.gif">
+                    <img slot="error" src="../../assets/no_image.png">
+                </vue-load-image>
+            </div>
+        </div>
         <!-- Main Container  -->
         <Breadcrumbs :PageTitle="$t('hotels')" PageLink="hotels" backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
 
@@ -38,7 +47,7 @@
                             <div class="col-lg-12 col-md-12 col-12">
                                 <div class="mb-3">
                                     <label for="date_from" class="form-label text-capitalize">{{$t('date from')}}</label>
-                                    <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_from')}" v-model="searchHotelsForm.date_from" class="form-control" id="date_from" :placeholder="$t('date from')">
+                                    <vuejs-datepicker :disabledDates="disabledTodayDates" :format="customFormatter"  v-model="searchHotelsForm.date_from" :placeholder="$t('date from')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': searchHotelsForm.errors.has('date_from')}"></vuejs-datepicker>
                                     <div class="invalid-feedback" v-if="searchHotelsForm.errors.has('date_from')" v-html="searchHotelsForm.errors.get('date_from')"></div>
                                 </div>
                             </div>
@@ -46,7 +55,7 @@
                             <div class="col-lg-12 col-md-12 col-12">
                                 <div class="mb-3">
                                     <label for="date_to" class="form-label text-capitalize">{{$t('date to')}}</label>
-                                    <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_to')}" v-model="searchHotelsForm.date_to" class="form-control" id="date_to" :placeholder="$t('date to')">
+                                    <vuejs-datepicker :disabledDates="disabledTomorrowDates" :format="customFormatter"  v-model="searchHotelsForm.date_to" :placeholder="$t('date to')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': searchHotelsForm.errors.has('date_to')}"></vuejs-datepicker>
                                     <div class="invalid-feedback"
                                          v-if="searchHotelsForm.errors.has('date_to')"
                                          v-html="searchHotelsForm.errors.get('date_to')">
@@ -131,19 +140,20 @@
                         <div class="module-rate clearfix">
                             <h3>{{$t('star rating')}}</h3>
                             <ul>
-                                <li v-for="star in filterHotelForm.stars">
+                                <li v-for="(star, i) in filterHotelForm.stars" :key="i">
                                     <label class="d-flex align-items-center">
                                         <input class="me-2" @change="starSelected(star)" v-model="star.selected" type="checkbox">
                                         <starRating :star-size="18" :rating="star.star" :show-rating="false" :read-only="true"></starRating>
                                     </label>
                                 </li>
                             </ul>
-
                         </div>
-                        <div class="module-rate clearfix">
+                        <div style="overflow: hidden;" :style="showAllCities ? 'height: auto' : 'height: 280px'" class="module-rate clearfix">
                             <h3>{{$t('cities')}}</h3>
+                            <p type="button" class="mb-1"><strong @click="() =>{ showAllCities = true}" v-if="!showAllCities" style="color:#2db2ff"> {{ $t("view all") }} </strong></p>
+                            <p type="button" class="mb-1"><strong @click="() =>{ showAllCities = false}" v-if="showAllCities" style="color:#2db2ff"> {{ $t("view less") }} </strong></p>
                             <ul>
-                                <li v-for="city in filterHotelForm.cities">
+                                <li v-for="city in filterHotelForm.cities" :key="city.id">
                                     <label class="d-flex align-items-center cites">
                                         <input class="me-2" :checked="filterHotelForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
                                         {{city.name}}
@@ -152,20 +162,31 @@
                             </ul>
                         </div>
                     </form>
-                    <div class="module-pop clearfix"><h3>popular Hotels</h3>
-                        <div class="item clearfix">
+
+                    <div class="module-pop clearfix"><h3>{{ $t("popular") }} {{ $t("hotels") }}</h3>
+                        <div v-for="hotel in popularHotels.slice(0,2)" :key="hotel.id" class="item clearfix">
                             <div class="image">
-                                <a href="tour-detail.html">
-                                    <img src="https://demo.wpthemego.com/html/sw_portkey/image/catalog/demo/product/travel/p1.jpg" alt="Bougainvilleas on Lombard Street" class="img-responsive">
-                                </a>
+                                <router-link :to="'/hotel/'+hotel.id">
+                                    <vue-load-image>
+                                        <img slot="image" :src="hotel.image" class="img-responsive" />
+                                        <img slot="preloader" src="../../assets/loading.gif">
+                                        <img slot="error" src="../../assets/no_image.png">
+                                    </vue-load-image>
+                                </router-link>
                             </div>
 
-                        <div class="content">
-                            <h4><a href="tour-detail.html">7-Day Great Britain Tour Packag...</a></h4>
-                            <p>from $250</p>
+                            <div class="content">
+                                <h4><router-link :to="'/hotel/'+hotel.id">{{ hotel.title_api }}</router-link></h4>
+                                <starRating
+                                    :star-size="15"
+                                    :rating="hotel.star_rate ? parseInt(hotel.star_rate) : 0"
+                                    :show-rating="false"
+                                    :read-only="true"></starRating>
+                                <strong>{{ $t('from') }} {{ hotel.min_price }} /{{ $t('night') }} </strong><br>
+                                <router-link :to="'/hotel/'+hotel.id" class="btn btn-sm btn-info">{{ $t('book now') }}</router-link>
+                            </div>
                         </div>
-                        </div>
-                        <div class="item clearfix"><div class="image"><a href="tour-detail.html"><img src="image/catalog/demo/product/travel/p2.jpg" alt="Bougainvilleas on Lombard Street" class="img-responsive"></a></div> <div class="content"><h4><a href="tour-detail.html">7-Day Great Britain Tour Packag...</a></h4> <p>from $250</p></div></div></div>
+                    </div>
                 </aside>
 
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
@@ -196,14 +217,18 @@
                             :class="gridView ? 'gird': 'list'"
                             class="section-style4 products-list row number-col-3 so-filter-gird">
 
-                            <div v-for="hotel in hotels.data"
+                            <div v-for="hotel in hotels.data" :key="hotel.id"
                                 :class="gridView ? 'col-lg-6 col-md-6 col-sm-6 col-xs-6': 'col-lg-12 col-md-12 col-sm-12 col-xs-12'"
                                 class="product-layout">
                                 <div class="product-item-container item p-0 mb-3">
                                     <div class="item-block so-quickview">
                                         <div class="image">
                                             <router-link :to="'hotel/'+hotel.id" target="_self">
-                                                <img :src="hotel.image" :alt="hotel.title_api" class="img-responsive">
+                                                <vue-load-image>
+                                                    <img slot="image" :src="hotel.image" class="img-responsive" />
+                                                    <img slot="preloader" src="../../assets/loading.gif" class="w-auto h-auto">
+                                                    <img slot="error" src="../../assets/no_image.png">
+                                                </vue-load-image>
                                             </router-link>
                                         </div>
                                         <div class="item-content clearfix">
@@ -223,9 +248,9 @@
                                             <div class="des">{{hotel.content_api}}</div>
                                             <div class="item-bot clearfix">
                                                 <div class="price pull-left">
-                                                    from <label>{{hotel.min_price}}</label><span>Night</span>
+                                                    {{ $t('from') }} <label>{{hotel.min_price}}</label><span>{{ $t('night') }}</span>
                                                 </div>
-                                                <router-link :to="'hotel/'+hotel.id" class="book-now btn-quickview quickview quickview_handler pull-right" title="Quick View" data-title="Quick View" data-fancybox-type="iframe">Book now</router-link>
+                                                <router-link :to="'hotel/'+hotel.id" class="book-now btn-quickview quickview quickview_handler pull-right" title="Quick View" data-title="Quick View" data-fancybox-type="iframe">{{ $t('book now') }}</router-link>
                                             </div>
                                         </div>
                                     </div>
@@ -274,18 +299,14 @@
 
 <script>
 import Breadcrumbs from "./Layouts/Breadcrumbs";
-import HotelsFilter from "./Hotels/Filter";
 import starRating from "vue-star-rating";
 import Form from "vform";
 import { mapGetters } from 'vuex';
-import VueSimpleRangeSlider from 'vue-simple-range-slider';
 export default {
     name: 'Hotels',
     components:{
         Breadcrumbs,
-        HotelsFilter,
-        starRating,
-        VueSimpleRangeSlider
+        starRating
     },
     computed: {
         ...mapGetters([
@@ -294,6 +315,14 @@ export default {
     },
     data(){
         return{
+            showAllCities: false,
+            popularHotels: [],
+            disabledTodayDates: {
+                to: new Date(Date.now() - 8640000)
+            },
+            disabledTomorrowDates: {
+                to: new Date(Date.now())
+            },
             aside: false,
             loading: true,
             hotels: this.$route.params.hotels ? this.$route.params.hotels : [],
@@ -336,8 +365,14 @@ export default {
                 this.loading = false;
             }
         }).catch();
+        axios.get('home').then((res)=>{
+            this.popularHotels = res.data.data ? res.data.data.slider_hotels : [];
+        }).catch();
     },
     methods: {
+        customFormatter(date) {
+            return moment(date).format('DD-MM-YYYY');
+        },
         toggleAside(){
             this.aside = this.aside === false;
         },

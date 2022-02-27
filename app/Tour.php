@@ -85,15 +85,37 @@ class Tour extends Model
     public function getPriceApiAttribute()
     {
         if ($this->attributes['type'] == 'special'){
-            // need to check country to get price
-            return isset($this->prices[0]) ? $this->prices[0] : "";
-
-        }else{
-            return [
-                // need to check country to get world price
+            // check country to get price
+            if (config()->get('app.country') == 'EG'){
+                return [
                 'price' => $this->attributes['price'],
                 'ch_price' => $this->attributes['child_price']
-            ];
+                ];
+            }else{
+                $tour_price = TourPrices::where([
+                    ['ip', '=', config()->get('app.country')],
+                    ['tour_id', '=', $this->id]
+                ])->select('price', 'ch_price')->first();
+
+                $price = isset($tour_price) ? $tour_price->price : null;
+                $ch_price = isset($tour_price) ? $tour_price->ch_price : null;
+                return [
+                    'price' => $price,
+                    'ch_price' => $ch_price
+                ];
+            }
+        }else{
+            if (config()->get('app.country') == 'EG'){
+                return [
+                    'price' => $this->attributes['price'],
+                    'ch_price' => $this->attributes['child_price']
+                ];
+            }else{
+                return [
+                    'price' => $this->attributes['world_price'],
+                    'ch_price' => $this->attributes['world_price']
+                ];
+            }
         }
     } // end of get image attribute
 

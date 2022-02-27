@@ -48,7 +48,7 @@
                 <div class="col-lg-2 col-md-3 col-6">
                     <div class="mb-3">
                         <label for="date_from" class="form-label text-capitalize">{{$t('date from')}}</label>
-                        <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_from')}" v-model="searchHotelsForm.date_from" class="form-control" id="date_from" :placeholder="$t('date from')">
+                        <vuejs-datepicker :disabledDates="disabledTodayDates" :format="customFormatter"  v-model="searchHotelsForm.date_from" :placeholder="$t('date from')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': searchHotelsForm.errors.has('date_from')}"></vuejs-datepicker>
                         <div class="invalid-feedback" v-if="searchHotelsForm.errors.has('date_from')" v-html="searchHotelsForm.errors.get('date_from')"></div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="col-lg-2 col-md-3 col-6">
                     <div class="mb-3">
                         <label for="date_to" class="form-label text-capitalize">{{$t('date to')}}</label>
-                        <input type="date" :class="{'is-invalid': searchHotelsForm.errors.has('date_to')}" v-model="searchHotelsForm.date_to" class="form-control" id="date_to" :placeholder="$t('date to')">
+                        <vuejs-datepicker :disabledDates="disabledTomorrowDates" :format="customFormatter"  v-model="searchHotelsForm.date_to" :placeholder="$t('date to')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': searchHotelsForm.errors.has('date_to')}"></vuejs-datepicker>
                         <div class="invalid-feedback"
                               v-if="searchHotelsForm.errors.has('date_to')"
                               v-html="searchHotelsForm.errors.get('date_to')">
@@ -144,6 +144,12 @@ export default {
 name: 'Search',
     data() {
         return {
+            disabledTodayDates: {
+                to: new Date(Date.now() - 8640000)
+            },
+            disabledTomorrowDates: {
+                to: new Date(Date.now())
+            },
             hotelSearch: true,
             tourSearch: false,
             cities: [],
@@ -173,6 +179,9 @@ name: 'Search',
         this.searchToursForm.fill(this.searchTours ? this.searchTours : '');
     },
     methods: {
+        customFormatter(date) {
+            return moment(date).format('DD-MM-YYYY');
+        },
         getCities(){
             axios.get('cities')
                 .then((res)=>{

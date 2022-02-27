@@ -120,5 +120,7 @@
     "nights": "nights",
     "number of rooms": "number of rooms",
     "total_price": "total price",
-    "room": "room"
+    "room": "room",
+    "available": "available"
+
 }

@@ -28,8 +28,10 @@
         "laravel-vue-pagination": "^2.3.1",
         "moment": "^2.29.1",
         "vform": "^2.1.2",
+        "vue-gallery-slideshow": "^1.5.2",
         "vue-i18n": "^8.27.0",
         "vue-js-modal": "^2.0.1",
+        "vue-load-image": "^0.2.0",
         "vue-notification": "^1.3.20",
         "vue-phone-number-input": "^1.1.12",
         "vue-router": "^3.5.3",
@@ -37,6 +39,7 @@
         "vue-simple-range-slider": "^0.1.10",
         "vue-slick-carousel": "^1.0.6",
         "vue-star-rating": "^1.7.0",
+        "vuejs-datepicker": "^1.6.2",
         "vuex": "^3.6.2"
     }
 }

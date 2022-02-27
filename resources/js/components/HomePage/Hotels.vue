@@ -19,14 +19,18 @@
                                 <div class="">
                                     <VueSlickCarousel ref="popularToursSlider" v-if="hotels && hotels.length > 0" v-bind="settings">
                                         <!--  items  -->
-                                        <div class="item" v-for="hotel in hotels">
+                                        <div class="item" v-for="hotel in hotels" :key="hotel.id">
                                             <div class="item-inner">
                                                 <div class="transition product-layout">
                                                     <div class="product-item-container ">
                                                         <div class="item-block so-quickview">
                                                             <div class="image">
                                                                 <router-link :to="'/hotel/'+hotel.id">
-                                                                    <img :src="hotel.image" :alt="hotel.title_api" class="img-responsive">
+                                                                    <vue-load-image>
+                                                                        <img slot="image" :src="hotel.image" />
+                                                                        <img slot="preloader" src="../../../assets/loading.gif">
+                                                                        <img slot="error" src="../../../assets/no_image.png">
+                                                                    </vue-load-image>
                                                                 </router-link>
                                                             </div>
                                                             <div class="item-content clearfix">
@@ -36,7 +40,8 @@
                                                                         :star-size="15"
                                                                         :rating="hotel.star_rate ? parseInt(hotel.star_rate) : 0"
                                                                         :show-rating="false"
-                                                                        :read-only="true"></starRating>
+                                                                        :read-only="true">
+                                                                    </starRating>
                                                                 </div>
                                                                 <ul>
                                                                     <li :title="$t('address')"><i class="fa fa-map-marker"></i> {{hotel.address_api}}</li>
@@ -44,7 +49,9 @@
 
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="price text-capitalize">
-                                                                        {{$t('from')}} <label>{{hotel.min_price}}</label><span>{{$t('person')}}</span>
+                                                                        {{ $t('from') }} <label>
+                                                                        {{hotel.min_price}}
+                                                                        </label><span>{{$t('night')}}</span>
                                                                     </div>
                                                                     <router-link :to="'/hotel/'+hotel.id" class="book-now text-capitalize btn-quickview quickview quickview_handler">{{$t('view now')}}</router-link>
                                                                 </div>
