@@ -30,14 +30,47 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLanguage">
                                 <li>
                                     <a href="#" @click.prevent="langChange('ar')" class="dropdown-item text-capitalize">
-                                        <img class="flag" src="https://hoteelsegypt.com/libs/flags/flags/4x3/eg.svg" alt="" title="Ar" />
+                                        <img class="flag" src="https://img.icons8.com/color/48/000000/egypt-circular.png"/>
                                         {{$t('arabic')}}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" @click.prevent="langChange('en')" class="dropdown-item text-capitalize">
-                                        <img class="flag" src="https://hoteelsegypt.com/libs/flags/flags/4x3/gb.svg" alt="En" title="En" />
+                                        <img class="flag" src="https://img.icons8.com/color/48/000000/great-britain-circular.png"/>
                                         {{$t('english')}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" @click.prevent="langChange('de')" class="dropdown-item text-capitalize">
+                                        <img class="flag" src="https://img.icons8.com/color/48/000000/germany-circular.png"/>
+                                        {{$t('deutsch')}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" @click.prevent="langChange('ru')" class="dropdown-item text-capitalize">
+                                        <img class="flag" src="https://img.icons8.com/color/48/000000/russian-federation-circular.png"/>
+                                        {{$t('русский')}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" @click.prevent="langChange('pl')" class="dropdown-item text-capitalize">
+                                        <img class="flag" src="https://img.icons8.com/color/48/000000/poland-circular.png"/>
+                                        {{$t('polski')}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bonus-currency">
+                        <div class="dropdown">
+                            <span class="dropdown-toggle text-capitalize" type="button" id="dropdownMenuLanguage" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{$t('currency')}}
+                            </span>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLanguage">
+                                <li v-for="c in currencies" :key="c.id">
+                                    <a href="#" @click.prevent="currencyChange(c)" class="dropdown-item text-capitalize">
+                                        {{ c.abbr }}
                                     </a>
                                 </li>
                             </ul>
@@ -201,6 +234,7 @@ name: 'Topnav',
     },
     data() {
         return {
+            currencies: [],
             registration: true,
             login: false,
             authForm: new Form({
@@ -215,12 +249,9 @@ name: 'Topnav',
         }
     },
     mounted(){
-        // this.$notify({
-        //     // type: 'success',
-        //     title: 'Important message',
-        //     text: 'Hello user!'
-        // });
-        // console.log(this.$route.name);
+        axios.get("langcurrency").then((res) => {
+            this.currencies = res.data.data && res.data.data.currencies ? res.data.data.currencies : [];
+        }).catch();
     },
     methods: {
         showModal(){
@@ -241,6 +272,9 @@ name: 'Topnav',
         langChange(lang) {
             localStorage.setItem("lang", lang);
             window.location.reload();
+        },
+        currencyChange(currency) {
+            this.$store.dispatch('currency', currency);
         },
         registrationFun() {
             this.authForm.phone = this.authForm.e164Phone;

@@ -32,7 +32,7 @@ class SiteController extends Controller
         return response()->json(['success'=>'true','data'=> ['tours'=>$tours]]);
     }
 
-    public function lang_currency(){
+    public function lang_currency(Request $request){
       $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
         $country = $request->header('country') ? $request->header('country') : 'EG';

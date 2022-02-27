@@ -12395,6 +12395,21 @@ h3,
   background: #cbcbcb;
 }
 
+.top-nav .bonus-language {
+  margin-right: 15px;
+  position: relative;
+}
+
+.top-nav .bonus-language::before {
+  content: "";
+  position: absolute;
+  right: -7px;
+  width: 1px;
+  top: 3px;
+  height: 20px;
+  background: #cbcbcb;
+}
+
 .top-nav a {
   color: #666666;
   transition: all 0.2s ease-in-out;
@@ -12942,6 +12957,11 @@ iframe {
   display: none !important;
 }
 
+.vgs__gallery__title {
+  color: #ffffff;
+  font-weight: 600;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #2db2ff;
 }
@@ -13006,6 +13026,10 @@ iframe {
   .products-category .section-style4.products-list.list .col-sm-12.col-xs-12 .image img {
     width: 100%;
   }
+}
+
+.text-danger {
+  background: transparent;
 }
 
 .vs__selected {
