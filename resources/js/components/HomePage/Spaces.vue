@@ -9,24 +9,23 @@
                                 <div class="block-title pull-left">
                                     <h3 class="text-capitalize"><span>{{$t('popular') + ' ' + $t('spaces')}}</span></h3>
                                 </div>
-<!--                                <router-link to="/hotels" class="pull-right">-->
-<!--                                    {{$t('view all')}}-->
-<!--                                    <i class="fa fa-angle-right" aria-hidden="true"></i>-->
-<!--                                </router-link>-->
                             </div>
 
                             <div class="modcontent">
                                 <div class="">
                                     <VueSlickCarousel ref="popularToursSlider" v-if="spaces && spaces.length > 0" v-bind="settings">
-                                        <!--  items  -->
-                                        <div class="item" v-for="space in spaces">
+                                        <div class="item" v-for="space in spaces" :key="space.id">
                                             <div class="item-inner">
                                                 <div class="transition product-layout">
                                                     <div class="product-item-container ">
                                                         <div class="item-block so-quickview">
                                                             <div class="image">
                                                                 <router-link :to="'/hotel/'+space.hotel_id">
-                                                                    <img :src="space.image" :alt="space.title_api" class="img-responsive">
+                                                                    <vue-load-image>
+                                                                        <img slot="image" :src="space.image" />
+                                                                        <img slot="preloader" src="../../../assets/loading.gif">
+                                                                        <img slot="error" src="../../../assets/no_image.png">
+                                                                    </vue-load-image>
                                                                 </router-link>
                                                             </div>
                                                             <div class="item-content clearfix">

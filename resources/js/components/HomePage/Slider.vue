@@ -1,14 +1,19 @@
 <template>
     <div class="container pt-2 sliders-main">
         <div class="row">
+
             <div class="col-lg-6 col-12">
                 <div class="mb-4 tours-slider">
                     <VueSlickCarousel v-if="tours.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="500" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
                         <!--  item  -->
-                        <div v-for="tour in tours">
+                        <div v-for="tour in tours" :key="tour.id">
                             <router-link :to="'tour/'+tour.id">
                                 <div class="slide-img">
-                                    <img :src="tour.image"  :alt="tour.title_api"/>
+                                    <vue-load-image>
+                                        <img slot="image" :src="tour.image" />
+                                        <img slot="preloader" src="../../../assets/loading.gif">
+                                        <img slot="error" src="../../../assets/no_image.png">
+                                    </vue-load-image>
                                 </div>
                                 <div class=slider-content>
                                 <h4 class="title">{{tour.title_api}}</h4>
@@ -33,10 +38,14 @@
                 <div class="hotels-slider">
                     <VueSlickCarousel v-if="hotels.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="1000" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
                         <!--  item  -->
-                        <div v-for="hotel in hotels">
+                        <div v-for="hotel in hotels" :key="hotel.id">
                             <router-link :to="'/hotel/'+hotel.id" >
                                 <div class="slide-img">
-                                    <img :src="hotel.image"  :alt="hotel.title_api"/>
+                                    <vue-load-image>
+                                        <img slot="image" :src="hotel.image" />
+                                        <img slot="preloader" src="../../../assets/loading.gif">
+                                        <img slot="error" src="../../../assets/no_image.png">
+                                    </vue-load-image>
                                 </div>
                                 <div class=slider-content>
                                     <h4 class="title">{{hotel.title_api}}</h4>
@@ -51,7 +60,7 @@
                                         :read-only="true">
                                     </starRating>
                                     <span class="price">
-                                        From: {{hotel.min_price}}/Night
+                                        {{ $t('from') }}: {{hotel.min_price}}/{{$t('night')}}
                                     </span>
                                 </div>
                             </router-link>
@@ -64,34 +73,38 @@
                 <div style="margin-bottom: 20px" class="cities-slider">
                     <VueSlickCarousel v-if="cities.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="1200" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
                         <!--  item  -->
-                        <div v-for="city in cities.slice(0, 5)">
+                        <div v-for="city in cities.slice(0, 5)" :key="city.id">
                             <div class="slide-img">
-                                <img src="https://hoteelsegypt.com/uploads/0000/871/2022/02/07/124013623.jpg"  :alt="city.name"/>
+                                <vue-load-image>
+                                    <img slot="image" :src="city.image" />
+                                    <img slot="preloader" src="../../../assets/loading.gif">
+                                    <img slot="error" src="../../../assets/no_image.png">
+                                </vue-load-image>
                             </div>
                             <div class=slider-content>
                                 <h4 class="title">{{city.name}}</h4>
                             </div>
                         </div>
-
                     </VueSlickCarousel>
                 </div>
                 <div class="cities-slider">
                     <VueSlickCarousel v-if="cities.length > 0" :slidesToShow="1" :slidesToScroll="1" :speed="1500" :infinite="true" :arrows="false" :autoplay="true" :autoplaySpeed="5000" :dots="false">
-                        <!--  item  -->
-                        <div v-for="city in cities.slice(5, 10)">
+                        <div v-for="city in cities.slice(5, 10)" :key="city.id">
                             <div class="slide-img">
-                                <img :src="city.image"  :alt="city.name"/>
+                                <vue-load-image>
+                                    <img slot="image" :src="city.image" />
+                                    <img slot="preloader" src="../../../assets/loading.gif">
+                                    <img slot="error" src="../../../assets/no_image.png">
+                                </vue-load-image>
                             </div>
                             <div class=slider-content>
                                 <h4 class="title">{{city.name}}</h4>
                             </div>
                         </div>
-
                     </VueSlickCarousel>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 <script>

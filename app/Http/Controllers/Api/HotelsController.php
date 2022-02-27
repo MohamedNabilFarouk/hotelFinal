@@ -50,7 +50,7 @@ class HotelsController extends Controller
         $validator = Validator::make($request->all(), [
             'city' => 'required|numeric|exists:governorates,id',
             'date_from' => 'required|date|after:yesterday',
-            'date_to' => 'required|date|after:today',
+            'date_to' => 'required|date|after:'.$request->date_from,
             'adult' => 'required|numeric|min:1',
             'children' => 'nullable|numeric|min:0',
         ]);
@@ -87,16 +87,19 @@ app('App\Http\Controllers\Api\SiteController')->savedSearch($request);
         $gov_id = array_map(function($value) { return (int)$value; }, $request->gov_id);
         $star_rate = array_map(function($value) { return (int)$value; }, $request->star_rate);
 
-        $hotels = Hotel::where([['status', '=', '1']])->whereHas('rooms', function($q) use($price, $country) {
-
-//                $q->whereHas('prices', function($q) use($price, $country) {
-//                    $q->where('ip', '=', $country)->whereBetween('price', $price);
-//                });
-
-        })->where(function ($query) use ($star_rate, $gov_id) {
-                $query->whereIn('gov_id', $gov_id)
-                    ->whereIn('star_rate', $star_rate);
-            })->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate(8);
+        if($country != 'EG'){
+            $hotels = Hotel::where([['status', '=', '1']])->whereHas('rooms', function($q) use($price, $country) {
+                    $q->whereHas('prices', function($q) use($price, $country) {
+                        $q->where('ip', '=', $country)->whereBetween('price', $price);
+                    });
+            })->where(function ($query) use ($star_rate, $gov_id) {$query->whereIn('gov_id', $gov_id)->whereIn('star_rate', $star_rate);})
+                ->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate(8);
+        }else{
+            $hotels = Hotel::where([['status', '=', '1']])->whereHas('rooms', function($q) use($price) {
+                $q->whereBetween('price', $price);
+            })->whereIn('gov_id', $gov_id)->whereIn('star_rate', $star_rate)
+                ->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate(8);
+        }
 
         return response()->json(['success'=>'true','data'=> ['hotels'=>$hotels]]);
     }

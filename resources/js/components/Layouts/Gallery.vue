@@ -6,47 +6,42 @@
                 :autoplay="true"
                 :infinite="true"
                 :focusOnSelect="true">
-                <div v-for="image in images"><img :src="image.image" alt=""></div>
+                <div @click="index = i" v-for="(image, i) in images" :key="image.id">
+                    <vue-load-image>
+                        <img slot="image" :src="image.image" />
+                        <img slot="preloader" src="../../../assets/loading.gif">
+                        <img slot="error" src="../../../assets/no_image.png">
+                    </vue-load-image>
+                </div>
             </VueSlickCarousel>
         </div>
-<!--        <div class="gallery-slider-main">-->
-<!--            <VueSlickCarousel-->
-<!--                ref="c1"-->
-<!--                :autoplay="true"-->
-<!--                :infinite="true"-->
-<!--                :asNavFor="$refs.c2"-->
-<!--                :focusOnSelect="true">-->
-<!--                <div v-for="image in images"><img :src="image.image" alt=""></div>-->
-<!--            </VueSlickCarousel>-->
-<!--        </div>-->
-<!--        <div class="gallery-slider-nav d-none d-md-block">-->
-<!--            <VueSlickCarousel-->
-<!--                ref="c2"-->
-<!--                :arrows="true"-->
-<!--                :infinite="true"-->
-<!--                :asNavFor="$refs.c1"-->
-<!--                :slidesToShow="4"-->
-<!--                :focusOnSelect="true">-->
-<!--                <div v-for="image in images"><img :src="image.image" alt=""></div>-->
-<!--            </VueSlickCarousel>-->
-<!--        </div>-->
+        <vue-gallery-slideshow :images="gImages" :index="index" @close="index = null"></vue-gallery-slideshow>
     </div>
 </template>
 
 <script>
 import VueSlickCarousel from 'vue-slick-carousel';
+import VueGallerySlideshow from 'vue-gallery-slideshow';
+
 export default {
     name: 'Gallery',
     props: {
         images: {type: Array, default:  () => ([])}
     },
     components:{
-        VueSlickCarousel
+        VueSlickCarousel,
+        VueGallerySlideshow
     },
     data(){
-        return{}
+        return{
+            gImages: [],
+            index: null
+        }
     },
     mounted() {
+        this.images.map((img)=>{
+            this.gImages.push(img.image);
+        });
     },
     methods: {
     }

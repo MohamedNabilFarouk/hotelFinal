@@ -32,17 +32,22 @@ class SiteController extends Controller
         return response()->json(['success'=>'true','data'=> ['tours'=>$tours]]);
     }
 
-    public function lang_currency(){
-$currencies = Currency::all();
-$langs= LaravelLocalization::getSupportedLocales();
-// $langs= LaravelLocalization::getSupportedLocales();
-// dd($langs);
-return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
+    public function lang_currency(Request $request){
+      $lang = $request->header('lang') ? $request->header('lang') : 'en';
+        app()->setLocale($lang);
+        $country = $request->header('country') ? $request->header('country') : 'EG';
+        config()->set('app.country', $country);
+        $currencies = Currency::all();
+        $langs= LaravelLocalization::getSupportedLocales();
+        // $langs= LaravelLocalization::getSupportedLocales();
+        // dd($langs);
+        return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
+        
     }
-public function savedSearch($request){
-    $data=$request->all();
-    // dd($data);
-    SavedSearch::create($data);
-}
+    public function savedSearch($request){
+        $data=$request->all();
+        // dd($data);
+        SavedSearch::create($data);
+    }
 
 }

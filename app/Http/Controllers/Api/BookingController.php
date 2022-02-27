@@ -392,7 +392,7 @@ public function checkAvailability(Request $request){
 
     $validator = Validator::make($request->all(), [
         'from' => 'required|date|after:yesterday',
-        'to' => 'required|date|after:today',
+        'to' => 'required|date|after:'.$request->from,
         'number' => 'required|required',
         'room_id' => 'required|numeric',
     ]);
@@ -403,8 +403,7 @@ public function checkAvailability(Request $request){
 
     // $room_availabilty = HotelBooking::where([['room_id',$request->room_id]])->whereBetween('from', [$request->from, $request->to])->get();
     $no_rooms_booked = HotelBooking::where([['room_id',$request['room_id']]])
-        ->whereBetween('from', [$request['from'], $request['to']])
-        ->sum('number');
+        ->whereBetween('from', [$request['from'], $request['to']])->sum('number');
 
 
 // dd($no_rooms_booked);
@@ -497,31 +496,32 @@ public function Opaycallback(Request $request)
 
 
         }
-public function recommendations(Request $request){
-    // $adult_guest >= $children_guest ?  ceil(( $adult_guest / $room_adults)):  ceil(($adult_guest/$room_adults) + ($children_guest - $room_children)/($room_children+$room_adults)),
-// $hotel = Hotel::find($request->hotel_id);
-$hotel = Hotel::where('id',$request->hotel_id)->with('rooms')->first();
-$recomm=array();
-//  return($hotel->rooms);
- foreach($hotel->rooms as $room){
-    if($request->adult >= $request->child ){
-        // echo ' con 1 <br>';
-        if($room->type == 'space'){
-            $recomm[] =  ['room'=>$room ,'number'=>ceil( ($request->adult + $request->child) / $room->max_guest) ];
-        }else{
-            $recomm[] =  ['room'=>$room ,'number'=>ceil( $request->adult / $room->adult) ];
+
+    public function recommendations(Request $request){
+        // $adult_guest >= $children_guest ?  ceil(( $adult_guest / $room_adults)):  ceil(($adult_guest/$room_adults) + ($children_guest - $room_children)/($room_children+$room_adults)),
+        // $hotel = Hotel::find($request->hotel_id);
+
+
+        $hotel = Hotel::where('id',$request->hotel_id)->with('rooms')->first();
+        $recomm = array();
+        //  return($hotel->rooms);
+        foreach($hotel->rooms as $room){
+            if($request->adult >= $request->child ){
+                // echo ' con 1 <br>';
+                if($room->type == 'space'){
+                    $recomm[] =  ['room'=>$room ,'number'=>ceil( ($request->adult + $request->child) / $room->max_guest) ];
+                }else{
+                    $recomm[] =  ['room'=>$room ,'number'=>ceil( $request->adult / $room->adult) ];
+                }
+
+            }else{
+                // echo 'con 2 <br>';
+                // $recomm =  (($request->adult/$room->adult)+ ($request->child - $room->child)/($room->child+$room->adult));
+                $recomm[] =  ['room'=>$room ,'number'=> ceil((($request->adult/$room->adult)+ ($request->child - $room->child)/($room->child+$room->adult))) ];
+            }
         }
 
-
-    }else{
-        // echo 'con 2 <br>';
-        // $recomm =  (($request->adult/$room->adult)+ ($request->child - $room->child)/($room->child+$room->adult));
-        $recomm[] =  ['room'=>$room ,'number'=> ceil((($request->adult/$room->adult)+ ($request->child - $room->child)/($room->child+$room->adult))) ];
+        return  $recomm;
     }
- }
-//  die();
 
-return $recomm;
 }
-
-    }
