@@ -121,5 +121,8 @@
     "number of rooms": "عدد الغرف",
     "total_price": "اجمالي السعر",
     "room": "غرقة",
-    "available": "متاح"
+    "available": "متاح",
+    "choose the number of rooms suitable for the number of visitors": "اختر عدد الغرف المناسب لعدد الزوار",
+    "currency": "العملة"
+
 }

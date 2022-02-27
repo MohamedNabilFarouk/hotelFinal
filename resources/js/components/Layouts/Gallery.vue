@@ -6,7 +6,13 @@
                 :autoplay="true"
                 :infinite="true"
                 :focusOnSelect="true">
-                <div @click="index = i" v-for="(image, i) in images"><img :src="image.image" alt=""></div>
+                <div @click="index = i" v-for="(image, i) in images" :key="image.id">
+                    <vue-load-image>
+                        <img slot="image" :src="image.image" />
+                        <img slot="preloader" src="../../../assets/loading.gif">
+                        <img slot="error" src="../../../assets/no_image.png">
+                    </vue-load-image>
+                </div>
             </VueSlickCarousel>
         </div>
         <vue-gallery-slideshow :images="gImages" :index="index" @close="index = null"></vue-gallery-slideshow>

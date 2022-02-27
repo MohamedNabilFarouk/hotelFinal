@@ -121,6 +121,7 @@
     "number of rooms": "number of rooms",
     "total_price": "total price",
     "room": "room",
-    "available": "available"
-
+    "available": "available",
+    "choose the number of rooms suitable for the number of visitors": "choose the number of rooms suitable for the number of visitors",
+    "currency": "currency"
 }

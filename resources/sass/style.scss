@@ -96,6 +96,19 @@ h3,
             background: #cbcbcb;
         }
     }
+    .bonus-language {
+        margin-right: 15px;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            right: -7px;
+            width: 1px;
+            top: 3px;
+            height: 20px;
+            background: #cbcbcb;
+        }
+    }
     a {
         color: #666666;
         transition: all 0.2s ease-in-out;
@@ -586,6 +599,10 @@ iframe {
 .vgs__gallery__container {
     display: none !important;
 }
+.vgs__gallery__title {
+    color: #ffffff;
+    font-weight: 600;
+}
 ::-webkit-scrollbar-thumb {
     background: #2db2ff;
 }
@@ -646,4 +663,7 @@ iframe {
             }
         }
     }
+}
+.text-danger {
+    background: transparent;
 }

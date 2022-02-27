@@ -9,7 +9,7 @@
                 </vue-load-image>
             </div>
         </div>
-        <div v-if="!loading">
+        <div v-if="!loading && hotel.rooms && hotel.rooms.length >= 0">
         <div class="image-top">
             <vue-load-image>
                 <img slot="image" :src="hotel.image" :alt="hotel.title_api" class="img-responsive" />
@@ -39,7 +39,7 @@
                                     <li><a @click.prevent="scrollToSection('gallery')" href="#gallery">{{$t('gallery')}}</a></li>
                                     <li><a @click.prevent="scrollToSection('hotel_content')" href="#hotel_content">{{$t('content')}}</a></li>
                                     <li><a @click.prevent="scrollToSection('rooms')" href="#rooms">{{$t('rooms')}}</a></li>
-                                    <li><a @click.prevent="scrollToSection('maps')" href="#maps">{{$t('map')}}</a></li>
+                                    <li v-if="hotel.map"><a @click.prevent="scrollToSection('maps')" href="#maps">{{$t('map')}}</a></li>
 <!--                                    <li><a @click.prevent="" href="#review">Review</a></li>-->
                                     <li @click.prevent="toggleSideBar()" class="ms-auto d-block d-md-none">
                                         <a @click.prevent="" href="#"><i class="fa fa-bars"></i> {{$t('checkin')}}
@@ -93,7 +93,8 @@
                                                     <div class="price">
                                                         <h3>{{room.room.main_price}}/{{$t('night')}}</h3>
                                                         <strong>{{room.room.adult}} {{$t('adult')}}</strong> | <strong>{{room.room.child}} {{$t('child')}}</strong><br>
-                                                        <strong>{{ $t('available') }}: {{ room.av_number }}</strong>
+                                                        <strong v-if="searchHotels">{{ $t('available') }}: {{ room.av_number }} {{ $t('room') }}</strong>
+                                                        <strong v-if="!searchHotels">{{ $t('room number') }}: {{ room.av_number }} {{ $t('room') }}</strong>
                                                     </div>
                                                 </div>
 
@@ -140,10 +141,10 @@
                                 </div>
                             </div>
 
-                            <div class="tab-content m-0" ref="maps" id="maps">
+                            <div v-if="hotel.map" class="tab-content m-0" ref="maps" id="maps">
                                 <div class="tour-map">
                                     <h3>{{$t('Map Located')}}</h3>
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.281234622878!2d-74.009579709455!3d40.71146597631483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2zVGjDoG5oIHBo4buRIE5ldyBZb3JrLCBUaeG7g3UgYmFuZyBOZXcgWW9yaywgSG9hIEvhu7M!5e0!3m2!1svi!2s!4v1572333240599!5m2!1svi!2s" width="100%" height="500" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                                    <div  v-html="hotel.map"></div>
                                 </div>
                             </div>
 
@@ -209,7 +210,7 @@
                 <aside :class="sideBar ? 'active' : ''" class="col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas">
                     <span @click.prevent="toggleSideBar()" id="close-sidebar" class="fa fa-times"></span>
                     <div class="module-search mt-2 clearfix">
-                        <h3 class="modtitle">Checkin</h3>
+                        <h3 class="modtitle">{{ $t('checkin') }}</h3>
                         <form @submit.prevent="showCheckinModal()" class="search-pr">
 
                             <div class="mb-3">
@@ -283,13 +284,13 @@
                                                 <div class="col-6">
                                                     <div class="mb-1">
                                                         <label for="room_price" class="form-label text-capitalize">{{$t('room price')}}</label>
-                                                        <input type="text" min="1" :max="room.maxNumber" :value="room.price + '/Night'" class="form-control" id="room_price" :placeholder="$t('room price')" disabled />
+                                                        <input type="text" min="1" :max="room.maxNumber" :value="parseFloat(room.price).toFixed(2) + '/Night'" class="form-control" id="room_price" :placeholder="$t('room price')" disabled />
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12 d-flex justify-content-between">
                                                     <strong>{{$t('days')}}: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</strong>
-                                                    <strong>{{$t('price')}}: {{room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number}}</strong>
+                                                    <strong>{{$t('price')}}: {{parseFloat(room.price * diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to) * room.number).toFixed(2)}}</strong>
                                                 </div>
                                             </div>
                                         </div>
@@ -303,10 +304,15 @@
                             </div>
 
                             <div v-if="bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0">
-                                <strong>{{$t('total_rooms')}}: {{total_rooms}}</strong><br>
-                                <strong>{{$t('nights')}}: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}}</strong><br>
+                                <strong>{{$t('total_rooms')}}: {{total_rooms}} {{$t('room')}}</strong><br>
+                                <strong>{{$t('nights')}}: {{diffDate(bookingHotelForm.date_from, bookingHotelForm.date_to)}} {{$t('night')}}</strong><br>
                                 <strong>{{$t('total_price')}}: {{total_price}}</strong>
                                 <hr />
+                            </div>
+
+                            <div class="text-center"
+                             v-if="(bookingHotelForm.children > total_children || bookingHotelForm.adult > total_adults) && (bookingHotelForm.rooms && bookingHotelForm.rooms.length > 0)">
+                                <strong class="text-danger">{{ $t('choose the number of rooms suitable for the number of visitors') }}</strong>
                             </div>
 
                             <div class="text-center"
@@ -321,57 +327,42 @@
                         </form>
                     </div>
 
-                    <div class="module-why clearfix">
-                        <h3>{{$t('Why should travel with us?')}}</h3>
-                        <ul>
-                            <li><i class="fa fa-usd"></i>No-hassle best price guarantee</li>
-                            <li><i class="fa fa-star"></i>Hand-picked Tours & Activities</li>
-                            <li><i class="fa fa-volume-control-phone" aria-hidden="true"></i>Passenger service 24/7</li>
-                            <li><i class="fa fa-user"></i>Professional tour guide</li>
-                        </ul>
-                    </div>
-                    <div class="module-ques clearfix">
-                        <h3>{{$t('get a questions')}}</h3>
-                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium.</p>
-                        <ul>
-                            <li><i class="fa fa-phone" aria-hidden="true"></i>+1 2618 181 612</li>
-                            <li><i class="fa fa-envelope" aria-hidden="true"></i>travelsp@gmail.com</li>
-                        </ul>
-                    </div>
-                    <div style="padding-bottom: 100px" class="module-pop clearfix" v-if="hotel.rooms && hotel.rooms.length > 0">
+                    <div class="module-pop clearfix" v-if="hotel.rooms && hotel.rooms.length > 0">
                         <h3>{{$t('popular rooms')}}</h3>
-                        <div v-for="room in hotel.rooms.slice(0, 2)" class="item clearfix" :key="room.id">
+                        <div v-for="room in hotel.rooms.slice(0, 2)" class="item clearfix" :key="room.room.id">
                             <div class="image">
-                                <img :src="room.image" :alt="room.title_api" class="img-responsive">
+                                <Gallery v-if="room.room.gallery && room.room.gallery.length > 0" :images="room.room.gallery" />
                             </div>
-                            <div class="content">
-                                <h4>{{room.title_api}}</h4>
+                            <div class="content text-center">
+                                <h4>{{room.room.title_api}}</h4>
                                 <div class="mb-2">
-                                    <strong>{{room.adult}} {{$t('adult')}} | {{room.child}} {{$t('child')}}</strong><br>
-                                    <strong>{{room.main_price}}/{{$t('night')}}</strong><br>
+                                    <strong>{{room.room.adult}} {{$t('adult')}} | {{room.room.child}} {{$t('child')}}</strong><br>
+                                    <strong>{{room.room.main_price}}/{{$t('night')}}</strong><br>
+                                    <strong v-if="searchHotels">{{ $t('available') }}: {{ room.av_number }} {{ $t('room') }}</strong>
+                                    <strong v-if="!searchHotels">{{ $t('room number') }}: {{ room.av_number }} {{ $t('room') }}</strong><br>
                                 </div>
-                                <form v-if="!bookingHotelForm.rooms.some(r => r.id === room.id)"
+                                <form v-if="!bookingHotelForm.rooms.some(r => r.id === room.room.id)"
                                       @submit.prevent="addRoomToBookingHotelForm(room)">
-                                    <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
+                                    <div v-if="room.room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
                                         {{$t('please check date from and date to from checkin')}}.
                                         <br>
-                                        <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
+                                        <div v-if="room.room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
                                             {{checkAvailabilityForm.errors.get('from')}}
                                         </div>
                                         <br>
-                                        <div v-if="room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
+                                        <div v-if="room.room.id === checkAvailabilityForm.room_id && (checkAvailabilityForm.errors.has('from') || checkAvailabilityForm.errors.has('to'))" class="invalid-feedback">
                                             {{checkAvailabilityForm.errors.get('to')}}
                                         </div>
                                     </div>
-                                    <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')" class="invalid-feedback">
+                                    <div v-if="room.room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('number')" class="invalid-feedback">
                                         {{$t('this room only available')}}: {{checkAvailabilityForm.errors.get('number')}}.
                                     </div>
-                                    <div v-if="room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('diffDate')" class="invalid-feedback">
+                                    <div v-if="room.room.id === checkAvailabilityForm.room_id && checkAvailabilityForm.errors.has('diffDate')" class="invalid-feedback">
                                         {{$t('please check date from and date to from checkin')}}.
                                     </div>
                                     <div class="input-group mb-2">
                                         <input
-                                            :id="'number'+room.id"
+                                            :id="'number'+room.room.id"
                                             value="1"
                                             style="height: 31px;"
                                             min="1" type="number"
@@ -387,6 +378,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="module-why clearfix">
+                        <h3>{{$t('Why should travel with us?')}}</h3>
+                        <ul>
+                            <li><i class="fa fa-usd"></i>No-hassle best price guarantee</li>
+                            <li><i class="fa fa-star"></i>Hand-picked Tours & Activities</li>
+                            <li><i class="fa fa-volume-control-phone" aria-hidden="true"></i>Passenger service 24/7</li>
+                            <li><i class="fa fa-user"></i>Professional tour guide</li>
+                        </ul>
+                    </div>
+                    <div class="module-why clearfix">
+                        <h3>{{$t('become a vendor')}}</h3>
+                        
+                        <ul>
+                            <li><router-link to="/become-a-vendor">{{ $t('registration') }} {{ $t('vendor') }}</router-link></li>
+                            <li><router-link to="/vendor-terms-and-conditions">{{ $t('vendor') }} {{ $t('terms_condition') }}</router-link></li>
+                        </ul>
+                        <!-- <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium.</p>
+                        <ul>
+                            <li><i class="fa fa-phone" aria-hidden="true"></i>+1 2618 181 612</li>
+                            <li><i class="fa fa-envelope" aria-hidden="true"></i>travelsp@gmail.com</li>
+                        </ul> -->
+                    </div>
+                    
                 </aside>
             </div>
         </div>
@@ -459,7 +473,8 @@ export default {
                 to: '',
                 number: 1,
                 room_id: '',
-            })
+            }),
+            ava_number: 1
         }
     },
     mounted() {
@@ -526,8 +541,8 @@ export default {
             }
             this.bookingHotelForm.hotel = this.hotel;
             this.bookingHotelForm.child = this.bookingHotelForm.children;
-            this.bookingHotelForm.from = this.bookingHotelForm.date_from;
-            this.bookingHotelForm.to = this.bookingHotelForm.date_to;
+            this.bookingHotelForm.from = moment(this.bookingHotelForm.date_from).format('YYYY-MM-DD');
+            this.bookingHotelForm.to = moment(this.bookingHotelForm.date_to).format('YYYY-MM-DD');
             this.bookingHotelForm.total = this.total_price;
             this.bookingHotelForm.paid = this.total_price;
             this.bookingHotelForm.deposit = 0;
@@ -543,30 +558,27 @@ export default {
                 .catch();
         },
         async getHotel(){
-           await axios.post('hotel', {id: this.id}).then( (res)=>{
+           await axios.post('hotel', {id: this.id}).then(  (res)=>{
                 this.hotel = res.data.data && res.data.data.hotel ? res.data.data.hotel : {};
 
-                 this.hotel.rooms =  this.hotel.rooms.map(r => {
-                    // if (this.searchHotels){
+                 this.hotel.rooms =   this.hotel.rooms.map( (r, i) => {
+                    if (this.searchHotels){
                         axios.get("checkAvailability", {
-                            from: this.searchHotels.date_from,
-                            to: this.searchHotels.date_to,
-                            number: 1,
-                            room_id: r.id
+                            params: {
+                                from: this.searchHotels.date_from,
+                                to: this.searchHotels.date_to,
+                                number: 1,
+                                room_id: r.id
+                            }
                         }).then((res)=>{
-                            r['number'] = res.data.number ? res.data.number : 1;
-                            console.log(this.searchHotels);
-                            console.log(res.data);
+                            this.hotel.rooms[i].av_number = res.data.number ? res.data.number : 1;
+                           console.log( this.hotel.rooms[i] );
                         }).catch();
-                    // }
-                    return {
-                        room: r,
-                        av_number: r['number']
-                    };
+                    }
+                    return { room: r, av_number: r['number'] };
                 })
-                console.log(this.hotel.rooms);
                 this.loading = false;
-            }).catch(() =>{});
+            }).catch();
         },
         fillBookingHotelForm(searchHotels){
             if (searchHotels){

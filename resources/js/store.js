@@ -9,7 +9,8 @@ const state = {
     searchTours: null,
     sidebarShow: 'responsive',
     sidebarMinimize: false,
-    user: null
+    user: null,
+    currency: null
 };
 
 const mutations = {
@@ -35,6 +36,10 @@ const mutations = {
         state.searchHotels = formData;
         localStorage.setItem('searchHotels', JSON.stringify(formData));
     },
+    setCurrency(state, c){
+        state.currency = c;
+        localStorage.setItem('currency', JSON.stringify(c));
+    },
     setSearchToursForm(state, formData){
         state.searchTours = formData;
         localStorage.setItem('searchTours', JSON.stringify(formData));
@@ -59,6 +64,9 @@ const actions = {
     searchHotels ({ commit }, formData){
         return  commit('setSearchHotelsForm', formData)
     },
+    currency({ commit }, c) {
+        return  commit('setCurrency', c)
+    },
     searchTours ({ commit }, formData){
         return  commit('setSearchToursForm', formData)
     },
@@ -76,6 +84,9 @@ const getters = {
     },
     searchHotels(state){
         return state.searchHotels;
+    },
+    currency(state){
+        return state.currency;
     },
     searchTours(state){
         return state.searchTours;
