@@ -16,6 +16,8 @@ use Validator;
 use App\Traits\imagesTrait;
 use Str;
 use App\Http\Resources\BookingResource;
+use App\SavedSearch;
+
 class UsersController extends Controller
 {
     use imagesTrait;
@@ -80,6 +82,10 @@ class UsersController extends Controller
 
         $data['bank_name']= $request->bank_name;
         $data['bank_account']= $request->bank_account;
+        $data['company_name']= $request->company_name;
+        $data['bank_account_name']= $request->bank_account_name;
+        $data['iban']= $request->iban;
+        $data['swift']= $request->swift;
 
         if ($request->has('role') && $request->role == 3){
 
@@ -89,6 +95,9 @@ class UsersController extends Controller
                 'bank_name' => ['required'],
                 'bank_account' => ['required'],
                 'company_name' => ['required'],
+                'bank_account_name' => ['required'],
+                'iban' => ['required'],
+                'swift' => ['required'],
                 'vendor_terms_and_conditions' => 'required'
             ]);
 
@@ -241,13 +250,14 @@ class UsersController extends Controller
 
 
 
-    public function historyBooking($id,Request $request){
+    public function profile($id,Request $request){
         $lang = $request->header('lang') ? $request->header('lang') : 'en';
         app()->setLocale($lang);
         $country = $request->header('country') ? $request->header('country') : 'EG';
         config()->set('app.country', $country);
           $booking_history= Booking::where('customer_id',$id)->get();
-                return response()->json(['status'=>'success','data'=>BookingResource::collection($booking_history)]);
+          $saved_search = SavedSearch::where('user_id',$id)->with('city')->orderBy('id','desc')->limit(10)->get();
+                return response()->json(['status'=>'success','data'=>["booking_history"=>BookingResource::collection($booking_history),"saved_search"=>$saved_search]]);
 
     }
 

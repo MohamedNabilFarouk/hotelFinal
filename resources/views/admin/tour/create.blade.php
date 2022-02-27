@@ -134,7 +134,10 @@
                     <label for="exampleFormControlInput1" class="required form-label">{{__('Video')}}</label>
                     <input type='text' name="video" class="form-control" value="{{ old('video') }}" />
                 </div>
-
+                <div class="form-group mb-10">
+                    <label for="exampleFormControlInput1" class="required form-label">{{__('map')}}</label>
+                    <input type='text' name="map" class="form-control" value="{{ old('map') }}" />
+                </div>
                 <div class="form-group mb-10">
                     <label for="exampleFormControlInput1" class="form-label">{{__('Deposit Percentage')}}</label>
                     <input type='number' name="deposit_percentage" class="form-control" value="{{ old('deposit_percentage') }}"  placeholder='ex: 50'/>

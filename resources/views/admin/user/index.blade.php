@@ -1,6 +1,8 @@
 @extends('admin.layouts.app')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+@php
+    use Illuminate\Support\Facades\Route;
+@endphp
 
 @section('toolbar')
 <div class="toolbar" id="kt_toolbar">
@@ -60,10 +62,14 @@
                         <th class="min-w-125px">{{__('Email')}}</th>
                         <th class="min-w-125px">{{__('Phone')}}</th>
                         <th class="min-w-125px">{{__('Role')}}</th>
+                        @if($users[0]->roles[0]->name == 'vendor')
                         <th class="min-w-125px">{{__('Balance')}}</th>
                         <th class="min-w-125px">{{__('Bank Name')}}</th>
                         <th class="min-w-125px">{{__('Bank Account')}}</th>
-
+                        <th class="min-w-125px">{{__('Bank Account Name')}}</th>
+                        <th class="min-w-125px">{{__('IBAN')}}</th>
+                        <th class="min-w-125px">{{__('SWIFT')}}</th>
+                        @endif
 
                         <th class="min-w-125px">{{__('Action')}}</th>
                     </tr>
@@ -109,7 +115,7 @@
                         </td>
                         </form>
 
-
+                        @if($c->roles[0]->name == 'vendor')
 
                         <td class="px-3">
                                     <span class="badge badge-light-primary fs-7 fw-bold">{{$c->balance}}</span>
@@ -122,8 +128,19 @@
                         <td class="px-3">
                                     <span class="badge badge-light-primary fs-7 fw-bold">{{$c->bank_account}}</span>
                         </td>
+                        <td class="px-3">
+                                    <span class="badge badge-light-primary fs-7 fw-bold">{{$c->bank_account_name}}</span>
+                        </td>
 
+                        <td class="px-3">
+                                    <span class="badge badge-light-primary fs-7 fw-bold">{{$c->iban}}</span>
+                        </td>
 
+                        <td class="px-3">
+                                    <span class="badge badge-light-primary fs-7 fw-bold">{{$c->swift}}</span>
+                        </td>
+
+                        @endif
 
                         <script>
 

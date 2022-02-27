@@ -93,6 +93,10 @@
                 </div>
 
                 <div class="form-group mb-10">
+                    <label for="exampleFormControlInput1" class="required form-label">{{__('Company Name')}}</label>
+                    <input type='text' name="company_name" class="form-control" value="{{ old('company_name') }}" />
+                </div>
+                <div class="form-group mb-10">
                     <label for="exampleFormControlInput1" class="required form-label">{{__('Bank Name')}}</label>
                     <input type='text' name="bank_name" class="form-control" value="{{ old('bank_name') }}" />
                 </div>
@@ -100,6 +104,18 @@
                 <div class="form-group mb-10">
                     <label for="exampleFormControlInput1" class="required form-label">{{__('Bank Account')}}</label>
                     <input type='text' name="bank_account" class="form-control" value="{{ old('bank_account') }}" />
+                </div>
+                <div class="form-group mb-10">
+                    <label for="exampleFormControlInput1" class="required form-label">{{__('Bank Account Name')}}</label>
+                    <input type='text' name="bank_account_name" class="form-control" value="{{ old('bank_account_name') }}" />
+                </div>
+                <div class="form-group mb-10">
+                    <label for="exampleFormControlInput1" class="required form-label">{{__('IBAN')}}</label>
+                    <input type='text' name="iban" class="form-control" value="{{ old('iban') }}" />
+                </div>
+                <div class="form-group mb-10">
+                    <label for="exampleFormControlInput1" class="required form-label">{{__('Swift')}}</label>
+                    <input type='text' name="swift" class="form-control" value="{{ old('swift') }}" />
                 </div>
 </div>
                 <div class="text-right mb-5">
@@ -117,13 +133,13 @@
     $('#vendor_data').hide();
    $('#role').change(function(){
    var role = $('#role').val();
-    
+
         if(role == '3'){
             $('#vendor_data').show(); // for vendor
-          
+
         }else{
             $('#vendor_data').hide(); // for vendor
-           
+
         }
    });
 

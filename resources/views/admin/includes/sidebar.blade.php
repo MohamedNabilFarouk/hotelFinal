@@ -269,11 +269,11 @@
                          </span>
                          <div class="menu-sub menu-sub-accordion menu-active-bg">
                              <div class="menu-item">
-                                 <a class="menu-link" href="{{ route('user.index') }}">
+                                 <a class="menu-link" href="{{ route('user.create') }}">
                                      <span class="menu-bullet">
                                          <span class="bullet bullet-dot"></span>
                                      </span>
-                                     <span class="menu-title">{{__('Users')}}</span>
+                                     <span class="menu-title">{{__('Add User')}}</span>
                                  </a>
                              </div>
 
@@ -298,8 +298,17 @@
                                      <span class="menu-title">{{__('Customers')}}</span>
                                  </a>
                              </div>
-
+                             <div class="menu-item">
+                                <a class="menu-link" href="{{ route('user.byrole','admin') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">{{__('Admin')}}</span>
+                                </a>
+                            </div>
                          </div>
+
+
                      </div>
 
                      <!-- end accounts -->
