@@ -261,6 +261,117 @@ $data = $request->all();
 
 
 
+// mobile booking api
+
+
+public function mobileBooking(Request $request){
+    $country = $request->header('country') ? $request->header('country') : 'EG';
+    config()->set('app.country', $country);
+
+    $validator = Validator::make($request->all(), [
+           'name' => 'required|string|max:100',
+           'phone' => 'string',
+           'email' => 'string|required|email',
+           'type' => 'string|required',
+           'from' => 'date|required',
+           'to' => 'date|required',
+           'adult' => 'numeric|required',
+           'child' => 'numeric|required',
+           'total' => 'numeric|required',
+           'deposit' => 'numeric',
+        //    'room_id'=>'required',
+        //    'number'=>'numeric|required',
+       ]);
+
+       if ($validator->fails()) {
+            return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
+        }
+
+
+       if($request->partial_payment == 1){
+            $request->paid = $request->deposit;
+        }else{
+            $request->paid = $request->total;
+        }
+
+if($request->type == 'hotel'){
+    DB::beginTransaction();
+    $book = $request->only('name', 'phone', 'email', 'type', 'vendor_id', 'customer_id', 'object_id', 'from', 'to', 'adult', 'child', 'total', 'deposit', 'note', 'is_paid', 'partial_payment', 'paid');
+
+    $booking = Booking::create($book);
+
+    foreach($request->rooms as $r){
+        //   dd($r['number']);
+        $request['room_id'] =  $r['room_id'];
+        $request['number'] = $r['number'];
+
+        $result = $this->checkAvailability($request);
+//        return $result;
+        if($result['success'] == 'false'){
+            return response()->json(['success'=>'false','message'=>'Not Aavailable']);
+         }
+
+
+        $hotel_room = Room::find($r['room_id']);
+
+        if(isset($booking)){
+
+            // dd($r);
+            HotelBooking::create([
+                'room_id'        =>$r['room_id'],
+                'booking_id'     =>$booking->id,
+                'from'           => $request['from'],
+                'to'              => $request['to'],
+                'remain_no'       => ($hotel_room->number) - $r['number'],
+                'number'          => $r['number'],
+
+            ]);
+
+        }
+        DB::commit();
+    }
+
+
+
+
+
+
+}else{
+
+$data = $request->all();
+    $booking= Booking::create($data);
+
+//    $data = $request->all();
+    $book = $request->only('name', 'phone', 'email', 'type', 'vendor_id', 'customer_id', 'object_id', 'from', 'to', 'adult', 'child', 'total', 'deposit', 'note', 'is_paid', 'partial_payment', 'paid');
+//    return $book;
+    $booking= Booking::create($book);
+
+
+}
+
+
+
+
+
+
+       return response()->json(['success'=>'true','message'=>'added successfully']);
+
+}
+
+
+
+
+// end mobile booking api
+
+
+
+
+
+
+
+
+
+
 // not used NOW
 public function checkRoomInDate($room,$date){
 

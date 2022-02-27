@@ -70,6 +70,10 @@ class UsersController extends Controller
         }
         $data['bank_name']= $request->bank_name;
         $data['bank_account']= $request->bank_account;
+        $data['company_name']= $request->company_name;
+        $data['bank_account_name']= $request->bank_account_name;
+        $data['iban']= $request->iban;
+        $data['swift']= $request->swift;
         // dd($data);
         $user =  User::create($data);
         $user->attachRole($request->role); // customer default
@@ -126,9 +130,12 @@ class UsersController extends Controller
             $commercial_record = $this -> saveImages($request -> commercial_record, 'images/vendorData');
             $data['commercial_record'] = $commercial_record;
         }
+        $data['company_name']= $request->company_name;
         $data['bank_name']= $request->bank_name;
         $data['bank_account']= $request->bank_account;
-
+        $data['bank_account_name']= $request->bank_account_name;
+        $data['iban']= $request->iban;
+        $data['swift']= $request->swift;
 
         $user->update($data);
         session()->flash('success', trans('validation.added successfully'));

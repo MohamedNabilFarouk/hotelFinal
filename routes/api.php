@@ -24,6 +24,7 @@ Route::namespace("Api")->group(function () {
     Route::post('OpayCallback','BookingController@Opaycallback');
 
     Route::post('doBooking', 'BookingController@booking')->name('doBooking');
+    Route::post('doBookingMobile', 'BookingController@mobileBooking')->name('doBookingMobile');
     Route::get('checkAvailability', 'BookingController@checkAvailability')->name('checkAvailability');
     Route::get('checkRoomInDateroom/{room}/{date}', 'BookingController@checkRoomInDate')->name('checkRoomInDate'); //not used
 
@@ -53,8 +54,8 @@ Route::namespace("Api")->group(function () {
     Route::get('user/edit/{id}', 'UsersController@edit')->name('user.edit');
     Route::post('user/update/{id}', 'UsersController@update')->name('user.update');
     Route::post('user/login', 'UsersController@login')->name('user.login');
-    //get user history booking
-    Route::get('user/booking-history/{id}', 'UsersController@historyBooking')->name('user.historyBooking');
+    //get user profile
+    Route::get('user/profile/{id}', 'UsersController@profile')->name('user.profile');
 
     //get all Cities
     Route::get('cities', 'CitiesController@cities')->name('cities');

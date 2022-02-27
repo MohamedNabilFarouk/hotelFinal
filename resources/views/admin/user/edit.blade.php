@@ -61,7 +61,7 @@
                 <div class="form-group mb-10">
                     <label for="exampleFormControlInput1" class="required form-label">@lang('site.confirm')
                         @lang('site.password')</label>
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" 
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
                         autocomplete="new-password">
 
                 </div>
@@ -87,12 +87,16 @@
                                 <input class="image_name" type="file" name="tax_card"  >
                             </div>
 
-                            
+
                             <div class="form-group">
                                 <label for="exampleFormControlInput1" class=" form-label">{{__('commercial record')}}</label>
                                 <input class="image_name" type="file" name="commercial_record"  >
                             </div>
 
+                            <div class="form-group mb-10">
+                                <label for="exampleFormControlInput1" class="required form-label">{{__('Company Name')}}</label>
+                                <input type='text' name="company_name" class="form-control" value="{{  $user->company_name}}" />
+                            </div>
                             <div class="form-group mb-10">
                                 <label for="exampleFormControlInput1" class="required form-label">{{__('Bank Name')}}</label>
                                 <input type='text' name="bank_name" class="form-control" value="{{  $user->bank_name}}" />
@@ -101,6 +105,18 @@
                             <div class="form-group mb-10">
                                 <label for="exampleFormControlInput1" class="required form-label">{{__('Bank Account')}}</label>
                                 <input type='text' name="bank_account" class="form-control" value="{{  $user->bank_account }}" />
+                            </div>
+                            <div class="form-group mb-10">
+                                <label for="exampleFormControlInput1" class="required form-label">{{__('Bank Account Name')}}</label>
+                                <input type='text' name="bank_account_name" class="form-control" value="{{ $user->bank_account_name}}" />
+                            </div>
+                            <div class="form-group mb-10">
+                                <label for="exampleFormControlInput1" class="required form-label">{{__('IBAN')}}</label>
+                                <input type='text' name="iban" class="form-control" value="{{ $user->iban }}" />
+                            </div>
+                            <div class="form-group mb-10">
+                                <label for="exampleFormControlInput1" class="required form-label">{{__('Swift')}}</label>
+                                <input type='text' name="swift" class="form-control" value="{{ $user->swift }}" />
                             </div>
                 </div>
 
@@ -125,10 +141,10 @@ var role = $('#role').val();
 
     if(role == '3'){
         $('#vendor_data').show(); // for vendor
-      
+
     }else{
         $('#vendor_data').hide(); // for vendor
-       
+
     }
 });
 

@@ -185,6 +185,10 @@
                     <input type='text' name="video" class="form-control" value="{{ $tour->video }}" />
                 </div>
                 <div class="form-group mb-10">
+                    <label for="exampleFormControlInput1" class="required form-label">{{__('Map')}}</label>
+                    <input type='text' name="mao" class="form-control" value="{{ $tour->map }}" />
+                </div>
+                <div class="form-group mb-10">
                     <label for="exampleFormControlInput1" class="form-label">{{__('Deposit Percentage')}}</label>
                     <input type='number' name="deposit_percentage" class="form-control" value="{{$tour->deposit_percentage }}"  placeholder='ex: 50'/>
                 </div>

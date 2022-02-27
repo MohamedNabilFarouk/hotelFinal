@@ -8,4 +8,8 @@ class SavedSearch extends Model
 {
     //
     protected $guarded = [];
+
+    public function city(){
+        return $this->belongsTo(Governorate::class,'city','id');
+    }
 }
