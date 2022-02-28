@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group mb-10">
                     <label for="exampleFormControlInput1" class="required form-label">{{__('Exchange Rate')}}</label>
-                    <input type='number' name="ex_rate" class="form-control" value="{{ $currency->ex_rate }}" />
+                    <input type='number' name="ex_rate" class="form-control" value="{{ $currency->ex_rate }}" step="0.01" />
                 </div>
                 <div class="text-right mb-5">
                     <input type="submit" name="" class="btn btn-success" value="{{__('Edit')}}">

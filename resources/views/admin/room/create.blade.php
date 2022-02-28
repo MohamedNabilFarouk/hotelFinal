@@ -143,7 +143,7 @@
                         </div>
 
                         <div class="form-group mb-5">
-                    <label for="exampleFormControlInput1" class="required form-label">{{__('Sale Price')}}</label>
+                    <label for="exampleFormControlInput1" class=" form-label">{{__('Sale Price')}}</label>
                     <input type='number' name="sale_price" class="form-control" value="{{ old('sale_price') }}" />
                 </div>
 
