@@ -112,14 +112,25 @@ app('App\Http\Controllers\Api\SiteController')->savedSearch($request);
 
         $country = $request->header('country') ? $request->header('country') : 'EG';
 
-//        $min_price = RoomPrices::where('ip','=', $country)->select('price as min_price')->orderBy('price','asc')->first();
-//        $max_price = RoomPrices::where('ip','=', $country)->select('price as max_price')->orderBy('price','desc')->first();
+        if ($country != 'EG'){
+            $min_price = RoomPrices::where('ip','=', $country)->select('price as min_price')->orderBy('price','asc')->first();
+            $max_price = RoomPrices::where('ip','=', $country)->select('price as max_price')->orderBy('price','desc')->first();
 
-//        $min_price = $min_price->min_price ? $min_price->min_price : 0;
-//        $max_price = $max_price->max_price ? $max_price->max_price : 5000;
+            $eg_min_price = Room::select('price as min_price')->orderBy('price','asc')->first();
+            $eg_max_price = Room::select('price as max_price')->orderBy('price','desc')->first();
+
+            $min_price = $min_price->min_price ? $min_price->min_price : $eg_min_price->min_price;
+            $max_price = $max_price->max_price ? $max_price->max_price : $eg_max_price->max_price;
+        }else{
+            $min_price = Room::select('price as min_price')->orderBy('price','asc')->first();
+            $max_price = Room::select('price as max_price')->orderBy('price','desc')->first();
+
+            $min_price = $min_price->min_price ? $min_price->min_price : 0;
+            $max_price = $max_price->max_price ? $max_price->max_price : 5000;
+        }
         return response()->json(['success'=>'true', 'data'=> [
-           'min_price' => 0,
-            'max_price' => 50000]
+           'min_price' => $min_price,
+            'max_price' => $max_price]
         ]);
     }
 }

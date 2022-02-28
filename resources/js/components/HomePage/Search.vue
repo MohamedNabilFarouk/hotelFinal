@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-3 travel-search-content">
+    <div class="my-3 travel-search-content">
         <div class="container">
             <ul class="nav nav-tabs">
                 <li class="nav-item">

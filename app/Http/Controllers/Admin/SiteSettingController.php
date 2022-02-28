@@ -50,10 +50,12 @@ class SiteSettingController extends Controller
             } // end of inner if
             $faviconPath = $this->saveImages( $request -> favicon , 'images/site');
             $request_data['favicon'] = $faviconPath;
+            // dd($faviconPath);
         } else {
+            // dd('here');
             $request_data['favicon'] = $site_settings -> favicon;
         }
-
+// dd($request_data);
         $site_settings->update($request_data);
 
         session()->flash('success', trans('validation.Updated Successfully'));

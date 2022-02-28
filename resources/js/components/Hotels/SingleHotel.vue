@@ -1,15 +1,7 @@
 <template>
     <div>
-        <div v-if="loading" class="ovely-loading">
-            <div class="image">
-                <vue-load-image>
-                    <img slot="image" src="../../../assets/loading.gif" />
-                    <img slot="preloader" src="../../../assets/loading.gif">
-                    <img slot="error" src="../../../assets/no_image.png">
-                </vue-load-image>
-            </div>
-        </div>
-        <div v-if="!loading && hotel.rooms && hotel.rooms.length >= 0">
+
+        <div v-if="hotel.rooms && hotel.rooms.length >= 0">
         <div class="image-top">
             <vue-load-image>
                 <img slot="image" :src="hotel.image" :alt="hotel.title_api" class="img-responsive" />
@@ -18,7 +10,7 @@
             </vue-load-image>
         </div>
         <!-- Main Container  -->
-        <div  class="container product-detail tour-single">
+        <div v-if="hotel.rooms && hotel.rooms.length >= 0"  class="container product-detail tour-single">
             <div class="row">
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
 
@@ -389,7 +381,7 @@
                     </div>
                     <div class="module-why clearfix">
                         <h3>{{$t('become a vendor')}}</h3>
-                        
+
                         <ul>
                             <li><router-link to="/become-a-vendor">{{ $t('registration') }} {{ $t('vendor') }}</router-link></li>
                             <li><router-link to="/vendor-terms-and-conditions">{{ $t('vendor') }} {{ $t('terms_condition') }}</router-link></li>
@@ -400,7 +392,7 @@
                             <li><i class="fa fa-envelope" aria-hidden="true"></i>travelsp@gmail.com</li>
                         </ul> -->
                     </div>
-                    
+
                 </aside>
             </div>
         </div>
@@ -429,7 +421,6 @@ export default {
     },
     data(){
         return{
-            loading: true,
             sideBar: false,
             disabledTodayDates: {
                 to: new Date(Date.now() - 8640000)

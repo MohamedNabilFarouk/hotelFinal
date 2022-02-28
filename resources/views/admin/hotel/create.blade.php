@@ -56,7 +56,7 @@
                     @foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value )
                     <div class="form-group mb-10 col-md-6">
                         <label for="exampleFormControlInput1" class="required form-label">{{__('Title')}} ({{$key}})</label>
-                        <input type='text' name="title_{{$key}}" class="form-control" value="{{ old('title') }}" />
+                        <input type='text' name="title_{{$key}}" class="form-control" value="{{ old('title_'.$key) }}" />
                     </div>
                     @endforeach
                     </div>
@@ -65,7 +65,7 @@
                         @foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value )
                         <div class="form-group mb-10 col-md-6">
                         <label for="exampleFormControlInput1" class="required form-label">{{__('Content')}} ({{$key}})</label>
-                        <textarea  name="content_{{$key}}" class="form-control" >{{ old('content') }}</textarea>
+                        <textarea  name="content_{{$key}}" class="form-control" >{{ old('content_'.$key) }}</textarea>
                     </div>
                     @endforeach
                     </div>
@@ -74,7 +74,7 @@
                         @foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value )
                         <div class="form-group mb-10 col-md-6">
                         <label for="exampleFormControlInput1" class="required form-label">{{__('Address')}} ({{$key}})</label>
-                        <input type='text' name="address_{{$key}}" class="form-control" value="{{ old('address') }}" />
+                        <input type='text' name="address_{{$key}}" class="form-control" value="{{ old('address_'.$key) }}" />
                     </div>
 
                     @endforeach

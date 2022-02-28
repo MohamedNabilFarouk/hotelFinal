@@ -12301,7 +12301,7 @@ a {
 }
 
 a:hover {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 ol,
@@ -12337,8 +12337,13 @@ h3,
 .btn-info:hover,
 .btn-info {
   color: #fff;
-  background-color: #2db2ff;
-  border-color: #2db2ff;
+  background-color: #d89939;
+  border-color: #d89939;
+}
+
+.btn-check:focus + .btn-info,
+.btn-info:focus {
+  box-shadow: 0 0 0 0.25rem rgba(216, 153, 57, 0.5);
 }
 
 .dropdown-menu {
@@ -12365,14 +12370,14 @@ h3,
 }
 
 .nav-tabs .nav-link:hover {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #fff;
-  background-color: #2db2ff;
-  border-color: #2db2ff #2db2ff #2db2ff;
+  background-color: #d89939;
+  border-color: #d89939 #d89939 #d89939;
 }
 
 .top-nav {
@@ -12417,7 +12422,7 @@ h3,
 }
 
 .top-nav a:hover {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .top-nav .bonus-language .flag {
@@ -12451,14 +12456,14 @@ h3,
 
 .auth-modal .nav-link:hover,
 .auth-modal .nav-link:focus {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .auth-modal .nav-tabs .nav-link.active,
 .auth-modal .nav-tabs .nav-item.show .nav-link {
   color: #fff;
-  background-color: #2db2ff;
-  border-color: #2db2ff #2db2ff #2db2ff;
+  background-color: #d89939;
+  border-color: #d89939 #d89939 #d89939;
 }
 
 .navbar {
@@ -12479,14 +12484,14 @@ h3,
 }
 
 .navbar .nav.d-md-flex .nav-link.router-link-exact-active {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .navbar .nav.d-md-flex .nav-link.router-link-exact-active:before {
   content: "";
   width: 10px;
   height: 2px;
-  background: #2db2ff;
+  background: #d89939;
   position: absolute;
   bottom: 15px;
   left: 50%;
@@ -12494,14 +12499,14 @@ h3,
 }
 
 .navbar .nav.d-md-flex .nav-link:hover {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .navbar .nav.d-md-flex .nav-link:hover:before {
   content: "";
   width: 10px;
   height: 2px;
-  background: #2db2ff;
+  background: #d89939;
   position: absolute;
   bottom: 15px;
   left: 50%;
@@ -12509,7 +12514,9 @@ h3,
 }
 
 .navbar .navbar-toggler {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  color: #d89939;
+  border-color: #d89939;
 }
 
 .navbar .navbar-toggler:focus {
@@ -12533,14 +12540,14 @@ h3,
 }
 
 .navbar .navbar-nav .nav-link.router-link-exact-active {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .navbar .navbar-nav .nav-link.router-link-exact-active:before {
   content: "";
   width: 10px;
   height: 2px;
-  background: #2db2ff;
+  background: #d89939;
   position: absolute;
   top: 50%;
   left: 0;
@@ -12548,14 +12555,14 @@ h3,
 }
 
 .navbar .navbar-nav .nav-link:hover {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .navbar .navbar-nav .nav-link:hover:before {
   content: "";
   width: 10px;
   height: 2px;
-  background: #2db2ff;
+  background: #d89939;
   position: absolute;
   top: 50%;
   left: 0;
@@ -12648,7 +12655,7 @@ h3,
   padding: 0;
   transform: translate(0, -50%);
   cursor: pointer;
-  color: #2db2ff;
+  color: #d89939;
   border: none;
   outline: none;
   background: transparent;
@@ -12663,7 +12670,7 @@ h3,
   font-size: 30px;
   line-height: 25px;
   opacity: 0.8;
-  color: #2db2ff;
+  color: #d89939;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -12701,12 +12708,12 @@ footer.typefooter-1 .footer-bottom {
 
 footer.typefooter-1 .footer--link h3.title-footer:after,
 footer.typefooter-1 .footer--link .title-footer.h3:after {
-  background: #2db2ff;
+  background: #d89939;
   margin-top: 13px;
 }
 
 footer.typefooter-1 .footer--link ul.about-list li i {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 footer.typefooter-1 .footer--link ul.links li a {
@@ -12725,7 +12732,7 @@ footer.typefooter-1 .footer--link ul.links li a:before {
   height: 5px;
   width: 5px;
   border-radius: 50%;
-  background: #2db2ff;
+  background: #d89939;
   top: 12px;
   left: 0;
 }
@@ -12749,7 +12756,7 @@ footer.typefooter-1 .footer-bottom .social ul {
 
 footer.typefooter-1 .footer-bottom .social ul li a {
   font-size: 14px;
-  border: 1px #2db2ff solid;
+  border: 1px #d89939 solid;
   border-radius: 4px;
   display: inline-block;
   vertical-align: middle;
@@ -12757,14 +12764,14 @@ footer.typefooter-1 .footer-bottom .social ul li a {
   height: 25px;
   line-height: 23px;
   text-align: center;
-  color: #2db2ff;
+  color: #d89939;
   margin: 0 2px;
 }
 
 footer.typefooter-1 .footer-bottom .social ul li a:hover {
   color: #ffffff;
-  border-color: #2db2ff;
-  background: #2db2ff;
+  border-color: #d89939;
+  background: #d89939;
 }
 
 .products-category .products-list.list .item .item-block {
@@ -12786,7 +12793,7 @@ footer.typefooter-1 .footer-bottom .social ul li a:hover {
 }
 
 .filters-panel .btn-default:hover {
-  color: #2db2ff;
+  color: #d89939;
   box-shadow: none;
 }
 
@@ -12895,7 +12902,7 @@ footer.typefooter-1 .footer-bottom .social ul li a:hover {
 }
 
 .hotel-rooms ul li i {
-  color: #2db2ff;
+  color: #d89939;
 }
 
 .media {
@@ -12963,7 +12970,7 @@ iframe {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2db2ff;
+  background: #d89939;
 }
 
 .footer-container {
@@ -13032,6 +13039,77 @@ iframe {
   background: transparent;
 }
 
+.bonus-social-sidebar li a {
+  font-size: 14px;
+  border: 1px #d89939 solid;
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 25px;
+  height: 25px;
+  line-height: 23px;
+  text-align: center;
+  color: #d89939;
+  margin: 0 2px;
+}
+
+.bonus-social-sidebar li a:hover {
+  color: #ffffff;
+  border-color: #d89939;
+  background: #d89939;
+}
+
+.nav-bottom {
+  width: 100%;
+  overflow: hidden;
+}
+
+.nav-bottom li {
+  width: 20%;
+}
+
+.nav-bottom li a {
+  padding: 5px;
+  font-weight: 600;
+  color: #191919;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.nav-bottom li a i {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.nav-bottom li a.router-link-exact-active {
+  color: #ffffff;
+  background: #d89939;
+  box-shadow: 0 0 0px 1px #d89939;
+}
+
+.vdp-datepicker__calendar {
+  font-weight: 600 !important;
+  color: #191919 !important;
+}
+
+.vdp-datepicker__calendar .cell.selected {
+  background: #d89939 !important;
+  color: #ffff !important;
+}
+
+.vdp-datepicker__calendar .cell.selected:hover {
+  background: #d89939 !important;
+}
+
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+  border: 1px solid #d89939 !important;
+}
+
 .vs__selected {
   position: absolute;
   top: 7px;
@@ -13059,7 +13137,7 @@ iframe {
 .location-input .vs__actions::before {
   content: "\F041";
   font-family: fontawesome;
-  color: #2db2ff;
+  color: #d89939;
   position: absolute;
   bottom: 7px;
   right: 10px;
@@ -13093,7 +13171,7 @@ iframe {
 }
 
 .vm--modal .tt_popup_modal {
-  border-color: #2db2ff !important;
+  border-color: #d89939 !important;
   height: 36px;
   border-bottom: 3px solid #ea3a3c;
   border-bottom-color: #ea3a3c;
@@ -13102,7 +13180,7 @@ iframe {
 }
 
 .vm--modal .tt_popup_modal strong {
-  background-color: #2db2ff !important;
+  background-color: #d89939 !important;
   line-height: 37px;
   display: inline-block;
   text-transform: uppercase;
@@ -13124,7 +13202,7 @@ iframe {
   width: 0;
   height: 0;
   border-right: 20px solid transparent;
-  border-bottom: 37px solid #2db2ff !important;
+  border-bottom: 37px solid #d89939 !important;
 }
 
 .vm--overlay {

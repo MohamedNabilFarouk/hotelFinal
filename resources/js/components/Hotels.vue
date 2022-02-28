@@ -1,18 +1,9 @@
 <template>
     <div>
-        <div v-if="loading" class="ovely-loading">
-            <div class="image">
-                <vue-load-image>
-                    <img slot="image" src="../../assets/loading.gif" />
-                    <img slot="preloader" src="../../assets/loading.gif">
-                    <img slot="error" src="../../assets/no_image.png">
-                </vue-load-image>
-            </div>
-        </div>
         <!-- Main Container  -->
         <Breadcrumbs :PageTitle="$t('hotels')" PageLink="hotels" backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
 
-        <div v-if="!loading" class="container product-detail">
+        <div class="container product-detail">
             <div class="row">
                 <aside
                     :class="aside ? 'active' : ''"
@@ -105,7 +96,52 @@
                     </div>
 
                     <form @submit.prevent="filterHotel()" class="sidefilter-form">
-                        <div>
+                        <div class="module-search clearfix">
+                            <h3 class="modtitle">{{$t('hotel')}} {{$t('filter')}}</h3>
+
+                            <div class="module-rate clearfix">
+                                <h3>{{$t('price')}}</h3>
+                                <div class="d-flex px-3 justify-content-between">
+                                    <div class="mb-3">
+                                        <label for="min-price" class="form-label text-capitalize">{{$t('min price')}}</label>
+                                        <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterHotelForm.errors.has('price')}" v-model="filterHotelForm.price[0]" class="form-control" id="min-price" :placeholder="$t('min price')">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="max-price" class="form-label text-capitalize">{{$t('max price')}}</label>
+                                        <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterHotelForm.errors.has('price')}" v-model="filterHotelForm.price[1]" class="form-control" id="max-price" :placeholder="$t('max price')">
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback"
+                                    v-if="filterHotelForm.errors.has('price')"
+                                    v-html="filterHotelForm.errors.get('price')">
+                                </div>
+                            </div>
+
+                            <div class="module-rate clearfix">
+                                <h3>{{$t('star rating')}}</h3>
+                                <ul>
+                                    <li v-for="(star, i) in filterHotelForm.stars" :key="i">
+                                        <label class="d-flex align-items-center">
+                                            <input class="me-2" @change="starSelected(star)" v-model="star.selected" type="checkbox">
+                                            <starRating :star-size="18" :rating="star.star" :show-rating="false" :read-only="true"></starRating>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="overflow: hidden;" :style="showAllCities ? 'height: auto' : 'height: 280px'" class="module-rate clearfix">
+                                <h3>{{$t('cities')}}</h3>
+                                <ul>
+                                    <li v-for="city in filterHotelForm.cities" :key="city.id">
+                                        <label class="d-flex align-items-center cites">
+                                            <input class="me-2" :checked="filterHotelForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
+                                            {{city.name}}
+                                        </label>
+                                    </li>
+                                </ul>
+                                <p style="text-align: center;font-size: 1.1rem;" type="button" class="mb-1"><strong @click="() =>{ showAllCities = true}" v-if="!showAllCities" style="color:#2db2ff"> {{ $t("view all") }} </strong></p>
+                                <p style="text-align: center;font-size: 1.1rem;" type="button" class="mb-1"><strong @click="() =>{ showAllCities = false}" v-if="showAllCities" style="color:#2db2ff"> {{ $t("view less") }} </strong></p>
+                            </div>
+
                             <button class="btn btn-sm btn-info">
                                 <span v-if="filterHotelForm.busy" class="spinner-border spinner-border-sm"></span>
 
@@ -117,49 +153,6 @@
                                 <i class="fa fa-ban"></i>
                                 {{$t('cancel')}}
                             </button>
-                        </div>
-
-                        <div class="module-rate clearfix">
-                            <h3>{{$t('price')}}</h3>
-                            <div class="d-flex px-3 justify-content-between">
-                                <div class="mb-3">
-                                    <label for="min-price" class="form-label text-capitalize">{{$t('min price')}}</label>
-                                    <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterHotelForm.errors.has('price')}" v-model="filterHotelForm.price[0]" class="form-control" id="min-price" :placeholder="$t('min price')">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="max-price" class="form-label text-capitalize">{{$t('max price')}}</label>
-                                    <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterHotelForm.errors.has('price')}" v-model="filterHotelForm.price[1]" class="form-control" id="max-price" :placeholder="$t('max price')">
-                                </div>
-                            </div>
-                            <div class="invalid-feedback"
-                                 v-if="filterHotelForm.errors.has('price')"
-                                 v-html="filterHotelForm.errors.get('price')">
-                            </div>
-                        </div>
-
-                        <div class="module-rate clearfix">
-                            <h3>{{$t('star rating')}}</h3>
-                            <ul>
-                                <li v-for="(star, i) in filterHotelForm.stars" :key="i">
-                                    <label class="d-flex align-items-center">
-                                        <input class="me-2" @change="starSelected(star)" v-model="star.selected" type="checkbox">
-                                        <starRating :star-size="18" :rating="star.star" :show-rating="false" :read-only="true"></starRating>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div style="overflow: hidden;" :style="showAllCities ? 'height: auto' : 'height: 280px'" class="module-rate clearfix">
-                            <h3>{{$t('cities')}}</h3>
-                            <p type="button" class="mb-1"><strong @click="() =>{ showAllCities = true}" v-if="!showAllCities" style="color:#2db2ff"> {{ $t("view all") }} </strong></p>
-                            <p type="button" class="mb-1"><strong @click="() =>{ showAllCities = false}" v-if="showAllCities" style="color:#2db2ff"> {{ $t("view less") }} </strong></p>
-                            <ul>
-                                <li v-for="city in filterHotelForm.cities" :key="city.id">
-                                    <label class="d-flex align-items-center cites">
-                                        <input class="me-2" :checked="filterHotelForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
-                                        {{city.name}}
-                                    </label>
-                                </li>
-                            </ul>
                         </div>
                     </form>
 
@@ -195,7 +188,7 @@
                             <div class="list-view">
                                 <button @click="toggleAside()" class="btn d-block d-md-none btn-default text-capitalize">
                                     <i class="fa fa-bars"></i>
-                                    {{$t('menu')}}
+                                    {{$t('adv_search')}}
                                 </button>
                                 <button
                                     @click="gridViewFun('grid')"
@@ -324,7 +317,6 @@ export default {
                 to: new Date(Date.now())
             },
             aside: false,
-            loading: true,
             hotels: this.$route.params.hotels ? this.$route.params.hotels : [],
             search: this.$route.params.search ? this.$route.params.search : false,
             filter: false,
@@ -339,9 +331,9 @@ export default {
                 children: 0
             }),
             min_price: 0,
-            max_price: 0,
+            max_price: 5000,
             filterHotelForm: new Form({
-                price: [100, 5000],
+                price: [0, 0],
                 star_rate: [],
                 stars: [{star: 5, selected: false}, {star: 4, selected: false}, {star: 3, selected: false}, {star: 2, selected: false}, {star: 1, selected: false}],
                 gov_id: [],

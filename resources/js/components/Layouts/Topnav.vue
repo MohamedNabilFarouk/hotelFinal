@@ -80,13 +80,18 @@
 
                 <div class="col-md-6 d-none d-md-flex justify-content-end">
                     <div class="bonus-mail">
-                        <a target="_blank" href="mailto:info@hoteelsegypt.com">info@hoteelsegypt.com</a>
+                        <a target="_blank" :href="'mailto:'+sittings.email">{{ sittings.email }}</a>
                     </div>
                     <ul class="bonus-social nav">
-                        <li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li v-for="s in social" :key="s.id">
+                            <a v-if="s.key && s.key === 'facebook'" target="_blank" :href="s.value" :title="$t('facebook')"><span class="fa fa-facebook"></span></a>
+                            <a v-if="s.key && s.key === 'twitter'" target="_blank" :href="s.value" :title="$t('twitter')"><span class="fa fa-twitter"></span></a>
+                            <a v-if="s.key && s.key === 'whatsApp'" target="_blank" :href="'https://api.whatsapp.com/send?phone='+s.value" :title="$t('whatsApp')"><span class="fa fa-whatsapp"></span></a>
+                            <a v-if="s.key && s.key === 'linkedIn'" target="_blank" :href="s.value" :title="$t('linkedin')"><span class="fa fa-linkedin"></span></a>
+                            <a v-if="s.key && s.key === 'pinterest'" target="_blank" :href="s.value" :title="$t('pinterest')"><span class="fa fa-pinterest"></span></a>
+                            <a v-if="s.key && s.key === 'instagram'" target="_blank" :href="s.value" :title="$t('instagram')"><span class="fa fa-instagram"></span></a>
+                            <a v-if="s.key && s.key === 'youtube'" target="_blank" :href="s.value" :title="$t('youtube')"><span class="fa fa-youtube"></span></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -234,6 +239,8 @@ name: 'Topnav',
     },
     data() {
         return {
+            social: [],
+            sittings: {},
             currencies: [],
             registration: true,
             login: false,
@@ -249,6 +256,12 @@ name: 'Topnav',
         }
     },
     mounted(){
+        axios.get('sittings').then((res)=> {
+            if(res.data.success === "true"){
+                this.sittings = res.data.data ? res.data.data.sittings : {};
+                this.social = res.data.data ? res.data.data.social : [];
+            }
+        }).catch();
         axios.get("langcurrency").then((res) => {
             this.currencies = res.data.data && res.data.data.currencies ? res.data.data.currencies : [];
         }).catch();
@@ -298,6 +311,7 @@ name: 'Topnav',
             }).catch();
         },
         updatedddd(event){
+            console.log(event);
             this.authForm.e164Phone = event.e164;
             this.authForm.country = event.countryCode;
         },
