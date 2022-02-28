@@ -16,6 +16,7 @@ class SiteSetting extends Model
         'title', 'about', 'address', 'city', 'country', 'meta_title', 'meta_description', 'meta_keyword'
     ];
 
+   
     public function getLogoAttribute($value)
     {
         return asset('images/site/' . $value);

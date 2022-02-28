@@ -17,7 +17,7 @@ a {
     text-decoration: none;
     color: #191919;
     &:hover {
-        color: #2db2ff;
+        color: #d89939;
     }
 }
 ol,
@@ -50,8 +50,12 @@ h3,
 .btn-info:hover,
 .btn-info {
     color: #fff;
-    background-color: #2db2ff;
-    border-color: #2db2ff;
+    background-color: #d89939;
+    border-color: #d89939;
+}
+.btn-check:focus + .btn-info,
+.btn-info:focus {
+    box-shadow: 0 0 0 0.25rem rgb(216 153 57 / 50%);
 }
 .dropdown-menu {
     padding: 0;
@@ -71,14 +75,14 @@ h3,
 .nav-tabs .nav-link {
     color: #191919;
     &:hover {
-        color: #2db2ff;
+        color: #d89939;
     }
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
     color: #fff;
-    background-color: #2db2ff;
-    border-color: #2db2ff #2db2ff #2db2ff;
+    background-color: #d89939;
+    border-color: #d89939 #d89939 #d89939;
 }
 .top-nav {
     padding: 5px 0;
@@ -114,7 +118,7 @@ h3,
         transition: all 0.2s ease-in-out;
         font-size: 12px;
         &:hover {
-            color: #2db2ff;
+            color: #d89939;
         }
     }
     .bonus-language {
@@ -149,13 +153,13 @@ h3,
     }
     .nav-link:hover,
     .nav-link:focus {
-        color: #2db2ff;
+        color: #d89939;
     }
     .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
         color: #fff;
-        background-color: #2db2ff;
-        border-color: #2db2ff #2db2ff #2db2ff;
+        background-color: #d89939;
+        border-color: #d89939 #d89939 #d89939;
     }
 }
 .navbar {
@@ -172,12 +176,12 @@ h3,
         position: relative;
         transition: all 0.2s ease-in-out;
         &.router-link-exact-active {
-            color: #2db2ff;
+            color: #d89939;
             &:before {
                 content: "";
                 width: 10px;
                 height: 2px;
-                background: #2db2ff;
+                background: #d89939;
                 position: absolute;
                 bottom: 15px;
                 left: 50%;
@@ -185,12 +189,12 @@ h3,
             }
         }
         &:hover {
-            color: #2db2ff;
+            color: #d89939;
             &:before {
                 content: "";
                 width: 10px;
                 height: 2px;
-                background: #2db2ff;
+                background: #d89939;
                 position: absolute;
                 bottom: 15px;
                 left: 50%;
@@ -199,7 +203,9 @@ h3,
         }
     }
     .navbar-toggler {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
+        color: #d89939;
+        border-color: #d89939;
         &:focus {
             box-shadow: none;
         }
@@ -219,12 +225,12 @@ h3,
             position: relative;
             transition: all 0.2s ease-in-out;
             &.router-link-exact-active {
-                color: #2db2ff;
+                color: #d89939;
                 &:before {
                     content: "";
                     width: 10px;
                     height: 2px;
-                    background: #2db2ff;
+                    background: #d89939;
                     position: absolute;
                     top: 50%;
                     left: 0;
@@ -232,12 +238,12 @@ h3,
                 }
             }
             &:hover {
-                color: #2db2ff;
+                color: #d89939;
                 &:before {
                     content: "";
                     width: 10px;
                     height: 2px;
-                    background: #2db2ff;
+                    background: #d89939;
                     position: absolute;
                     top: 50%;
                     left: 0;
@@ -267,6 +273,9 @@ h3,
                 background: rgba(40, 40, 40, 0.7);
                 width: 100%;
                 padding: 10px;
+                // .title {
+                //     color: #d89939;
+                // }
             }
         }
     }
@@ -330,7 +339,7 @@ h3,
     padding: 0;
     transform: translate(0, -50%);
     cursor: pointer;
-    color: #2db2ff;
+    color: #d89939;
     border: none;
     outline: none;
     background: transparent;
@@ -344,7 +353,7 @@ h3,
     font-size: 30px;
     line-height: 25px;
     opacity: 0.8;
-    color: #2db2ff;
+    color: #d89939;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -375,11 +384,11 @@ footer.typefooter-1 .footer-bottom {
     background: #191919;
 }
 footer.typefooter-1 .footer--link h3.title-footer:after {
-    background: #2db2ff;
+    background: #d89939;
     margin-top: 13px;
 }
 footer.typefooter-1 .footer--link ul.about-list li i {
-    color: #2db2ff;
+    color: #d89939;
 }
 footer.typefooter-1 .footer--link ul.links li a {
     color: #191919;
@@ -396,7 +405,7 @@ footer.typefooter-1 .footer--link ul.links li a:before {
     height: 5px;
     width: 5px;
     border-radius: 50%;
-    background: #2db2ff;
+    background: #d89939;
     top: 12px;
     left: 0;
 }
@@ -416,7 +425,7 @@ footer.typefooter-1 .footer-bottom .social ul {
 }
 footer.typefooter-1 .footer-bottom .social ul li a {
     font-size: 14px;
-    border: 1px #2db2ff solid;
+    border: 1px #d89939 solid;
     border-radius: 4px;
     display: inline-block;
     vertical-align: middle;
@@ -424,13 +433,13 @@ footer.typefooter-1 .footer-bottom .social ul li a {
     height: 25px;
     line-height: 23px;
     text-align: center;
-    color: #2db2ff;
+    color: #d89939;
     margin: 0 2px;
 }
 footer.typefooter-1 .footer-bottom .social ul li a:hover {
     color: #ffffff;
-    border-color: #2db2ff;
-    background: #2db2ff;
+    border-color: #d89939;
+    background: #d89939;
 }
 .products-category .products-list.list .item .item-block {
     position: relative;
@@ -452,7 +461,7 @@ footer.typefooter-1 .footer-bottom .social ul li a:hover {
     margin: 0 10px 0 0;
 }
 .filters-panel .btn-default:hover {
-    color: #2db2ff;
+    color: #d89939;
     box-shadow: none;
 }
 .module-search {
@@ -546,7 +555,7 @@ footer.typefooter-1 .footer-bottom .social ul li a:hover {
             font-size: 14px;
             padding: 0;
             i {
-                color: #2db2ff;
+                color: #d89939;
             }
         }
     }
@@ -604,7 +613,7 @@ iframe {
     font-weight: 600;
 }
 ::-webkit-scrollbar-thumb {
-    background: #2db2ff;
+    background: #d89939;
 }
 .footer-container {
     background: #f6f6f6;
@@ -666,4 +675,70 @@ iframe {
 }
 .text-danger {
     background: transparent;
+}
+.bonus-social-sidebar {
+    li {
+        a {
+            font-size: 14px;
+            border: 1px #d89939 solid;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+            width: 25px;
+            height: 25px;
+            line-height: 23px;
+            text-align: center;
+            color: #d89939;
+            margin: 0 2px;
+            &:hover {
+                color: #ffffff;
+                border-color: #d89939;
+                background: #d89939;
+            }
+        }
+    }
+}
+
+.nav-bottom {
+    width: 100%;
+    overflow: hidden;
+    li {
+        width: 20%;
+        a {
+            padding: 5px;
+            font-weight: 600;
+            color: #191919;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 1;
+            i {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            &.router-link-exact-active {
+                color: #ffffff;
+                background: #d89939;
+                box-shadow: 0 0 0px 1px #d89939;
+            }
+        }
+    }
+}
+.vdp-datepicker__calendar {
+    // margin-left: -65px !important;
+    font-weight: 600 !important;
+    color: #191919 !important;
+}
+.vdp-datepicker__calendar .cell.selected {
+    background: #d89939 !important;
+    color: #ffff !important;
+}
+.vdp-datepicker__calendar .cell.selected:hover {
+    background: #d89939 !important;
+}
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+    border: 1px solid #d89939 !important;
 }

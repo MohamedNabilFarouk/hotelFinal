@@ -16,18 +16,23 @@
                                     </vue-load-image>
                                 </div>
                                 <div class=slider-content>
-                                <h4 class="title">{{tour.title_api}}</h4>
-                                <div class="location">
-                                    <i class="fa fa-map-marker"></i>
-                                    {{tour.address_api}}
+                                    <h4 class="title text-capitalize">{{tour.title_api}}</h4>
+                                    <div class="location text-capitalize">
+                                        <i class="fa fa-map-marker"></i>
+                                        {{tour.address_api}}
+                                    </div>
+                                    <starRating
+                                        :star-size="14"
+                                        :rating="3.5"
+                                        :show-rating="false"
+                                        :read-only="true">
+                                    </starRating>
+                                    <span class="price text-capitalize">
+                                        {{tour.price_api.price}}/{{$t('person')}}
+                                        <span class="mx-1">|</span>
+                                        {{tour.price_api.ch_price}}/{{$t('child')}}
+                                    </span>
                                 </div>
-                                <starRating
-                                    :star-size="14"
-                                    :rating="3.5"
-                                    :show-rating="false"
-                                    :read-only="true">
-                                </starRating>
-                            </div>
                             </router-link>
                         </div>
                     </VueSlickCarousel>
@@ -82,7 +87,7 @@
                                 </vue-load-image>
                             </div>
                             <div class=slider-content>
-                                <h4 class="title">{{city.name}}</h4>
+                                <h4 class="title">{{$t(city.name_en.toLowerCase().trim())}}</h4>
                             </div>
                         </div>
                     </VueSlickCarousel>
@@ -98,7 +103,7 @@
                                 </vue-load-image>
                             </div>
                             <div class=slider-content>
-                                <h4 class="title">{{city.name}}</h4>
+                                <h4 class="title">{{$t(city.name_en.toLowerCase().trim())}}</h4>
                             </div>
                         </div>
                     </VueSlickCarousel>

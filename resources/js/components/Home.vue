@@ -1,32 +1,20 @@
 <template>
     <div>
-        <div v-if="loading" class="ovely-loading">
-            <div class="image">
-                <vue-load-image>
-                    <img slot="image" src="../../assets/loading.gif" />
-                    <img slot="preloader" src="../../assets/loading.gif">
-                    <img slot="error" src="../../assets/no_image.png">
-                </vue-load-image>
-            </div>
+        <Search />
+
+        <div class="main-sliders">
+            <Slider :tours="slider_tours" :hotels="slider_hotels" :cities="slider_governorates" />
         </div>
 
-        <div v-if="!loading">
-            <div class="main-sliders">
-                <Slider :tours="slider_tours" :hotels="slider_hotels" :cities="slider_governorates" />
-            </div>
+        <Rooms :rooms="rooms" />
 
-            <Search />
+        <Hotels :hotels="hotels" />
 
-            <Rooms :rooms="rooms" />
+        <BannerVideo video="BapSQFJPMM0" backgroundImage="https://d3jmn01ri1fzgl.cloudfront.net/photoadking/webp_thumbnail/6068378361475_json_image_1617442691.webp" />
 
-            <Hotels :hotels="hotels" />
+        <Spaces :spaces="spaces" />
 
-            <BannerVideo video="BapSQFJPMM0" backgroundImage="https://d3jmn01ri1fzgl.cloudfront.net/photoadking/webp_thumbnail/6068378361475_json_image_1617442691.webp" />
-
-            <Spaces :spaces="spaces" />
-
-            <Tours :tours="tours" />
-        </div> 
+        <Tours :tours="tours" />
     </div>
 </template>
 
@@ -43,7 +31,6 @@ export default {
     components:{ Slider, Search, Hotels, Tours, BannerVideo, Spaces, Rooms },
     data(){
         return{
-            loading: true,
             hotels: [],
             tours: [],
             spaces: [],
