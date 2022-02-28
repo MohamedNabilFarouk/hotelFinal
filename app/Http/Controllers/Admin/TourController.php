@@ -24,7 +24,12 @@ class TourController extends Controller
     use imagesTrait;
 
     public function index(){
-        $tours = Tour::paginate(10);
+        if(Auth::user()->hasRole(['vendor'])){
+            $tours = Tour::where([['vendor_id',Auth::user()->id]])->paginate(10); // if vendor
+        }else{
+            $tours = Tour::paginate(10);
+        }
+
         // dd($rooms);
         return view('admin.tour.index', compact('tours'));
     }
@@ -54,6 +59,13 @@ class TourController extends Controller
             $except[]="address_".$key;
         }
         $data= $request->except($except);
+        if(Auth::user()->hasRole(['admin','moderator'])){
+            // dd(Auth::user()->id);
+            $data['vendor_id'] = $request->vendor_id; //if admin
+            }else if(Auth::user()->hasRole(['vendor'])){
+                // dd(Auth::user()->id);
+                $data['vendor_id'] = Auth::user()->id; // if vendor
+            }
 // dd($except);
             foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value ){
                 $title = 'title_' . $key;

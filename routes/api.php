@@ -38,7 +38,7 @@ Route::namespace("Api")->group(function () {
     Route::get('searchHotel', 'HotelsController@searchHotel')->name('search.hotel');
     Route::get('filterHotels', 'HotelsController@filterHotels')->name('filter.hotel');
     Route::post('hotelRoomsMinMaxPrice', 'HotelsController@hotelRoomsMinMaxPrice')->name('roomsMinMaxPrice.hotel');
-
+    Route::get('City/{id}', 'SiteController@searchByGov')->name('search.ByGov');
     // return all tours
     Route::get('tours', 'ToursController@tours')->name('tours');
     Route::post('tour', 'ToursController@singleTour')->name('tour');

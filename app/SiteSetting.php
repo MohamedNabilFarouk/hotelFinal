@@ -16,15 +16,16 @@ class SiteSetting extends Model
         'title', 'about', 'address', 'city', 'country', 'meta_title', 'meta_description', 'meta_keyword'
     ];
 
-//    public function getLogoAttribute($value)
-//    {
-//        return asset('images/site/' . $value);
-//    } // end of get name attribute
+    public function getLogoAttribute($value)
+    {
+        return asset('images/site/' . $value);
+    } // end of get name attribute
 
-//    public function getFaviconAttribute($value)
-//    {
-//        return asset('images/site/' . $value);
-//    } // end of get name attribute
+    public function getFaviconAttribute($value)
+    {
+        return asset('images/site/' . $value);
+    } // end of get name attribute
+
 
     public function getTitleAttribute(){
         $lang = app()->getLocale();

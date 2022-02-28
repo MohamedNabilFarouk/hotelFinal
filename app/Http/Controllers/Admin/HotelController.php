@@ -28,7 +28,11 @@ class HotelController extends Controller
     // }
 
     public function index(){
+        if(Auth::user()->hasRole(['vendor'])){
+            $hotels = Hotel::where([['vendor_id',Auth::user()->id]])->paginate(10); // if vendor
+        }else{
         $hotels = Hotel::paginate(10);
+        }
         return view('admin.hotel.index', compact('hotels'));
     }
 
@@ -47,15 +51,11 @@ class HotelController extends Controller
         $data = $request -> validate([
             'title' => 'string|max:100',
             'content' => 'string',
-            'image' => 'required',
+            'star_rate' => 'required',
         ]);
 
-        if(Auth::user()->hasRole(['admin','moderator'])){
-            $data['vendor_id'] = Hotel::where('status','1')->get(); //if admin
-            }else if(Auth::user()->hasRole(['vendor'])){
-                $data['vendor_id'] = Auth::user()->id; // if vendor
-            }
 
+// dd($data['vendor_id']);
             $except=['_token','add','image','arr','gallery'];
             foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value ){
                 $except[]="title_".$key;
@@ -63,6 +63,13 @@ class HotelController extends Controller
                 $except[]="address_".$key;
             }
             $data= $request->except($except);
+            if(Auth::user()->hasRole(['admin','moderator'])){
+                // dd(Auth::user()->id);
+                $data['vendor_id'] = $request->vendor_id; //if admin
+                }else if(Auth::user()->hasRole(['vendor'])){
+                    // dd(Auth::user()->id);
+                    $data['vendor_id'] = Auth::user()->id; // if vendor
+                }
     // dd($except);
                 foreach (LaravelLocalization::getSupportedLocales()  as $key=>$value ){
                     $title = 'title_' . $key;
@@ -77,6 +84,7 @@ class HotelController extends Controller
             $image = $this -> saveImages($request -> image, 'images/hotels');
             $data['image'] = $image;
         }
+        // dd($data['vendor_id']);
       $hotel=  Hotel::create($data);
         if ($request -> has('gallery')) {
 
@@ -110,6 +118,7 @@ class HotelController extends Controller
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $data = $request -> validate([
             'title' => 'string|max:100',
             'content' => 'string',
