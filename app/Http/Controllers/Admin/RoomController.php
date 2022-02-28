@@ -23,7 +23,12 @@ class RoomController extends Controller
     use imagesTrait;
 
     public function index(){
-        $rooms = Room::paginate(10);
+        if(Auth::user()->hasRole(['vendor'])){
+            $rooms = Room::where([['vendor_id',Auth::user()->id]])->paginate(10); // if vendor
+        }else{
+            $rooms = Room::paginate(10);
+        }
+
         // dd($rooms);
         return view('admin.room.index', compact('rooms'));
     }
@@ -71,6 +76,9 @@ class RoomController extends Controller
 
         $hotel= Hotel::where('id',$request->hotel_id)->select('vendor_id')->first();
         $data['vendor_id']= $hotel->vendor_id;
+
+
+
         // dd($data['vendor_id']);
         DB::beginTransaction();
 
@@ -115,17 +123,30 @@ class RoomController extends Controller
 
     public function edit($id)
     {
+
+
         if(Auth::user()->hasRole(['admin','moderator'])){
             $hotels = Hotel::where('status','1')->get(); //if admin
             }else if(Auth::user()->hasRole(['vendor'])){
                 $hotels = Hotel::where([['vendor_id',Auth::user()->id],['status','1']])->get(); // if vendor
+                $room = Room ::find($id);
+                if(Auth::user()->id != $room->vendor_id){
+                    session() -> flash('Error', trans('Access Denied'));
+                    return redirect() -> route('room.index');
+                }
+
             }
+
         $room = Room ::find($id);
+
         $countries=Country::all();
        $types  = SpaceType::all();
 
-
         return view('admin.room.edit', compact('room','hotels','countries','types'));
+
+
+
+
     }
 
     public function update(Request $request, $id)

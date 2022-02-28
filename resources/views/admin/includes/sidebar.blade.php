@@ -74,7 +74,7 @@
                          <span class="menu-section text-muted text-uppercase fs-8">@lang('site.crafted')</span>
                      </div>
                  </div>
-                 @if (auth()->user()->hasRole(['admin', 'moderator']))
+                 @if (auth()->user()->hasRole(['admin', 'moderator','vendor']))
                      <!-- rooms -->
                      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                          <span class="menu-link">
@@ -124,7 +124,7 @@
 
 
 
-                 @if (auth()->user()->hasRole(['admin', 'moderator']))
+                 @if (auth()->user()->hasRole(['admin', 'moderator','vendor']))
                      <!-- Tour -->
                      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                          <span class="menu-link">

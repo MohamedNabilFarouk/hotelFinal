@@ -42,12 +42,18 @@ class SiteController extends Controller
         // $langs= LaravelLocalization::getSupportedLocales();
         // dd($langs);
         return response()->json(['success'=>'true','data'=> ['currencies'=>$currencies,'langs'=>$langs]]);
-        
+
     }
     public function savedSearch($request){
         $data=$request->all();
         // dd($data);
         SavedSearch::create($data);
+    }
+    public function searchByGov($id){
+
+        $hotels = Hotel::where([['gov_id',$id],['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->get();
+        $tours = Tour::where([['gov_id',$id],['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->get();
+        return response()->json(['success'=>'true','data'=> ['hotels'=>$hotels,'tours'=>$tours]]);
     }
 
 }

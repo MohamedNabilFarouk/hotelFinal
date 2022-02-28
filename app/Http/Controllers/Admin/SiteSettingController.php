@@ -40,9 +40,8 @@ class SiteSettingController extends Controller
             } // end of inner if
             $logoPath = $this->saveImages( $request -> logo , 'images/site');
             $request_data['logo']= $logoPath;
-        } else {
-            $request_data['logo'] = $site_settings -> logo;
         }
+
 
         if($request->has('favicon')){
             if ($site_settings -> favicon != 'favicon.png') {
@@ -50,8 +49,6 @@ class SiteSettingController extends Controller
             } // end of inner if
             $faviconPath = $this->saveImages( $request -> favicon , 'images/site');
             $request_data['favicon'] = $faviconPath;
-        } else {
-            $request_data['favicon'] = $site_settings -> favicon;
         }
 
         $site_settings->update($request_data);

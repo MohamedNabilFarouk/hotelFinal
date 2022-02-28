@@ -159,7 +159,7 @@
                                         <div class="d-flex justify-content-start flex-column">
                                             <input type="file" name="favicon" class="form-control input-sm favicon" accept="jpg, png, jpeg, svg">
 
-                                            <img src="{{ $site_settings -> favicon_path }}" width="100px"
+                                            <img src="{{ $site_settings -> favicon }}" width="100px"
                                                  class="img-thumbnail favicon-preview mt-1" alt="">
                                         </div>
                                     </div>

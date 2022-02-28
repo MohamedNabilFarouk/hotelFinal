@@ -96,7 +96,7 @@
                 </div>
                 <div class="form-group mb-10">
                     <label for="exampleFormControlInput1" class="required form-label">{{__('Map')}}</label>
-                    <input type='text' name="mao" class="form-control" value="{{ $hotel->map }}" />
+                    <input type='text' name="map" class="form-control" value="{{ $hotel->map }}" />
                 </div>
 
 
