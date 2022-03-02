@@ -1,17 +1,21 @@
 <template>
     <div>
         <div class="image-top">
-            <img :src="tour.image" :alt="tour.title_api" class="img-responsive">
+            <vue-load-image>
+                <img slot="image" :src="tour.image" :alt="tour.title_api" class="img-responsive" />
+                <img slot="preloader" src="../../../assets/loading.gif">
+                <img slot="error" src="../../../assets/no_image.png">
+            </vue-load-image>
         </div>
+
         <!-- Main Container  -->
         <div class="container product-detail tour-single">
             <div class="row">
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
-                    <a href="javascript:void(0)" class="open-sidebar hidden-lg hidden-md"><i class="fa fa-bars"></i>Sidebar</a>
                     <div class="detail-content">
 
                         <div class="sticky-content">
-                            <h1>{{tour.type}} - {{tour.title_api}}</h1>
+                            <h1>{{$t(tour.type)}} - {{tour.title_api}}</h1>
                             <ul class="box-meta">
                                 <li>
                                     <starRating
@@ -23,60 +27,72 @@
                             </ul>
                             <div class="top-tab" id="nav">
                                 <ul class="nav nav-tabs">
-                                    <li><a href="#gallery">gallery</a></li>
-                                    <li><a href="#tour_content">content</a></li>
+                                    <li><a class="text-capitalize" @click.prevent="scrollToSection('gallery')" href="#gallery">{{$t('gallery')}}</a></li>
+                                    <li><a class="text-capitalize" @click.prevent="scrollToSection('tour_content')" href="#tour_content">{{$t('content')}}</a></li>
+                                    <li v-if="tour.map"><a class="text-capitalize" @click.prevent="scrollToSection('maps')" href="#maps">{{$t('map')}}</a></li>
+<!--                                    <li><a @click.prevent="" href="#review">Review</a></li>-->
+                                    <li  @click.prevent="toggleSideBar()" class="ms-auto text-capitalize d-block d-md-none">
+                                        <a @click.prevent="" href="#">{{$t('checkin')}}</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="content-tabs">
                             <div class="tab-content m-0" id="gallery">
-                                <h3>Gallery</h3>
+                                <h3>{{ $t('gallery') }}</h3>
                                 <Gallery v-if="tour.gallery && tour.gallery.length > 0" :images="tour.gallery" />
                             </div>
 
                             <div class="tab-content m-0" id="tour_content">
-                                <h3>Content</h3>
+                                <h3>{{$t('content')}}</h3>
                                 {{tour.content_api}}
                             </div>
 
 
                             <div class="tab-content">
-                                <p id="home">
-                                </p>
+                                
                                 <ul class="location-wee clearfix">
                                     <li>
-                                        <label>address</label>
+                                        <label>{{$t('address')}}</label>
                                         <div class="item">{{tour.address_api}}</div>
                                     </li>
+                                    <!--
                                     <li>
                                         <label>min people</label>
                                         <div class="item">{{tour.min_people}} person</div>
-                                    </li>
+                                    </li> 
                                     <li>
                                         <label>max people</label>
                                         <div class="item">{{tour.max_people}} person</div>
-                                    </li>
+                                    </li>-->
                                     <li>
-                                        <label>min day befor booking</label>
+                                        <label>{{$t('min day befor booking')}}</label>
                                         <div class="item">{{tour.min_day_befor_booking}} day</div>
                                     </li>
+                                
                                     <li>
-                                        <label>Prices</label>
-                                        <div class="item">
-                                            <div class="info">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                                {{ tour.price ? tour.price_api.price : "" }}/person
-                                            </div>
-                                            <div class="info">
-                                                <i class="fa fa-child" aria-hidden="true"></i>
-                                                {{ tour.price ? tour.price_api.ch_price : "" }}/child
-                                            </div>
+                                        <label>{{$t('adult prices')}}</label>
+                                        <div class="item"><i class="fa fa-user" aria-hidden="true"></i>
+                                            {{ tour.price ? cahangePrice(tour.price_api.price) : "" }}{{ currency ? $t(currency.abbr) : $t("LE")}}/{{$t('person')}}                                            
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <label>{{$t('child prices')}}</label>
+                                        <div class="item"><i class="fa fa-user" aria-hidden="true"></i>
+                                            {{ tour.price ? cahangePrice(tour.price_api.ch_price) : "" }}{{ currency ? $t(currency.abbr) : $t("LE")}}/{{$t('child')}}                                            
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <label>{{$t('child prices')}}</label>
+                                        <div class="item"><i class="fa fa-user" aria-hidden="true"></i>
+                                            {{ tour.price ? cahangePrice(tour.price_api.ch_price) : "" }}{{ currency ? $t(currency.abbr) : $t("LE")}}/{{$t('child')}}                                            
                                         </div>
                                     </li>
                                 </ul>
 
 
-
+                                <!--
                                 <div id="menu4" class="tour-review">
                                     <h3>Review</h3>
                                     <form method="post" class="clearfix">
@@ -127,101 +143,78 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <aside class="col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas">
-                    <span id="close-sidebar" class="fa fa-times"></span>
-                    <div class="module-search2 clearfix">
+                <aside :class="sideBar ? 'active' : ''" class="col-md-3 col-sm-4 col-xs-12 content-aside right_column sidebar-offcanvas">
+                    <span @click.prevent="toggleSideBar()" id="close-sidebar" class="fa fa-times"></span>
+                    <div class="module-search mt-2 clearfix">
                         <h3 class="modtitle">
-                            <label>{{ tour.price ? tour.price_api.price : "" }}</label><span>person</span>
-                            <label>{{ tour.price ? tour.price_api.ch_price : "" }}</label><span>child</span>
+                            <span style="color: #d89939;">{{ tour.price_api ? cahangePrice(tour.price_api.price) : "" }}{{ currency ? $t(currency.abbr) : $t("LE") }}</span><label>/{{ $t('person') }}</label><br>
+                            <span style="color: #d89939;">{{ tour.price_api ? cahangePrice(tour.price_api.ch_price) : "" }}{{ currency ? $t(currency.abbr) : $t("LE") }}</span><label>/{{ $t('child') }}</label>
                         </h3>
 
                         <form @submit.prevent="showCheckinModal" class="search-pr">
-
-                            <div class="form-group">
-                                <label>date from
-                                    <input
-                                        :class="{
-                                        'is-invalid': bookingTourForm.errors.has('from')
-                                    }"
-                                        v-model="bookingTourForm.from"
-                                        type="date" placeholder="date from" />
-                                </label>
-                                <span class="text-danger"
-                                      v-if="bookingTourForm.errors.has('from')"
-                                      v-html="bookingTourForm.errors.get('from')">
-                                </span>
+                            <div class="mb-3">
+                                <label for="date_from" class="form-label text-capitalize">{{$t('date from')}}</label>
+                                <vuejs-datepicker :disabledDates="disabledTodayDates" :format="customFormatter"  v-model="bookingTourForm.from" :placeholder="$t('date from')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': bookingTourForm.errors.has('from')}"></vuejs-datepicker>
+                                <div class="invalid-feedback"
+                                     v-if="bookingTourForm.errors.has('from')"
+                                     v-html="bookingTourForm.errors.get('from')">
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label>date to
-                                    <input
-                                        :class="{
-                                        'is-invalid': bookingTourForm.errors.has('to')
-                                    }"
-                                        v-model="bookingTourForm.to" type="date" placeholder="date to" />
-                                </label>
-                                <span class="text-danger"
-                                      v-if="bookingTourForm.errors.has('to')"
-                                      v-html="bookingTourForm.errors.get('to')">
-                                </span>
+                            <div class="mb-3">
+                                <label for="date_to" class="form-label text-capitalize">{{$t('date to')}}</label>
+                                <vuejs-datepicker :disabledDates="disabledTodayDates" :format="customFormatter"  v-model="bookingTourForm.to" :placeholder="$t('date to')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': bookingTourForm.errors.has('to')}"></vuejs-datepicker>
+                                <div class="invalid-feedback"
+                                     v-if="bookingTourForm.errors.has('to')"
+                                     v-html="bookingTourForm.errors.get('to')">
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <label>adults
-                                            <input
-                                                :class="{
-                                                'is-invalid': bookingTourForm.errors.has('adult')
-                                                }"
-                                                min="0"
-                                                type="number" v-model="bookingTourForm.adult" placeholder="adults" />
-                                        </label>
-                                        <span class="text-danger"
-                                              v-if="bookingTourForm.errors.has('adult')"
-                                              v-html="bookingTourForm.errors.get('adult')">
-                                     </span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mb-3">
+                                    <label for="adults" class="form-label text-capitalize">{{$t('adults')}}</label>
+                                    <input type="number" :class="{'is-invalid': bookingTourForm.errors.has('adult')}" v-model="bookingTourForm.adult" class="form-control" id="adults" :placeholder="$t('adults')">
+                                    <div class="invalid-feedback"
+                                         v-if="bookingTourForm.errors.has('adult')"
+                                         v-html="bookingTourForm.errors.get('adult')">
                                     </div>
+                                </div>
 
-                                    <div class="mx-2"></div>
+                                <div class="mx-2"></div>
 
-                                    <div>
-                                        <label>children
-                                            <input
-                                                :class="{
-                                                'is-invalid': bookingTourForm.errors.has('child')
-                                                }"
-                                                min="0" type="number" v-model="bookingTourForm.child" placeholder="children" />
-                                        </label>
-                                        <span class="text-danger"
-                                              v-if="bookingTourForm.errors.has('child')"
-                                              v-html="bookingTourForm.errors.get('child')">
-                                    </span>
+                                <div class="mb-3">
+                                    <label for="children" class="form-label text-capitalize">{{$t('children')}}</label>
+                                    <input type="number" :class="{'is-invalid': bookingTourForm.errors.has('child')}" v-model="bookingTourForm.child" class="form-control" id="children" :placeholder="$t('children')">
+                                    <div class="invalid-feedback"
+                                         v-if="bookingTourForm.errors.has('child')"
+                                         v-html="bookingTourForm.errors.get('child')">
                                     </div>
                                 </div>
                             </div>
 
                             <div v-if="bookingTourForm.from && bookingTourForm.to && bookingTourForm.adult">
                                 <hr>
-                                <h4>
-                                    children prices:
-                                    {{parseInt(bookingTourForm.child) * parseFloat(tour.price_api.ch_price).toFixed(2) * parseInt(diffDate(bookingTourForm.from, bookingTourForm.to))}}
-                                </h4>
-                                <h4>Adult prices: {{parseInt(bookingTourForm.adult) * parseFloat(tour.price_api.price).toFixed(2) * parseInt(diffDate(bookingTourForm.from, bookingTourForm.to))}}</h4>
+                                <strong class="text-capitalize">{{ $t('children prices') }}:</strong>
+                                {{cahangePrice(parseInt(bookingTourForm.child) * parseFloat(tour.price_api.ch_price).toFixed(2) * parseInt(diffDate(bookingTourForm.from, bookingTourForm.to)))}}{{ currency ? $t(currency.abbr) : $t("LE") }}<br>
+                                
+                                <strong class="text-capitalize">{{ $t('adult prices') }}:</strong>
+                                {{cahangePrice(parseInt(bookingTourForm.adult) * parseFloat(tour.price_api.price).toFixed(2) * parseInt(diffDate(bookingTourForm.from, bookingTourForm.to)))}}{{ currency ? $t(currency.abbr) : $t("LE") }}<br>
 
-                                <h4>Days: {{diffDate(bookingTourForm.from, bookingTourForm.to)}}</h4>
-                                <h4>Total: {{total_price(bookingTourForm.child, bookingTourForm.adult, tour.price_api.ch_price, tour.price_api.price, diffDate(bookingTourForm.from, bookingTourForm.to))}}</h4>
+                                <strong class="text-capitalize">{{ $t('days') }}:</strong> {{diffDate(bookingTourForm.from, bookingTourForm.to)}}<br>
+
+                                <strong class="text-capitalize">{{ $t('total_price') }}:</strong>
+                                {{cahangePrice(total_price(bookingTourForm.child, bookingTourForm.adult, tour.price_api.ch_price, tour.price_api.price, diffDate(bookingTourForm.from, bookingTourForm.to)))}}{{ currency ? $t(currency.abbr) : $t("LE") }}<br>
                                 <hr>
 
                                 <div class="text-center">
-                                    <button class="btn btn-primary">
-                                        book now
+                                    <button type="submit" class="btn btn-sm btn-info">
+                                        {{$t('book now')}}
                                     </button>
                                 </div>
                             </div>
@@ -288,10 +281,17 @@ export default {
         starRating, Gallery, CheckinModal
     },
     computed: {
-        ...mapGetters(['searchTours', 'user']),
+        ...mapGetters(['searchTours', 'user', 'currency']),
     },
     data(){
         return{
+            sideBar: false,
+            disabledTodayDates: {
+                to: new Date(Date.now() - 8640000)
+            },
+            disabledTomorrowDates: {
+                to: new Date(Date.now())
+            },
             id: this.$route.params.id,
             tour: {},
             bookingTourForm: new Form({
@@ -328,6 +328,29 @@ export default {
         this.getTour();
     },
     methods: {
+        customFormatter(date) {
+            return moment(date).format('DD-MM-YYYY');
+        },
+        toggleSideBar(){
+            this.sideBar = this.sideBar === false;
+        },
+        scrollToSection(section){
+          const sec = document.getElementById(section).offsetTop;
+          const number = section === 'hotel_content' ? 190 : 160;
+            if (sec){
+                window.scrollTo({
+                    top: sec - number,
+                    behavior: "smooth"
+                });
+            }
+        },
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
+        },
         showCheckinModal(){
             if (this.user){
                 this.bookingTourForm.name = this.user.name;
@@ -341,6 +364,8 @@ export default {
             // this.bookingTourForm.child = this.bookingHotelForm.children;
             // this.bookingTourForm.from = this.bookingHotelForm.date_from;
             // this.bookingTourForm.to = this.bookingHotelForm.date_to;
+            this.bookingTourForm.from = moment(this.bookingTourForm.from).format('YYYY-MM-DD');
+            this.bookingTourForm.to = moment(this.bookingTourForm.to).format('YYYY-MM-DD');
             this.bookingTourForm.deposit = 0;
             this.bookingTourForm.vendor_id = this.tour.vendor_id;
             this.$modal.show('bookingModal');

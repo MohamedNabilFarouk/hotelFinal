@@ -70,7 +70,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLanguage">
                                 <li v-for="c in currencies" :key="c.id">
                                     <a href="#" @click.prevent="currencyChange(c)" class="dropdown-item text-capitalize">
-                                        {{ c.abbr }}
+                                        {{ $t(c.abbr) }}
                                     </a>
                                 </li>
                             </ul>

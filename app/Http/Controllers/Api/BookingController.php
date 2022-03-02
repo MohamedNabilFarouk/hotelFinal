@@ -81,83 +81,68 @@ public function booking(Request $request){
     config()->set('app.country', $country);
 
     $validator = Validator::make($request->all(), [
-           'name' => 'required|string|max:100',
-           'phone' => 'string',
-           'email' => 'string|required|email',
-           'type' => 'string|required',
-           'from' => 'date|required',
-           'to' => 'date|required',
-           'adult' => 'numeric|required',
-           'child' => 'numeric|required',
-           'total' => 'numeric|required',
-           'deposit' => 'numeric',
-        //    'room_id'=>'required',
-        //    'number'=>'numeric|required',
-       ]);
+        'name' => 'required|string|max:100',
+        'phone' => 'string',
+        'email' => 'string|required|email',
+        'type' => 'string|required',
+        'from' => 'date|required',
+        'to' => 'date|required',
+        'adult' => 'numeric|required',
+        'child' => 'numeric|required',
+        'total' => 'numeric|required',
+        'deposit' => 'numeric',
+        'rooms' => 'nullable|array',
+        'spaces' => 'nullable|array',
+    ]);
 
-       if ($validator->fails()) {
-            return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
-        }
-
-
-       if($request->partial_payment == 1){
-            $request->paid = $request->deposit;
-        }else{
-            $request->paid = $request->total;
-        }
-    // dd($request);
-
-
-        //  $data = $request->all();
-
-    //    $data =  ['name' => $request->name,
-    //             'phone' => $request->phone,
-    //             'email' => $request->email,
-    //             'type' => $request->type,
-    //             'adult' => $request->adult,
-    //             'child' => $request->child,
-    //             'total' =>   $request->total,
-    //             'deposit' => $request->deposit,
-    //             'from'=> $request->from,
-    //             'to'=>$request->to,
-// ];
-
-if($request->type == 'hotel'){
-    DB::beginTransaction();
-    $book = $request->only('name', 'phone', 'email', 'type', 'vendor_id', 'customer_id', 'object_id', 'from', 'to', 'adult', 'child', 'total', 'deposit', 'note', 'is_paid', 'partial_payment', 'paid');
-
-    $booking = Booking::create($book);
-
-    foreach($request->rooms as $r){
-        //   dd($r['number']);
-        $request['room_id'] =  $r['room_id'];
-        $request['number'] = $r['number'];
-
-        $result = $this->checkAvailability($request);
-//        return $result;
-        if($result['success'] == 'false'){
-            return response()->json(['success'=>'false','message'=>'Not Aavailable']);
-         }
-
-
-        $hotel_room = Room::find($r['room_id']);
-
-        if(isset($booking)){
-
-            // dd($r);
-            HotelBooking::create([
-                'room_id'        =>$r['room_id'],
-                'booking_id'     =>$booking->id,
-                'from'           => $request['from'],
-                'to'              => $request['to'],
-                'remain_no'       => ($hotel_room->number) - $r['number'],
-                'number'          => $r['number'],
-
-            ]);
-
-        }
-        DB::commit();
+    if ($validator->fails()) {
+        return response()->json(['success'=>'false', 'data'=>$validator->messages()]);
     }
+
+
+    if($request->partial_payment == 1){
+        $request->paid = $request->deposit;
+    }else{
+        $request->paid = $request->total;
+    }
+
+    if($request->type == 'hotel'){
+
+        $request->rooms = array_merge($request->rooms, $request->spaces);
+
+        DB::beginTransaction();
+        $book = $request->only('name', 'phone', 'email', 'type', 'vendor_id', 'customer_id', 'object_id', 'from', 'to', 'adult', 'child', 'total', 'deposit', 'note', 'is_paid', 'partial_payment', 'paid');
+
+        $booking = Booking::create($book);
+
+        foreach($request->rooms as $r){
+            //   dd($r['number']);
+            $request['room_id'] =  $r['room_id'];
+            $request['number'] = $r['number'];
+
+            $result = $this->checkAvailability($request);
+            if($result['success'] == 'false'){
+                return response()->json(['success'=>'false','message'=>'Not Aavailable']);
+            }
+
+
+            $hotel_room = Room::find($r['room_id']);
+
+            if(isset($booking)){
+
+                // dd($r);
+                HotelBooking::create([
+                    'room_id'        =>$r['room_id'],
+                    'booking_id'     =>$booking->id,
+                    'from'           => $request['from'],
+                    'to'              => $request['to'],
+                    'remain_no'       => ($hotel_room->number) - $r['number'],
+                    'number'          => $r['number'],
+                ]);
+            }
+            DB::commit();
+        }
+
 
 
 
@@ -166,8 +151,9 @@ if($request->type == 'hotel'){
 
 }else{
 
-$data = $request->all();
-    $booking= Booking::create($data);
+    // $data = $request->all();
+
+    // $booking= Booking::create($data);
 
 //    $data = $request->all();
     $book = $request->only('name', 'phone', 'email', 'type', 'vendor_id', 'customer_id', 'object_id', 'from', 'to', 'adult', 'child', 'total', 'deposit', 'note', 'is_paid', 'partial_payment', 'paid');
@@ -185,7 +171,7 @@ $data = $request->all();
              Session::put('booking_id', $booking->id);
 
              $amount= [
-                 "total"=> $request->total * 100, //$request->total
+                 "total"=> $booking->paid * 100, //$request->total
                  "currency"=> 'EGP',
              ];
              $product= [
@@ -196,7 +182,7 @@ $data = $request->all();
                  "userEmail"=>$booking->email,
                  "userId"=>'',
                  "userMobile"=>$booking->phone,
-                 "userName"=>$booking->first_name . $booking->last_name
+                 "userName"=>$booking->name
              ];
              $returnUrl  = 'https://hoteelsegypt.com/';
              // $callbackUrl  = 'http://opayapi-001-site1.itempurl.com/api/payloads/OpayCallback';
@@ -224,9 +210,9 @@ $data = $request->all();
                                          // 'payMethod'=> 'BankCard',
                                          'product' => $product,
                                          'userInfo' => $userInfo,
-                                         'returnUrl' => 'http://localhost:8000/profile',
-                                         'callbackUrl'=> 'http://localhost:8000/api/OpayCallback',
-                                         'cancelUrl' => $cancelUrl,
+                                         'returnUrl' => 'https://newhotels.hoteelsegypt.com/profile',
+                                         'callbackUrl'=> 'https://newhotels.hoteelsegypt.com/api/OpayCallback',
+                                         'cancelUrl' => 'https://newhotels.hoteelsegypt.com',
                                          // 'userClientIP' => $userClientIP,
                                          'expireAt' => $expireAt,
                                      ] , true)
@@ -354,7 +340,7 @@ $data = $request->all();
 
 
 
-       return response()->json(['success'=>'true','message'=>'added successfully']);
+    return response()->json(['success'=>'true','book'=>$booking->id]);
 
 }
 

@@ -27,7 +27,8 @@ class HomeController extends Controller
 
         $hotels = Hotel::where([['home','1'],['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->get();
         $tours = Tour::where([['home','1'],['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->get();
-        $spaces = Room::where([['home','1'],['status','1'],['type','space']])->get();
+        $spaces = Room::where([['home','1'],['status','1'],['type','space']])->inRandomOrder()->limit(10)->get();
+        $rooms = Room::where([['home','1'],['status','1'],['type','hotel_room']])->inRandomOrder()->limit(10)->get();
 
         $slider_tours = Tour::where([['home','1'],['status','1']])->inRandomOrder()->limit(5)->get();
         $slider_hotels = Hotel::where([['home','1'],['status','1']])->inRandomOrder()->limit(5)->get();
@@ -39,7 +40,8 @@ class HomeController extends Controller
             'slider_tours' => $slider_tours,
             'hotels'=>$hotels,
             'tours'=>$tours,
-            'spaces'=>$spaces
+            'spaces'=>$spaces,
+            'rooms' => $rooms
             ]
         ]);
     }

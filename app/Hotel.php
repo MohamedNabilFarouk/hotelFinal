@@ -15,7 +15,7 @@ class Hotel extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'title_api', 'address_api', 'content_api', 'min_price', 'data'
+        'title_api', 'address_api', 'content_api', 'min_price', 'data', 'max_price'
     ];
 
     public function getTitleApiAttribute()
@@ -28,7 +28,6 @@ class Hotel extends Model
         } // end of if
 
     } // end of title api app lang
-
     public function getAddressApiAttribute()
     {
         $lang = app()->getLocale();
@@ -39,7 +38,6 @@ class Hotel extends Model
         } // end of if
 
     } // end of address api app lang
-
     public function getContentApiAttribute()
     {
         $lang = app()->getLocale();
@@ -50,11 +48,32 @@ class Hotel extends Model
         } // end of if
 
     } // end of content api app lang
-
     public function getMinPriceAttribute()
     {
         $room = Room::where([['hotel_id', '=', $this->id]])
             ->orderBy('price', 'asc')->first();
+
+        if ($room){
+            if (config()->get('app.country') == 'EG'){
+                if ($room->on_sale == '1'){
+                    return $room->sale_price;
+                }else{
+                    return $room->price;
+                }
+            }else{
+                $room_price = RoomPrices::where([
+                    ['ip', '=', config()->get('app.country')],
+                    ['room_id', '=', $room->id]
+                ])->select('price')->first();
+                $price = isset($room_price) ? $room_price->price : null;
+                return $price;
+            }
+        }
+    }
+    public function getMaxPriceAttribute()
+    {
+        $room = Room::where([['hotel_id', '=', $this->id]])
+            ->orderBy('price', 'desc')->first();
 
         if ($room){
             if (config()->get('app.country') == 'EG'){
@@ -93,7 +112,10 @@ class Hotel extends Model
             'gallery' => $this->gallery,
             'country' => $this->country,
             'gov' => $this->gov,
-            'rooms' => $this->rooms
+            'rooms' => $this->rooms,
+            'roomsCount' => count($this->rooms),
+            'spaces' => $this->spaces,
+            'spacesCount' => count($this->spaces),
         ];
     }
 
@@ -128,14 +150,18 @@ class Hotel extends Model
     }
 
     public function rooms(){
-        return $this->hasMany(Room::class,'hotel_id','id')
+        return $this->hasMany(Room::class,'hotel_id','id')->where('type','hotel_room')
+            ->with('prices');
+    }
+    public function spaces(){
+        return $this->hasMany(Room::class,'hotel_id','id')->where('type','space')
             ->with('prices');
     }
 
     public function gallery(){
         return $this->hasMany(HotelGallery::class,'hotel_id','id');
     }
-public function recomm(){
+    public function recomm(){
 
-}
+    }
 }

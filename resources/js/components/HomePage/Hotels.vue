@@ -50,7 +50,7 @@
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="price text-capitalize">
                                                                         {{ $t('from') }} <label>
-                                                                        {{hotel.min_price}}
+                                                                        {{cahangePrice(hotel.min_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}
                                                                         </label><span>{{$t('night')}}</span>
                                                                     </div>
                                                                     <router-link :to="'/hotel/'+hotel.id" class="book-now text-capitalize btn-quickview quickview quickview_handler">{{$t('view now')}}</router-link>
@@ -74,11 +74,15 @@
 <script>
 import VueSlickCarousel from 'vue-slick-carousel';
 import starRating from "vue-star-rating";
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Hotels',
     props: {
         hotels: {type: Array, default:  () => ([])},
+    },
+    computed: {
+        ...mapGetters(['currency']),
     },
     components: {
         VueSlickCarousel,
@@ -128,6 +132,13 @@ export default {
         showPrev() {
             this.$refs.popularHotelsSlider.prev()
         },
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
+        }
     }
 }
 </script>

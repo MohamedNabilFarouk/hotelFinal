@@ -1,177 +1,175 @@
 <template>
     <div>
         <!-- Main Container  -->
-        <Breadcrumbs PageTitle="Tours" PageLink="tours" backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
+        <Breadcrumbs :PageTitle="$t('tours')" PageLink="/tours" 
+        backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
 
         <div class="container product-detail">
             <div class="row">
-                <aside class="col-md-3 col-sm-4 col-xs-12 content-aside left_column sidebar-offcanvas">
-                    <span id="close-sidebar" class="fa fa-times"></span>
+                <aside :class="aside ? 'active' : ''"
+                    class="col-md-3 col-sm-4 col-xs-12 content-aside left_column sidebar-offcanvas">
+                    <span @click="toggleAside()" id="close-sidebar" class="fa fa-times"></span>
 
-                    <div class="module-rate clearfix">
-                        <h3 class="modtitle">Tours searching</h3>
+                    <div class="module-search clearfix">
+                        <h3 class="modtitle">{{$t('tour searching')}}</h3>
                         <form @submit.prevent="searchTour()"
-                              class="row px-4 justify-content-between align-items-center">
+                              class="row px-1 justify-content-between align-items-center">
 
                             <div class="col-lg-12 col-md-12 col-12">
-                                <div class="form-group location-input">
-                                    <label>Destinations
-                                        <v-select
-                                            v-model="searchToursForm.sCity"
-                                            :class="{
-                                                'is-invalid': searchToursForm.errors.has('city')
-                                            }"
-                                            autocomplete="on"
-                                            placeholder="City, region or anywhere"
-                                            :get-option-label="(option) => option.name"
-                                            :options="cities"></v-select>
-                                    </label>
-                                    <span class="text-danger"
-                                          v-if="searchToursForm.errors.has('city')"
-                                          v-html="searchToursForm.errors.get('city')">
-                                    </span>
+                                <div class="mb-3">
+                                    <label for="city" class="form-label text-capitalize">{{$t('city')}}</label>
+                                    <v-select
+                                        v-model="searchToursForm.sCity"
+                                        :class="{
+                                            'is-invalid': searchToursForm.errors.has('city')
+                                        }"
+                                        autocomplete="on"
+                                        id="city"
+                                        :placeholder="$t('city')"
+                                        :get-option-label="(option) => $t(option.name_en.toLowerCase().trim())"
+                                        :options="cities"></v-select>
+                                    <div class="invalid-feedback"
+                                         v-if="searchToursForm.errors.has('city')"
+                                         v-html="searchToursForm.errors.get('city')">
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12 col-12">
-                                <div class="form-group">
-                                    <label>date
-                                        <input
-                                            :class="{
-                                                'is-invalid': searchToursForm.errors.has('date')
-                                            }"
-                                            v-model="searchToursForm.date"
-                                            type="date" placeholder="date from" />
-                                    </label>
-                                    <span class="text-danger"
-                                          v-if="searchToursForm.errors.has('date')"
-                                          v-html="searchToursForm.errors.get('date')">
-                                    </span>
+                                <div class="mb-3">
+                                    <label for="date" class="form-label text-capitalize">{{$t('date')}}</label>
+                                    <vuejs-datepicker :disabledDates="disabledTodayDates" :format="customFormatter"  v-model="searchToursForm.date" :placeholder="$t('date')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': searchToursForm.errors.has('date')}"></vuejs-datepicker>
+                                    <div class="invalid-feedback" v-if="searchToursForm.errors.has('date')" v-html="searchToursForm.errors.get('date')"></div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 text-center col-md-12 col-12">
-                                <button type="submit" class="btn button btn-primary">
-                                    Search
+                                <button type="submit" class="btn btn-sm btn-info">
+                                    {{$t('search')}}
                                     <span v-if="searchToursForm.busy" class="spinner-border spinner-border-sm"></span>
                                     <i v-if="!searchToursForm.busy" aria-hidden="true" class="fa fa-search"></i>
                                 </button>
 
-                                <button v-if="search" @click="getTours" type="button" class="btn button btn-danger">
-                                    Cancel
+                                <button v-if="search" @click="getTours" type="button" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-ban"></i>
+                                    {{$t('cancel')}}
                                 </button>
                             </div>
                         </form>
                     </div>
 
                     <form @submit.prevent="filterTour()" class="sidefilter-form">
-                        <div style="position: sticky;top: 63px; z-index: 2; background: #f8f8f8;">
-                            <button class="btn btn-primary">
-                                <i class="fa fa-filter"></i>
-                                filter
-                            </button>
-                            <button v-if="filter" @click="getTours" type="button" class="btn button btn-danger">
-                                Cancel
-                            </button>
-                        </div>
+                        <div class="module-search mb-1 clearfix">
+                            <h3 class="modtitle">{{$t('tour')}} {{$t('filter')}}</h3>
 
-                        <div class="module-travel clearfix">
-                            <h3>Price</h3>
-                            <span class="text-danger"
-                              v-if="filterToursForm.errors.has('price')"
-                              v-html="filterToursForm.errors.get('price')">
-                            </span>
-                            <div class="d-flex justify-content-between">
-                                <div class="form-group mr-1">
-                                    <label>min price
-                                        <input
-                                        :class="{
-                                                'is-invalid': filterToursForm.errors.has('price')
-                                        }"
-                                        :min="min_price"
-                                        :max="max_price"
-                                        v-model="filterToursForm.price[0]"
-                                        type="number" placeholder="date from" />
-                                    </label>
+                            <div class="module-rate mb-1 clearfix">
+                                <h3>{{$t('price')}}</h3>
+                                <div class="d-flex px-3 justify-content-between">
+                                    <div class="mb-3">
+                                        <label for="min-price" class="form-label text-capitalize">{{$t('min price')}}</label>
+                                        <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterToursForm.errors.has('price')}" v-model="filterToursForm.price[0]" class="form-control" id="min-price" :placeholder="$t('min price')">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="max-price" class="form-label text-capitalize">{{$t('max price')}}</label>
+                                        <input :max="max_price" :min="min_price" type="number" :class="{'is-invalid': filterToursForm.errors.has('price')}" v-model="filterToursForm.price[1]" class="form-control" id="max-price" :placeholder="$t('max price')">
+                                    </div>
                                 </div>
-
-                                <div class="form-group ml-1">
-                                    <label>max price
-                                        <input
-                                            :class="{
-                                                'is-invalid': filterToursForm.errors.has('price')
-                                            }"
-                                            :min="min_price"
-                                            :max="max_price"
-                                            v-model="filterToursForm.price[1]"
-                                            type="number" placeholder="date from" />
-                                    </label>
+                                <div class="invalid-feedback"
+                                    v-if="filterToursForm.errors.has('price')"
+                                    v-html="filterToursForm.errors.get('price')">
                                 </div>
                             </div>
-                        </div>
-                        <div class="module-rate clearfix">
-                            <h3>star rating</h3>
-                            <ul>
-                                <li v-for="star in filterToursForm.stars">
-                                    <label class="d-flex align-items-center">
-                                        <input @change="starSelected(star)" v-model="star.selected" type="checkbox">
-                                        <starRating :star-size="18" :rating="star.star" :show-rating="false" :read-only="true"></starRating>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="module-rate clearfix">
-                            <h3>Cities</h3>
-                            <ul>
-                                <li v-for="city in filterToursForm.cities">
-                                    <label class="d-flex align-items-center">
-                                        <input :checked="filterToursForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
-                                        <strong>{{city.name}}</strong>
-                                    </label>
-                                </li>
-                            </ul>
+
+                            <div class="module-rate mb-1 clearfix">
+                                <h3>{{$t('star rating')}}</h3>
+                                <ul>
+                                    <li v-for="(star, i) in filterToursForm.stars" :key="i">
+                                        <label class="d-flex align-items-center">
+                                            <input class="me-2" @change="starSelected(star)" v-model="star.selected" type="checkbox">
+                                            <starRating :star-size="18" :rating="star.star" :show-rating="false" :read-only="true"></starRating>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div style="overflow: hidden;" :style="showAllCities ? 'height: auto' : 'height: 280px'" class="module-rate mb-1 clearfix">
+                                <h3>{{$t('cities')}}</h3>
+                                <ul>
+                                    <li v-for="city in filterToursForm.cities" :key="city.id">
+                                        <label class="d-flex align-items-center cites">
+                                            <input class="me-2" :checked="filterToursForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
+                                            {{$t(city.name_en.toLowerCase().trim())}}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <p style="text-align: center;font-size: .9rem;" type="button" class="mb-1 text-capitalize"><strong @click="() =>{ showAllCities = true}" v-if="!showAllCities" style="color:#d89939"><i class="fa fa-arrow-down"></i> {{ $t("view more") }} </strong></p>
+                            <p style="text-align: center;font-size: .9rem;" type="button" class="mb-1 text-capitalize"><strong @click="() =>{ showAllCities = false}" v-if="showAllCities" style="color:#d89939"><i class="fa fa-arrow-up"></i> {{ $t("view less") }} </strong></p>
+                            
+                            <button
+                                :class="filterToursForm.price.length < 2 && filterToursForm.gov_id.length < 1 && filterToursForm.stars.length < 1 ? 'disabled': ''"
+                                class="btn btn-sm btn-info">
+                                <span v-if="filterToursForm.busy" class="spinner-border spinner-border-sm"></span>
+
+                                <i v-if="!filterToursForm.busy" class="fa fa-filter"></i>
+                                {{$t('filter')}}
+
+                            </button>
+                            <button v-if="filter" @click="getTours" type="button" class="btn btn-sm btn-danger">
+                                <i class="fa fa-ban"></i>
+                                {{$t('cancel')}}
+                            </button>
                         </div>
                     </form>
-                    <div class="module-pop clearfix"><h3>popular Hotels</h3>
-                        <div class="item clearfix">
+
+                    <div class="module-pop mb-1 clearfix"><h3>{{ $t("popular") }} {{ $t("tours") }}</h3>
+                        <div v-for="tour in popularTours.slice(0,2)" :key="tour.id" class="item clearfix">
                             <div class="image">
-                                <a href="tour-detail.html">
-                                    <img src="https://demo.wpthemego.com/html/sw_portkey/image/catalog/demo/product/travel/p1.jpg" alt="Bougainvilleas on Lombard Street" class="img-responsive">
-                                </a>
+                                <router-link :to="'/tour/'+tour.id">
+                                    <vue-load-image>
+                                        <img slot="image" :src="tour.image" class="img-responsive" />
+                                        <img slot="preloader" src="../../assets/loading.gif">
+                                        <img slot="error" src="../../assets/no_image.png">
+                                    </vue-load-image>
+                                </router-link>
                             </div>
 
                             <div class="content">
-                                <h4><a href="tour-detail.html">7-Day Great Britain Tour Packag...</a></h4>
-                                <p>from $250</p>
+                                <h4><router-link :to="'/tour/'+tour.id">{{ tour.title_api }}</router-link></h4>
+                                <starRating
+                                    :star-size="15"
+                                    :rating="tour.star_rate ? parseInt(tour.star_rate) : 0"
+                                    :show-rating="false"
+                                    :read-only="true"></starRating>
+                                <strong>{{ cahangePrice(tour.price_api.price) }}{{ currency ? $t(currency.abbr) : $t("LE")}}/{{ $t('person') }} </strong><br>
+                                <strong>{{ cahangePrice(tour.price_api.ch_price) }}{{ currency ? $t(currency.abbr) : $t("LE")}}/{{ $t('child') }} </strong><br>
+                                <router-link :to="'/tour/'+tour.id" class="btn btn-sm btn-info">{{ $t('book now') }}</router-link>
                             </div>
                         </div>
-                        <div class="item clearfix"><div class="image"><a href="tour-detail.html"><img src="image/catalog/demo/product/travel/p2.jpg" alt="Bougainvilleas on Lombard Street" class="img-responsive"></a></div> <div class="content"><h4><a href="tour-detail.html">7-Day Great Britain Tour Packag...</a></h4> <p>from $250</p></div></div></div>
+                    </div>
                 </aside>
 
                 <div id="content" class="col-md-9 col-sm-12 col-xs-12">
-                    <router-link to="" class="open-sidebar hidden-lg hidden-md">
-                        <i class="fa fa-bars"></i>
-                        Sidebar
-                    </router-link>
                     <div class="products-category">
-                        <div class="product-filter hidden-xs filters-panel">
-                            <div class="row">
-                                <div class="col-md-2 col-sm-2 hidden-xs">
-                                    <div class="list-view">
-                                        <button
-                                            @click="gridViewFun('grid')"
-                                            :class="gridView ? 'active': ''"
-                                            class="btn btn-default">
-                                            <i class="fa fa-th-large"></i>
-                                        </button>
-                                        <button
-                                            :class="gridView ? '': 'active'"
-                                            @click="gridViewFun('list')"
-                                            class="btn btn-default">
-                                            <i class="fa fa-th-list"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                        <div class="border-bottom product-filter hidden-xs filters-panel">
+                            <div class="list-view">
+                                <button @click="toggleAside()" class="btn d-block d-md-none btn-default text-capitalize">
+                                    <i class="fa fa-bars"></i>
+                                    {{$t('adv_search')}}
+                                </button>
+                                <button
+                                    @click="gridViewFun('grid')"
+                                    :class="gridView ? 'active': ''"
+                                    class="btn btn-default">
+                                    <i class="fa fa-th-large"></i>
+                                </button>
+                                <button
+                                    :class="gridView ? '': 'active'"
+                                    @click="gridViewFun('list')"
+                                    class="btn btn-default">
+                                    <i class="fa fa-th-list"></i>
+                                </button>
                             </div>
                         </div>
 
@@ -180,17 +178,22 @@
                             :class="gridView ? 'gird': 'list'"
                             class="section-style4 products-list row number-col-3 so-filter-gird">
 
-                            <div v-for="tour in tours.data"
+                            <div v-for="tour in tours.data" :key="tour.id"
                                  :class="gridView ? 'col-lg-6 col-md-6 col-sm-6 col-xs-6': 'col-lg-12 col-md-12 col-sm-12 col-xs-12'"
-                                 class="product-layout ">
-                                <div class="product-item-container item">
+                                class="product-layout">
+                                <div class="product-item-container item p-0 mb-3">
                                     <div class="item-block so-quickview">
                                         <div class="image">
                                             <router-link :to="'tour/'+tour.id" target="_self">
-                                                <img :src="tour.image" :alt="tour.title_api" class="img-responsive">
+                                                <vue-load-image>
+                                                    <img slot="image" :src="tour.image" class="img-responsive" />
+                                                    <img slot="preloader" src="../../assets/loading.gif" class="w-auto h-auto">
+                                                    <img slot="error" src="../../assets/no_image.png">
+                                                </vue-load-image>
                                             </router-link>
                                         </div>
                                         <div class="item-content clearfix">
+                                        
                                             <h3>
                                                 <router-link :to="'tour/'+tour.id">{{tour.title_api}}</router-link>
                                             </h3>
@@ -203,15 +206,15 @@
                                             </div>
                                             <ul>
                                                 <li><i class="fa fa-map-marker" aria-hidden="true"></i> {{tour.address_api}}</li>
-                                                <li><i class="fa fa-clock-o" aria-hidden="true"></i> 2 Day</li>
-                                                <li><i class="fa fa-user-circle" aria-hidden="true"></i> 4 persons</li>
+                                                <li v-if="tour.type === 'special'"><i class="fa fa-gratipay" aria-hidden="true"></i> {{$t(tour.type)}} {{$t('tour')}}</li>
                                             </ul>
                                             <div class="des">{{tour.content_api}}</div>
                                             <div class="item-bot clearfix">
                                                 <div class="price pull-left">
-                                                    from <label>$230</label><span>person</span>
+                                                    <label>{{cahangePrice(tour.price_api.price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{$t('person')}}</span><br>
+                                                    <label>{{cahangePrice(tour.price_api.ch_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{$t('child')}}</span>
                                                 </div>
-                                                <router-link :to="'tour/'+tour.id" class="book-now btn-quickview quickview quickview_handler pull-right" title="Quick View" data-title="Quick View" data-fancybox-type="iframe">Book now</router-link>
+                                                <router-link :to="'tour/'+tour.id" class="book-now btn-quickview quickview quickview_handler pull-right" title="Quick View" data-title="Quick View" data-fancybox-type="iframe">{{ $t('book now') }}</router-link>
                                             </div>
                                         </div>
                                     </div>
@@ -269,7 +272,7 @@ export default {
     name: 'Tours',
     computed: {
         ...mapGetters([
-            'searchTours'
+            'searchTours', 'currency'
         ]),
     },
     components:{
@@ -279,6 +282,15 @@ export default {
     },
     data(){
         return{
+            showAllCities: false,
+            popularTours: [],
+            disabledTodayDates: {
+                to: new Date(Date.now() - 8640000)
+            },
+            disabledTomorrowDates: {
+                to: new Date(Date.now())
+            },
+            aside: false,
             gridView: true,
             tours: this.$route.params.tours ? this.$route.params.tours : [],
             search: this.$route.params.search ? this.$route.params.search : false,
@@ -316,8 +328,24 @@ export default {
         //         this.loading = false;
         //     }
         // }).catch();
+        axios.get('home').then((res)=>{
+            this.popularTours = res.data.data ? res.data.data.slider_tours : [];
+        }).catch();
     },
     methods: {
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
+        },
+        customFormatter(date) {
+            return moment(date).format('DD-MM-YYYY');
+        },
+        toggleAside(){
+            this.aside = this.aside === false;
+        },
         getCities(){
             axios.get('cities')
                 .then((res)=>{

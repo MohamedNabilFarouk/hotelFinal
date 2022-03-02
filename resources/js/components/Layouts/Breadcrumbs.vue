@@ -7,7 +7,7 @@
             </div>
             <ul class="breadcrumb-cate">
                 <li><router-link to="/">{{$t('home')}}</router-link></li>
-                <li><router-link :to="'/'+PageLink">{{PageTitle}}</router-link></li>
+                <li><router-link :to="PageLink">{{PageTitle}}</router-link></li>
             </ul>
         </div>
     </div>

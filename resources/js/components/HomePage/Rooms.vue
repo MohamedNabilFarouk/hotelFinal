@@ -46,7 +46,7 @@
                                                                 </ul>
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="price text-capitalize">
-                                                                        <label>{{room.main_price}}</label><span>{{$t('night')}}</span>
+                                                                        <label>{{cahangePrice(room.main_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{$t('night')}}</span>
                                                                     </div>
                                                                     <router-link :to="'/hotel/'+room.hotel_id" class="book-now text-capitalize btn-quickview quickview quickview_handler">{{$t('book now')}}</router-link>
                                                                 </div>
@@ -93,7 +93,7 @@
 
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="price text-capitalize">
-                                                                        <label>{{room.main_price}}</label><span>{{$t('night')}}</span>
+                                                                        <label>{{cahangePrice(room.main_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{$t('night')}}</span>
                                                                     </div>
                                                                     <router-link :to="'/hotel/'+room.hotel_id" class="book-now text-capitalize btn-quickview quickview quickview_handler">{{$t('book now')}}</router-link>
                                                                 </div>
@@ -116,11 +116,15 @@
 <script>
 import VueSlickCarousel from 'vue-slick-carousel';
 import starRating from "vue-star-rating";
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Rooms',
     props: {
         rooms: {type: Array, default:  () => ([])},
+    },
+    computed: {
+        ...mapGetters(['currency']),
     },
     components: {
         VueSlickCarousel,
@@ -170,6 +174,13 @@ export default {
         showPrev() {
             this.$refs.popularHotelsSlider.prev()
         },
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
+        }
     }
 }
 </script>

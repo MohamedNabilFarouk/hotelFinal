@@ -17,7 +17,8 @@ class HotelsController extends Controller
         $country = $request->header('country') ? $request->header('country') : 'EG';
         config()->set('app.country', $country);
 
-        $hotels = Hotel::where([['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
+        $hotels = Hotel::where([['status','1']])->orderBy('order_no','asc')
+        ->orderBy('id','desc')->inRandomOrder()->paginate('8');
 
         return response()->json(['success'=>'true','data'=> ['hotels'=>$hotels]]);
     }
@@ -47,31 +48,36 @@ class HotelsController extends Controller
         $country = $request->header('country') ? $request->header('country') : 'EG';
         config()->set('app.country', $country);
 
-        $validator = Validator::make($request->all(), [
-            'city' => 'required|numeric|exists:governorates,id',
-            'date_from' => 'required|date|after:yesterday',
-            'date_to' => 'required|date|after:'.$request->date_from,
-            'adult' => 'required|numeric|min:1',
-            'children' => 'nullable|numeric|min:0',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'city' => 'required|numeric|exists:governorates,id',
+        //     'date_from' => 'required|date|after:yesterday',
+        //     'date_to' => 'required|date|after:'.$request->date_from,
+        //     'adult' => 'required|numeric|min:1',
+        //     'children' => 'nullable|numeric|min:0',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(['success'=>'false', 'data'=> $validator->messages()]);
+        if($request->has('city') && $request->city){
+            // $validator = Validator::make($request->all(), [
+            //     'city' => 'required|numeric|exists:governorates,id'
+            // ]);
+            // if ($validator->fails()) {
+            //     return response()->json(['success'=>'false', 'data'=> $validator->messages()]);
+            // }
+            $hotels = Hotel::where([['status','1'],['gov_id',$request->city]])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
+
+        }else{
+            $hotels = Hotel::where([['status','1']])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
         }
 
 
-        $hotels = Hotel::where([
-            ['status','1'],
-            ['gov_id',$request->city]
-        ])->orderBy('order_no','asc')->orderBy('id','desc')->inRandomOrder()->paginate('8');
 
-// saved search
-if(isset($request->user_id)){
-$request['type'] = 'hotel';
-app('App\Http\Controllers\Api\SiteController')->savedSearch($request);
+        // saved search
+        if(isset($request->user_id)){
+        $request['type'] = 'hotel';
+        app('App\Http\Controllers\Api\SiteController')->savedSearch($request);
 
-// end saved search
-}
+        // end saved search
+    }
 
 
         return response()->json(['success'=>'true','data'=> ['hotels'=>$hotels]]);

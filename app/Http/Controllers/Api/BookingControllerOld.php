@@ -84,6 +84,8 @@ public function booking(Request $request){
            'child' => 'numeric|required',
            'total' => 'numeric|required',
            'deposit' => 'numeric',
+           'rooms' => 'nullable|array',
+           'spaces' => 'nullable|array',
         //    'room_id'=>'required',
         //    'number'=>'numeric|required',
        ]);
@@ -106,8 +108,8 @@ public function booking(Request $request){
     if($request->type == 'hotel'){
 
 
-    $result= $this->checkAvailability($request);
-
+    $result = $this->checkAvailability($request);
+    return response()->json(['success'=>'false',$request]);
     if($result['success'] == 'false'){
        return response()->json(['success'=>'false','message'=>'Not Aavailable']);
     }
@@ -124,7 +126,6 @@ public function booking(Request $request){
             'to'                 => $request['to'],
              'remain_no'                  => ($hotel_room->number) - $request['number'],
             'number'                  => $request['number'],
-
         ]);
 
     }

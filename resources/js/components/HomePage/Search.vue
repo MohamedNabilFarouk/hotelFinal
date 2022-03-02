@@ -116,7 +116,7 @@
                 <div class="col-lg-4 col-md-4 col-6">
                     <div class="mb-3">
                         <label for="date" class="form-label text-capitalize">{{$t('date')}}</label>
-                        <input type="date" :class="{'is-invalid': searchToursForm.errors.has('date')}" v-model="searchToursForm.date" class="form-control" id="date" :placeholder="$t('date')">
+                        <vuejs-datepicker :disabledDates="disabledTodayDates" :format="customFormatter"  v-model="searchToursForm.date" :placeholder="$t('date')" :bootstrap-styling="true" input-class="form-control" :class="{'is-invalid': searchToursForm.errors.has('date')}"></vuejs-datepicker>
                         <div class="invalid-feedback"
                              v-if="searchToursForm.errors.has('date')"
                              v-html="searchToursForm.errors.get('date')">

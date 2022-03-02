@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Slider from "./HomePage/Slider";
+import Slider from "./HomePage/Slider.vue";
 import Search from "./HomePage/Search";
 import Hotels from "./HomePage/Hotels";
 import Tours from "./HomePage/Tours";
@@ -45,18 +45,10 @@ export default {
             this.hotels = res.data.data ? res.data.data.hotels : [];
             this.tours = res.data.data ? res.data.data.tours : [];
             this.spaces = res.data.data ? res.data.data.spaces : [];
+            this.rooms = res.data.data ? res.data.data.rooms : [];
             this.slider_tours = res.data.data ? res.data.data.slider_tours : [];
             this.slider_hotels = res.data.data ? res.data.data.slider_hotels : [];
             this.slider_governorates = res.data.data ? res.data.data.slider_governorates : [];
-
-            this.hotels.map((hotel) => {
-                if(hotel.rooms.length > 0){
-                    this.rooms.push(hotel.rooms[0]);
-                    this.rooms.push(hotel.rooms[1]);
-                    hotel.rooms[2] ? this.rooms.push(hotel.rooms[2]) : "";
-                    hotel.rooms[3] ? this.rooms.push(hotel.rooms[3]) : "";
-                }
-            });
             this.loading = false;
         }).catch();
     },
