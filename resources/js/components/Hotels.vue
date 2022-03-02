@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Main Container  -->
-        <Breadcrumbs :PageTitle="$t('hotels')" PageLink="hotels" backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
+        <Breadcrumbs :PageTitle="$t('hotels')" PageLink="/hotels" backgroundImage="https://demo.wpthemego.com/html/sw_portkey/image/breadcrumbs.jpg" />
 
         <div class="container product-detail">
             <div class="row">
@@ -26,7 +26,7 @@
                                         autocomplete="on"
                                         id="city"
                                         :placeholder="$t('city')"
-                                        :get-option-label="(option) => option.name"
+                                        :get-option-label="(option) => $t(option.name_en.toLowerCase().trim())"
                                         :options="cities"></v-select>
                                     <div class="invalid-feedback"
                                          v-if="searchHotelsForm.errors.has('city')"
@@ -96,10 +96,10 @@
                     </div>
 
                     <form @submit.prevent="filterHotel()" class="sidefilter-form">
-                        <div class="module-search clearfix">
+                        <div class="module-search mb-1 clearfix">
                             <h3 class="modtitle">{{$t('hotel')}} {{$t('filter')}}</h3>
 
-                            <div class="module-rate clearfix">
+                            <div class="module-rate mb-1 clearfix">
                                 <h3>{{$t('price')}}</h3>
                                 <div class="d-flex px-3 justify-content-between">
                                     <div class="mb-3">
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
 
-                            <div class="module-rate clearfix">
+                            <div class="module-rate mb-1 clearfix">
                                 <h3>{{$t('star rating')}}</h3>
                                 <ul>
                                     <li v-for="(star, i) in filterHotelForm.stars" :key="i">
@@ -128,21 +128,25 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div style="overflow: hidden;" :style="showAllCities ? 'height: auto' : 'height: 280px'" class="module-rate clearfix">
+
+                            <div style="overflow: hidden;" :style="showAllCities ? 'height: auto' : 'height: 280px'" class="module-rate mb-1 clearfix">
                                 <h3>{{$t('cities')}}</h3>
                                 <ul>
                                     <li v-for="city in filterHotelForm.cities" :key="city.id">
                                         <label class="d-flex align-items-center cites">
                                             <input class="me-2" :checked="filterHotelForm.gov_id.indexOf(city.id) >= 0 ? 'checked' : ''" @change="citySelected(city)" type="checkbox">
-                                            {{city.name}}
+                                            {{$t(city.name_en.toLowerCase().trim())}}
                                         </label>
                                     </li>
                                 </ul>
-                                <p style="text-align: center;font-size: 1.1rem;" type="button" class="mb-1"><strong @click="() =>{ showAllCities = true}" v-if="!showAllCities" style="color:#2db2ff"> {{ $t("view all") }} </strong></p>
-                                <p style="text-align: center;font-size: 1.1rem;" type="button" class="mb-1"><strong @click="() =>{ showAllCities = false}" v-if="showAllCities" style="color:#2db2ff"> {{ $t("view less") }} </strong></p>
                             </div>
 
-                            <button class="btn btn-sm btn-info">
+                            <p style="text-align: center;font-size: .9rem;" type="button" class="mb-1 text-capitalize"><strong @click="() =>{ showAllCities = true}" v-if="!showAllCities" style="color:#d89939"><i class="fa fa-arrow-down"></i> {{ $t("view more") }} </strong></p>
+                            <p style="text-align: center;font-size: .9rem;" type="button" class="mb-1 text-capitalize"><strong @click="() =>{ showAllCities = false}" v-if="showAllCities" style="color:#d89939"><i class="fa fa-arrow-up"></i> {{ $t("view less") }} </strong></p>
+                            
+                            <button
+                                :class="filterHotelForm.price.length < 2 && filterHotelForm.gov_id.length < 1 && filterHotelForm.stars.length < 1 ? 'disabled': ''"
+                                class="btn btn-sm btn-info">
                                 <span v-if="filterHotelForm.busy" class="spinner-border spinner-border-sm"></span>
 
                                 <i v-if="!filterHotelForm.busy" class="fa fa-filter"></i>
@@ -156,7 +160,7 @@
                         </div>
                     </form>
 
-                    <div class="module-pop clearfix"><h3>{{ $t("popular") }} {{ $t("hotels") }}</h3>
+                    <div class="module-pop mb-1 clearfix"><h3>{{ $t("popular") }} {{ $t("hotels") }}</h3>
                         <div v-for="hotel in popularHotels.slice(0,2)" :key="hotel.id" class="item clearfix">
                             <div class="image">
                                 <router-link :to="'/hotel/'+hotel.id">
@@ -175,7 +179,7 @@
                                     :rating="hotel.star_rate ? parseInt(hotel.star_rate) : 0"
                                     :show-rating="false"
                                     :read-only="true"></starRating>
-                                <strong>{{ $t('from') }} {{ hotel.min_price }} /{{ $t('night') }} </strong><br>
+                                <strong>{{ $t('from') }} {{ cahangePrice(hotel.min_price) }}{{ currency ? $t(currency.abbr) : $t("LE")}}/{{ $t('night') }} </strong><br>
                                 <router-link :to="'/hotel/'+hotel.id" class="btn btn-sm btn-info">{{ $t('book now') }}</router-link>
                             </div>
                         </div>
@@ -241,7 +245,7 @@
                                             <div class="des">{{hotel.content_api}}</div>
                                             <div class="item-bot clearfix">
                                                 <div class="price pull-left">
-                                                    {{ $t('from') }} <label>{{hotel.min_price}}</label><span>{{ $t('night') }}</span>
+                                                    {{ $t('from') }}<label>{{cahangePrice(hotel.min_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{$t('night')}}</span>
                                                 </div>
                                                 <router-link :to="'hotel/'+hotel.id" class="book-now btn-quickview quickview quickview_handler pull-right" title="Quick View" data-title="Quick View" data-fancybox-type="iframe">{{ $t('book now') }}</router-link>
                                             </div>
@@ -302,9 +306,7 @@ export default {
         starRating
     },
     computed: {
-        ...mapGetters([
-            'searchHotels'
-        ]),
+        ...mapGetters(['searchHotels', 'currency']),
     },
     data(){
         return{
@@ -362,6 +364,13 @@ export default {
         }).catch();
     },
     methods: {
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
+        },
         customFormatter(date) {
             return moment(date).format('DD-MM-YYYY');
         },

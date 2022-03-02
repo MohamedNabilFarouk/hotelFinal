@@ -40,14 +40,15 @@
                                                                 <ul>
                                                                     <li :title="$t('size')"><i class="fa fa-arrows-alt"></i> {{space.size}} {{$t('m')}}<sup>2</sup></li>
                                                                     <li :title="$t('bed')"><i class="fa fa-bed"></i> {{space.bed}}</li>
-                                                                    <li :title="$t('adults')"><i class="fa fa-user"></i> {{space.adult}}</li>
-                                                                    <li :title="$t('child')"><i class="fa fa-child"></i> {{space.child}}</li>
+                                                                    <!-- <li :title="$t('adults')"><i class="fa fa-user"></i> {{space.adult}}</li> -->
+                                                                    <!-- <li :title="$t('child')"><i class="fa fa-child"></i> {{space.child}}</li> -->
+                                                                    <li :title="$t('max_guest')"><i class="fa fa-users"></i> {{space.max_guest}}</li>
                                                                     <li :title="$t('bathroom')"><i class="fa fa-bath"></i> {{space.bathroom}}</li>
                                                                 </ul>
 
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="price text-capitalize">
-                                                                        <label>{{space.main_price}}</label><span>{{$t('night')}}</span>
+                                                                        <label>{{cahangePrice(space.main_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{$t('night')}}</span>
                                                                     </div>
                                                                     <router-link :to="'/hotel/'+space.hotel_id" class="book-now text-capitalize btn-quickview quickview quickview_handler">{{$t('view now')}}</router-link>
                                                                 </div>
@@ -71,11 +72,15 @@
 <script>
 import VueSlickCarousel from 'vue-slick-carousel';
 import starRating from "vue-star-rating";
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Spaces',
     props: {
         spaces: {type: Array, default:  () => ([])},
+    },
+    computed: {
+        ...mapGetters(['currency']),
     },
     components: {
         VueSlickCarousel,
@@ -125,6 +130,13 @@ export default {
         showPrev() {
             this.$refs.popularHotelsSlider.prev()
         },
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
+        }
     }
 }
 </script>

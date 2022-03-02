@@ -15,7 +15,7 @@
                                         <img slot="error" src="../../../assets/no_image.png">
                                     </vue-load-image>
                                 </div>
-                                <div class=slider-content>
+                                <div class="slider-content">
                                     <h4 class="title text-capitalize">{{tour.title_api}}</h4>
                                     <div class="location text-capitalize">
                                         <i class="fa fa-map-marker"></i>
@@ -28,9 +28,11 @@
                                         :read-only="true">
                                     </starRating>
                                     <span class="price text-capitalize">
-                                        {{tour.price_api.price}}/{{$t('person')}}
-                                        <span class="mx-1">|</span>
-                                        {{tour.price_api.ch_price}}/{{$t('child')}}
+                                        <label>{{ cahangePrice(tour.price_api.price) }}{{ currency ? $t(currency.abbr) : $t("LE")}}</label>
+                                        <span>{{$t('person')}}</span>
+                                        <strong class="mx-1">|</strong>
+                                        <label>{{ cahangePrice(tour.price_api.ch_price) }}{{ currency ? $t(currency.abbr) : $t("LE")}}</label>
+                                        <span>{{$t('child')}}</span>
                                     </span>
                                 </div>
                             </router-link>
@@ -52,8 +54,8 @@
                                         <img slot="error" src="../../../assets/no_image.png">
                                     </vue-load-image>
                                 </div>
-                                <div class=slider-content>
-                                    <h4 class="title">{{hotel.title_api}}</h4>
+                                <div class="slider-content">
+                                    <h4 class="title text-capitalize">{{hotel.title_api}}</h4>
                                     <div class="location">
                                         <i class="fa fa-map-marker"></i>
                                         {{hotel.address_api}}
@@ -64,8 +66,12 @@
                                         :show-rating="false"
                                         :read-only="true">
                                     </starRating>
-                                    <span class="price">
-                                        {{ $t('from') }}: {{hotel.min_price}}/{{$t('night')}}
+                                    <span class="price text-capitalize">
+                                        {{ $t('from') }}:
+                                        <label>{{cahangePrice(hotel.min_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label>
+                                        <span>
+                                        {{$t('night')}}
+                                        </span>
                                     </span>
                                 </div>
                             </router-link>
@@ -86,7 +92,7 @@
                                     <img slot="error" src="../../../assets/no_image.png">
                                 </vue-load-image>
                             </div>
-                            <div class=slider-content>
+                            <div class="slider-content">
                                 <h4 class="title">{{$t(city.name_en.toLowerCase().trim())}}</h4>
                             </div>
                         </div>
@@ -102,7 +108,7 @@
                                     <img slot="error" src="../../../assets/no_image.png">
                                 </vue-load-image>
                             </div>
-                            <div class=slider-content>
+                            <div class="slider-content">
                                 <h4 class="title">{{$t(city.name_en.toLowerCase().trim())}}</h4>
                             </div>
                         </div>
@@ -116,13 +122,13 @@
 import VueSlickCarousel from 'vue-slick-carousel';
 import 'vue-slick-carousel/dist/vue-slick-carousel.css';
 import starRating from "vue-star-rating";
-
+import { mapGetters } from 'vuex';
 export default {
     name: 'Slider',
-    components: {
-        VueSlickCarousel,
-        starRating
+    computed: {
+        ...mapGetters(['currency']),
     },
+    components: {VueSlickCarousel, starRating},
     props: {
         tours: {type: Array, default: () => ([])},
         hotels: {type: Array, default:  () => ([])},
@@ -130,7 +136,21 @@ export default {
     },
     data() {
         return {
-
+            // c: this.currency ? this.currency.abbr : "LE"
+        }
+    },
+    watch: {
+        // currency: function(val){
+        //     this.c = val ? val.abbr : "LE"
+        // }
+    },
+    methods:{
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
         }
     }
 }

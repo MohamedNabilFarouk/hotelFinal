@@ -47,9 +47,9 @@
                                                                 <li><i class="fa fa-user-circle" aria-hidden="true"></i> 4 persons</li>
                                                             </ul>
                                                             <div class="item-bot clearfix">
-                                                                <div class="price pull-left">
-                                                                 <label>{{ tour.price_api.price }}</label><span>{{ $t('person') }}</span><br>
-                                                                 <label>{{ tour.price_api.ch_price }}</label><span>{{ $t('child') }}</span>
+                                                                <div class="price text-capitalize pull-left">
+                                                                <label>{{cahangePrice(tour.price_api.price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{ $t('person') }}</span><br>
+                                                                <label>{{cahangePrice(tour.price_api.ch_price)}}{{ currency ? $t(currency.abbr) : $t("LE")}}</label><span>{{ $t('child') }}</span>
                                                                 </div>
                                                                 <router-link :to="'/tour'+tour.id"
                                                                     class="book-now btn-quickview quickview quickview_handler pull-right">
@@ -76,11 +76,14 @@
 <script>
 import VueSlickCarousel from 'vue-slick-carousel';
 import starRating from "vue-star-rating";
-
+import { mapGetters } from 'vuex';
 export default {
     name: 'Tours',
     props: {
         tours: {type: Array, default:  () => ([])},
+    },
+    computed: {
+        ...mapGetters(['currency']),
     },
     components: {
         VueSlickCarousel,
@@ -131,6 +134,13 @@ export default {
         showPrev() {
             this.$refs.popularToursSlider.prev()
         },
+        cahangePrice(price){
+            if(this.currency){
+                return parseFloat(parseFloat(price).toFixed(2) / parseFloat(this.currency.ex_rate).toFixed(2)).toFixed(2);
+            }else{
+                return parseFloat(price).toFixed(2);
+            }
+        }
     }
 }
 </script>

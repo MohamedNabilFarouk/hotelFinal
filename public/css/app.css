@@ -12336,14 +12336,22 @@ h3,
 .btn-info:focus,
 .btn-info:hover,
 .btn-info {
-  color: #fff;
+  color: #fff !important;
   background-color: #d89939;
   border-color: #d89939;
+  text-transform: capitalize;
 }
 
 .btn-check:focus + .btn-info,
 .btn-info:focus {
   box-shadow: 0 0 0 0.25rem rgba(216, 153, 57, 0.5);
+}
+
+.btn-info:disabled,
+.btn-info.disabled {
+  background-color: #666;
+  border-color: #666;
+  cursor: not-allowed;
 }
 
 .dropdown-menu {
@@ -13017,29 +13025,27 @@ iframe {
   margin-top: -35px;
 }
 
-@media (max-width: 480px) {
-  .slick-prev {
-    left: 10px;
-  }
-
-  .slick-next {
-    right: 10px;
-  }
-
-  .products-category .section-style4.products-list.list .col-sm-12.col-xs-12 .image {
-    width: 100% !important;
-  }
-
-  .products-category .section-style4.products-list.list .col-sm-12.col-xs-12 .image img {
-    width: 100%;
-  }
-}
-
 .text-danger {
   background: transparent;
 }
 
-.bonus-social-sidebar li a {
+.offcanvas-body .bonus-mail a {
+  font-size: 14px;
+  height: auto;
+  padding: 15px;
+  text-transform: capitalize;
+  text-shadow: none;
+  font-weight: 500;
+  color: #191919;
+  position: relative;
+  display: inline-block;
+}
+
+.offcanvas-body .bonus-social-sidebar {
+  margin-left: 13px;
+}
+
+.offcanvas-body .bonus-social-sidebar li a {
   font-size: 14px;
   border: 1px #d89939 solid;
   border-radius: 4px;
@@ -13053,7 +13059,7 @@ iframe {
   margin: 0 2px;
 }
 
-.bonus-social-sidebar li a:hover {
+.offcanvas-body .bonus-social-sidebar li a:hover {
   color: #ffffff;
   border-color: #d89939;
   background: #d89939;
@@ -13108,6 +13114,101 @@ iframe {
 .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover,
 .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
   border: 1px solid #d89939 !important;
+}
+
+.main-sliders .tours-slider .slick-slide .slider-content .price label,
+.main-sliders .hotels-slider .slick-slide .slider-content .price label {
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.main-sliders .tours-slider .slick-slide .slider-content .price span,
+.main-sliders .hotels-slider .slick-slide .slider-content .price span {
+  color: #ffffff;
+  font-weight: normal;
+  position: relative;
+  padding-left: 5px;
+}
+
+.main-sliders .tours-slider .slick-slide .slider-content .price span::before,
+.main-sliders .hotels-slider .slick-slide .slider-content .price span::before {
+  content: "/";
+  position: absolute;
+  left: -2px;
+  top: -5px;
+  font-size: 16px;
+}
+
+.section-style4 .item .item-block .item-content .price label {
+  font-size: 20px;
+}
+
+.page-item.active .page-link {
+  background-color: #d89939;
+  border-color: #d89939;
+}
+
+.page-item.disabled {
+  cursor: not-allowed;
+}
+
+.page-item.disabled a span {
+  color: #ccc;
+}
+
+.page-item.disabled:hover a,
+.page-item.disabled:hover span {
+  background: transparent;
+}
+
+.page-link:focus {
+  color: #d89939;
+  box-shadow: 0 0 0 0.25rem rgba(216, 153, 57, 0.25);
+}
+
+.vm--container {
+  z-index: 9999 !important;
+}
+
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #ad7a2e;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(173, 122, 46, 0.5);
+}
+
+@media (max-width: 480px) {
+  .slick-prev {
+    left: 10px;
+  }
+
+  .slick-next {
+    right: 10px;
+  }
+
+  .main-sliders .hotels-slider .slick-slide .slider-content .price label {
+    font-size: 12px;
+  }
+
+  .products-category .section-style4.products-list.list .col-sm-12.col-xs-12 .image {
+    width: 100% !important;
+  }
+
+  .products-category .section-style4.products-list.list .col-sm-12.col-xs-12 .image img {
+    width: 100%;
+  }
+
+  .detail-content .nav-tabs li a {
+    font-size: 12px;
+  }
+
+  .detail-content .nav-tabs li a sup {
+    font-size: 1em;
+    top: -0.75em;
+    color: #d89939 !important;
+  }
 }
 
 .vs__selected {

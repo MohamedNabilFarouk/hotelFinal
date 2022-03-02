@@ -172,52 +172,40 @@
                 <form @submit.prevent="checkinTourRooms()" class="row">
 
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>name
-                                <input
-                                :class="{
-                                    'is-invalid': bookingTourForm.errors.has('name')
-                                }"
-                                v-model="bookingTourForm.name"
-                                type="text" placeholder="name" />
-                            </label>
-                            <span class="text-danger"
-                              v-if="bookingTourForm.errors.has('name')"
-                              v-html="bookingTourForm.errors.get('name')">
-                            </span>
+                        <div class="mb-3">
+                            <label for="bookingHotelName" class="form-label text-capitalize">{{$t('name')}}</label>
+                            <input type="text" autocomplete="off" :class="{'is-invalid': bookingTourForm.errors.has('name')}" v-model="bookingTourForm.name" class="form-control" id="bookingHotelName" :placeholder="$t('name')">
+                            <div class="invalid-feedback"
+                                 v-if="bookingTourForm.errors.has('name')"
+                                 v-html="bookingTourForm.errors.get('name')">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="bookingHotelEmail" class="form-label text-capitalize">{{$t('email')}}</label>
+                            <input type="text" autocomplete="off" :class="{'is-invalid': bookingTourForm.errors.has('email')}" v-model="bookingTourForm.email" class="form-control" id="bookingHotelEmail" :placeholder="$t('email')">
+                            <div class="invalid-feedback"
+                                 v-if="bookingTourForm.errors.has('email')"
+                                 v-html="bookingTourForm.errors.get('email')">
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>email
-                                <input
+                        <div class="mb-3">
+                            <label for="phone" class="form-label text-capitalize">{{$t('phone')}}</label>
+                            <VuePhoneNumberInput
+                                :show-code-on-list="true"
+                                :default-country-code="user ? user.country : 'EG'"
+                                @update="updateddd($event)"
                                 :class="{
-                                    'is-invalid': bookingTourForm.errors.has('email')
+                                    'is-invalid': bookingTourForm.errors.has('phone')
                                 }"
-                                v-model="bookingTourForm.email"
-                                type="email" placeholder="email" />
-                            </label>
-                            <span class="text-danger"
-                                  v-if="bookingTourForm.errors.has('email')"
-                                  v-html="bookingTourForm.errors.get('email')">
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>phone
-                                <VuePhoneNumberInput
-                                    :show-code-on-list="true"
-                                    :default-country-code="user ? user.country : 'EG'"
-                                    @update="updateddd($event)"
-                                    :class="{
-                                        'is-invalid': bookingTourForm.errors.has('phone')
-                                    }"
-                                    v-model="bookingTourForm.phone"
-                                    placeholder="phone" />
-                            </label>
+                                v-model="bookingTourForm.phone"
+                                :placeholder="$t('phone')" />
                             <span class="text-danger"
                               v-if="bookingTourForm.errors.has('phone')"
                               v-html="bookingTourForm.errors.get('phone')">
@@ -302,20 +290,17 @@
 
                         <div class="form-group d-flex justify-content-between align-items-center">
                             <label>Paid
-                                <input
-                                    :class="{
-                                    'is-invalid': bookingTourForm.errors.has('paid')
-                                }"
-                                    v-model="bookingTourForm.paid"
-                                    type="number"
-                                    :min="bookingTourForm.paid"
+                                <input type="number"
                                     step="0.01"
-                                    :max="bookingTourForm.total"
-                                    placeholder="paid">
-                                <span class="text-danger"
-                                      v-if="bookingTourForm.errors.has('partial_payment')"
-                                      v-html="bookingTourForm.errors.get('partial_payment')">
-                            </span>
+                                    :class="{'is-invalid': bookingTourForm.errors.has('paid')}"
+                                    v-model="bookingTourForm.paid" class="form-control" id="paid" 
+                                    :min="bookingTourForm.paid" :max="bookingTourForm.total"
+                                    :placeholder="$t('paid')">
+
+                                <div class="text-danger"
+                                    v-if="bookingTourForm.errors.has('paid')"
+                                    v-html="bookingTourForm.errors.get('paid')">
+                                </div>
                             </label>
 
                             <div v-if="bookingTourForm.partial_payment">
@@ -333,15 +318,16 @@
                     <div class="col-md-12">
 
                         <div class="form-group">
-                            <label>note
-                                <textarea
-                                    :class="{
-                                        'is-invalid': bookingTourForm.errors.has('note')
-                                    }"
-                                    rows="5"
-                                    v-model="bookingTourForm.note"
-                                    placeholder="note"></textarea>
-                            </label>
+                            <label>note</label>
+                            <textarea
+                                :class="{
+                                    'is-invalid': bookingTourForm.errors.has('note')
+                                }"
+                                rows="5"
+                                class="form-control"
+                                v-model="bookingTourForm.note"
+                                placeholder="note"></textarea>
+                            
                             <span class="text-danger"
                                   v-if="bookingTourForm.errors.has('note')"
                                   v-html="bookingTourForm.errors.get('note')">
@@ -351,7 +337,7 @@
 
                     <div class="col-md-12">
                         <div class="form-group text-center">
-                            <button type="submit" class="btn button btn-primary text-capitalize">
+                            <button type="submit" class="btn button btn-sm btn-info text-capitalize">
                                 <span v-if="bookingTourForm.busy" class="spinner-border spinner-border-sm"></span>
                                 <i v-if="!bookingTourForm.busy" class="fa fa-check mr-1"></i>
                                 checkin
@@ -455,13 +441,21 @@ export default {
         checkinTourRooms(){
             this.bookingTourForm.partial_payment ? this.bookingTourForm.partial_payment = 1 : this.bookingTourForm.partial_payment = 0;
             this.bookingTourForm.post("doBooking").then((res) => {
-                if (res.data.success === 'true') {
+                if (res.data && res.data.frame){
+                    window.open(res.data.frame, "_blank") || window.location.replace(res.data.frame);
                     this.bookingTourForm.reset();
                     // this.$store.dispatch('clearSearchHotels');
                     this.closeModal();
-                } else {
-                    this.bookingTourForm.errors.set(res.message);
+                }else{
+                    console.log(res.data);
                 }
+                // if (res.data.success === 'true') {
+                //     this.bookingTourForm.reset();
+                //     // this.$store.dispatch('clearSearchHotels');
+                //     this.closeModal();
+                // } else {
+                //     this.bookingTourForm.errors.set(res.message);
+                // }
             }).catch(()=>{});
         },
         diffDate(date1, date2){
